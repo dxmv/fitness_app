@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Data
