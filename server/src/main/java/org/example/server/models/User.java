@@ -3,7 +3,9 @@ package org.example.server.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -29,5 +31,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Routine> routines;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "User_Roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<Roles> roles = new HashSet<>();
 
 }

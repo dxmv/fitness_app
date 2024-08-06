@@ -44,16 +44,6 @@ public class UsersController {
     }
 
     /**
-     * Create a new user.
-     * @param user The user to create.
-     * @return The created user.
-     */
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
-    }
-
-    /**
      * Update an existing user.
      * @param id The ID of the user to update.
      * @param user The updated user details.

@@ -1,8 +1,10 @@
 package org.example.server.services;
 
+import org.example.server.models.Roles;
 import org.example.server.models.User;
 import org.example.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /**
      * Get all users.
@@ -29,13 +34,17 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(()->new RuntimeException("User doesn't exits"));
     }
 
+
     /**
      * Create a new user.
      * @param user The user to create.
      * @return The created user.
      */
     public User createUser(User user) {
-        // You can add additional logic here, such as password encryption
+        // Add password encryption
+        user.getRoles().add(Roles.USER);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 
@@ -50,6 +59,7 @@ public class UserService {
             user.setId(id);
             return userRepository.save(user);
         } else {
+            // throw error
             return null;
         }
     }
@@ -64,6 +74,7 @@ public class UserService {
             userRepository.deleteById(id);
             return true;
         } else {
+            // throw error
             return false;
         }
     }
