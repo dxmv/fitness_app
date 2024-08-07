@@ -15,13 +15,8 @@ public class Workout {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name = "workout_exercise",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercise_id")
-    )
-    private List<Exercise> exercises;
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
+    private List<WorkoutExercise> workoutExercises;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

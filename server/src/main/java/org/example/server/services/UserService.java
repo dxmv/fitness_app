@@ -42,7 +42,7 @@ public class UserService {
      */
     public User createUser(User user) {
         // Add password encryption
-        user.getRoles().add(Roles.USER);
+        user.getRoles().add(Roles.ADMIN);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
