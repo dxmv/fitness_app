@@ -34,6 +34,15 @@ public class UsersController {
     }
 
     /**
+     * Get the current logged-in user.
+     * @return A logged-in user.
+     */
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentUser() {
+        return new ResponseEntity<>(userService.getCurrentUser(), HttpStatus.OK);
+    }
+
+    /**
      * Get a user by ID.
      * @param id The ID of the user.
      * @return The user with the given ID.

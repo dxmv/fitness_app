@@ -4,8 +4,11 @@ import org.example.server.models.Roles;
 import org.example.server.models.User;
 import org.example.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -32,6 +35,38 @@ public class UserService {
      */
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(()->new RuntimeException("User doesn't exits"));
+    }
+
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return The current User entity, or null if no user is authenticated.
+     * @throws RuntimeException if the user is found in the security context but not in the database.
+     */
+    public User getCurrentUser() {
+        // Get the Authentication object from the SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // Check if there's an authenticated user
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+
+        // Get the principal (user details) from the Authentication object
+        Object principal = authentication.getPrincipal();
+
+        // Check if the principal is an instance of UserDetails
+        // Cast the principal to UserDetails
+        if (principal instanceof UserDetails userDetails) {
+            // Get the username from UserDetails
+            Long userId = Long.valueOf(userDetails.getUsername());
+
+            // Find and return the User entity from the database
+            return getUserById(userId);
+        }
+
+        // If the principal is not UserDetails (shouldn't happen with proper configuration)
+        return null;
     }
 
 
