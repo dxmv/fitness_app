@@ -19,12 +19,10 @@ import java.util.List;
 public class WorkoutExerciseController {
 
     private final WorkoutExerciseService workoutExerciseService;
-    private final WorkoutService workoutService;
 
     @Autowired
-    public WorkoutExerciseController(WorkoutExerciseService workoutExerciseService, WorkoutService workoutService) {
+    public WorkoutExerciseController(WorkoutExerciseService workoutExerciseService) {
         this.workoutExerciseService = workoutExerciseService;
-        this.workoutService = workoutService;
     }
 
     /**

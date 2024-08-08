@@ -1,9 +1,9 @@
 package org.example.server.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.DayOfWeek;
 import java.util.List;
 
 @Entity
@@ -21,5 +21,6 @@ public class Routine {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 }
