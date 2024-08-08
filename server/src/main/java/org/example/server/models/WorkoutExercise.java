@@ -1,5 +1,6 @@
 package org.example.server.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class WorkoutExercise {
 
     @ManyToOne
     @JoinColumn(name = "workout_id", nullable = false)
+    @JsonBackReference
     private Workout workout;
 
     @ManyToOne
@@ -21,7 +23,8 @@ public class WorkoutExercise {
     private Exercise exercise;
 
     // List of Sets for this exercise in the workout
-    @OneToMany(mappedBy = "workoutExercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ElementCollection
+    @CollectionTable(name = "exercise_sets", joinColumns = @JoinColumn(name = "workout_exercise_id"))
     private List<ExerciseSet> sets;
 }
 
