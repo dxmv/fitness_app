@@ -1,5 +1,6 @@
 package org.example.server.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ public class RoutineWorkout {
 
     @ManyToOne
     @JoinColumn(name = "routine_id", nullable = false)
+    @JsonBackReference
     private Routine routine;
 
     @Enumerated(EnumType.STRING)
