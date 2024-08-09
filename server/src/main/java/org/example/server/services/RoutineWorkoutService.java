@@ -31,16 +31,6 @@ public class RoutineWorkoutService {
         this.userService = userService;
     }
 
-    /**
-     * Verifies that rw belongs to the logged-in user
-     *
-     * @param rw Routine workout to verify
-     * @return True/false based on the ownership of the routine workout
-     */
-    private boolean routineWorkoutBelongsToCurrentUser(RoutineWorkout rw) {
-        User u = userService.getCurrentUser();
-        return rw.getRoutine().getUser().getId().equals(u.getId());
-    }
 
     /**
      * Retrieves all RoutineWorkouts for a specific Routine.
@@ -61,13 +51,8 @@ public class RoutineWorkoutService {
      * @throws RuntimeException if the RoutineWorkout is not found.
      */
     public RoutineWorkout getRoutineWorkoutById(Long id) {
-        RoutineWorkout rw = routineWorkoutRepository.findById(id)
+        return routineWorkoutRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("RoutineWorkout not found"));
-        // check if it belongs to the current user
-        if (routineWorkoutBelongsToCurrentUser(rw)) {
-            return rw;
-        }
-        throw new RuntimeException("Routine workout doesn't belong to the current user");
     }
 
     /**
@@ -100,9 +85,9 @@ public class RoutineWorkoutService {
     public RoutineWorkout updateRoutineWorkout(Long id, RoutineWorkout updatedRoutineWorkout) {
         RoutineWorkout rw = getRoutineWorkoutById(id);
         // check if it belongs to the current user
-        if (!routineWorkoutBelongsToCurrentUser(rw)) {
-            throw new RuntimeException("Routine workout doesn't belong to the current user");
-        }
+//        if (!routineWorkoutBelongsToCurrentUser(rw)) {
+//            throw new RuntimeException("Routine workout doesn't belong to the current user");
+//        }
 
         rw.setDayOfWeek(updatedRoutineWorkout.getDayOfWeek());
         return routineWorkoutRepository.save(rw);
@@ -117,9 +102,9 @@ public class RoutineWorkoutService {
     public void deleteRoutineWorkout(Long id) {
         RoutineWorkout rw = getRoutineWorkoutById(id);
         // check if it belongs to the current user
-        if (!routineWorkoutBelongsToCurrentUser(rw)) {
-            throw new RuntimeException("Routine workout doesn't belong to the current user");
-        }
+//        if (!routineWorkoutBelongsToCurrentUser(rw)) {
+//            throw new RuntimeException("Routine workout doesn't belong to the current user");
+//        }
 
         routineWorkoutRepository.deleteById(id);
 

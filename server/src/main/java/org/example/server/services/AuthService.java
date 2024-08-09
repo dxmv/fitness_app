@@ -1,5 +1,6 @@
 package org.example.server.services;
 
+import org.example.server.exceptions.http.BadRequestException;
 import org.example.server.models.User;
 import org.example.server.repositories.UserRepository;
 import org.example.server.security.jwt.JwtUtils;
@@ -36,7 +37,7 @@ public class AuthService {
 
         // if the user exists check does the password match
         if(!passwordEncoder.matches(password,u.getPassword())){
-            throw new RuntimeException("Incorrect password");
+            throw new BadRequestException("Incorrect password");
         }
         return jwtUtil.generateToken(userDetailsService.loadUserByUsername(u.getId().toString()));
     }

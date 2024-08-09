@@ -1,5 +1,6 @@
 package org.example.server.services;
 
+import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.models.Exercise;
 import org.example.server.repositories.ExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ExerciseService {
      * @return The exercise with the given ID, or null if not found.
      */
     public Exercise getExerciseById(Long id) {
-        return exerciseRepository.findById(id).orElseThrow(() -> new RuntimeException("Exercise doesn't exist"));
+        return exerciseRepository.findById(id).orElseThrow(() -> new NotFoundException("Exercise with id: " + id + ", doesn't exist"));
     }
 
     /**
@@ -52,13 +53,9 @@ public class ExerciseService {
      * @return The updated exercise, or null if the exercise with the given ID does not exist.
      */
     public Exercise updateExercise(Long id, Exercise exercise) {
-        if (exerciseRepository.existsById(id)) {
-            exercise.setId(id);
-            return exerciseRepository.save(exercise);
-        } else {
-            // throw error
-            return null;
-        }
+        Exercise toUpdate = getExerciseById(id);
+        // to update here...
+        return exerciseRepository.save(exercise);
     }
 
     /**
@@ -67,13 +64,8 @@ public class ExerciseService {
      * @param id The ID of the exercise to delete.
      * @return True if the exercise was deleted, false otherwise.
      */
-    public boolean deleteExercise(Long id) {
-        if (exerciseRepository.existsById(id)) {
-            exerciseRepository.deleteById(id);
-            return true;
-        } else {
-            // throw error
-            return false;
-        }
+    public void deleteExercise(Long id) {
+        Exercise toDelete = getExerciseById(id);
+        exerciseRepository.deleteById(id);
     }
 }

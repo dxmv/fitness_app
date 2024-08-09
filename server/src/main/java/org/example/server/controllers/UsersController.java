@@ -58,23 +58,19 @@ public class UsersController {
      * @param user The updated user details.
      * @return The updated user.
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+//        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
+//    }
 
     /**
      * Delete a user by ID.
      * @param id The ID of the user to delete.
      * @return HTTP status indicating the result of the operation.
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        boolean isDeleted = userService.deleteUser(id);
-        if (isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+//         userService.deleteUser(id);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 }

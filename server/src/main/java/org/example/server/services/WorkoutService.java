@@ -1,5 +1,7 @@
 package org.example.server.services;
 
+import org.example.server.exceptions.http.NotFoundException;
+import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.User;
 import org.example.server.models.Workout;
 import org.example.server.repositories.WorkoutRepository;
@@ -40,10 +42,10 @@ public class WorkoutService {
      * @return The workout with the given ID, or null if not found.
      */
     public Workout getWorkoutById(Long id) {
-        Workout workout = workoutRepository.findById(id).orElseThrow(() -> new RuntimeException("Workout not found"));
+        Workout workout = workoutRepository.findById(id).orElseThrow(()->new NotFoundException("The workout with id: " + id + ", doesn't exist"));
         // don't allow the user to access a workout he didn't create
         if(!workoutBelongsToCurrentUser(workout)){
-            throw new RuntimeException("You don't have access to this");
+            throw new UnauthorizedException("You don't have access to workout with id: " + id);
         }
         return workout;
     }
@@ -69,10 +71,6 @@ public class WorkoutService {
      */
     public Workout updateWorkout(Long id, Workout workout) {
         Workout workoutDb = getWorkoutById(id);
-        // don't allow the user to access a workout he didn't create
-        if(!workoutBelongsToCurrentUser(workoutDb)){
-            throw new RuntimeException("You don't have access to this");
-        }
         // update here
         return workoutRepository.save(workoutDb);
     }
@@ -80,15 +78,10 @@ public class WorkoutService {
     /**
      * Delete a workout by ID.
      * @param id The ID of the workout to delete.
-     * @return True if the workout was deleted, false otherwise.
      */
-    public boolean deleteWorkout(Long id) {
+    public void deleteWorkout(Long id) {
         Workout workoutDb = getWorkoutById(id);
-        // don't allow the user to access a workout he didn't create
-        if(!workoutBelongsToCurrentUser(workoutDb)){
-            throw new RuntimeException("You don't have access to this");
-        }
+
         workoutRepository.delete(workoutDb);
-        return true;
     }
 }

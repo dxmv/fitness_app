@@ -1,5 +1,6 @@
 package org.example.server.services;
 
+import org.example.server.exceptions.http.BadRequestException;
 import org.example.server.models.Exercise;
 import org.example.server.models.ExerciseSet;
 import org.example.server.models.Workout;
@@ -113,7 +114,7 @@ public class WorkoutExerciseService {
         WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
         List<ExerciseSet> sets = workoutExercise.getSets();
         if (index < 0 || index >= sets.size()) {
-            throw new RuntimeException("Set not found");
+            throw new BadRequestException("Set with index: " + index + ", not found");
         }
         return sets.get(index);
     }
@@ -143,7 +144,7 @@ public class WorkoutExerciseService {
         WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
         List<ExerciseSet> sets = workoutExercise.getSets();
         if (index < 0 || index >= sets.size()) {
-            throw new RuntimeException("Set not found");
+            throw new BadRequestException("Set with index: " + index + ", not found");
         }
         sets.set(index, updatedSet);
         workoutExerciseRepository.save(workoutExercise);
@@ -160,7 +161,7 @@ public class WorkoutExerciseService {
         WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
         List<ExerciseSet> sets = workoutExercise.getSets();
         if (index < 0 || index >= sets.size()) {
-            throw new RuntimeException("Set not found");
+            throw new BadRequestException("Set with index: " + index + ", not found");
         }
         sets.remove(index);
         workoutExerciseRepository.save(workoutExercise);

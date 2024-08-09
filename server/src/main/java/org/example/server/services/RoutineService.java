@@ -1,5 +1,7 @@
 package org.example.server.services;
 
+import org.example.server.exceptions.http.NotFoundException;
+import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.Routine;
 import org.example.server.models.User;
 import org.example.server.repositories.RoutineRepository;
@@ -47,14 +49,13 @@ public class RoutineService {
      * @return An Optional containing the routine if found, or empty if not found.
      */
     public Routine getRoutineById(Long routineId) {
-        Routine routine = routineRepository.findById(routineId).orElseThrow(()->new RuntimeException("The routine doesn't exist"));
+        Routine routine = routineRepository.findById(routineId).orElseThrow(()->new NotFoundException("The routine with id: " + routineId + ", doesn't exist"));
 
         // return the routine only if it belongs to the user
         if (routineBelongsToUser(routine)) {
             return routine;
-        } else {
-            throw new RuntimeException("The routine doesn't belong to the user");
         }
+        throw new UnauthorizedException("The routine with id: " + routineId + " doesn't belong to the user");
     }
 
     /**
@@ -80,9 +81,6 @@ public class RoutineService {
      */
     public Routine updateRoutine(Long routineId, Routine updatedRoutine) {
         Routine existingRoutine = getRoutineById(routineId);
-        if(!routineBelongsToUser(existingRoutine)){
-            throw new RuntimeException("The routine doesn't belong to the user");
-        }
 
         existingRoutine.setName(updatedRoutine.getName());
         return routineRepository.save(existingRoutine);
@@ -95,11 +93,8 @@ public class RoutineService {
      * @throws IllegalArgumentException if the routine is not found.
      */
     public void deleteRoutine(Long routineId) {
-        // returns the routine only if it exists
+        // returns the routine only if it exists & belongs to the current user
         Routine routine = getRoutineById(routineId);
-        if(!routineBelongsToUser(routine)){
-            throw new RuntimeException("The routine doesn't belong to the user");
-        }
 
         routineRepository.delete(routine);
     }

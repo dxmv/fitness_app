@@ -77,11 +77,7 @@ public class ExercisesController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExercise(@PathVariable Long id) {
-        boolean isDeleted = exerciseService.deleteExercise(id);
-        if (isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        exerciseService.deleteExercise(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

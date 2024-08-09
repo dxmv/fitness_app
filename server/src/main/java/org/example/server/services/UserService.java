@@ -1,5 +1,7 @@
 package org.example.server.services;
 
+import org.aspectj.weaver.ast.Not;
+import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.models.Roles;
 import org.example.server.models.User;
 import org.example.server.repositories.UserRepository;
@@ -34,7 +36,7 @@ public class UserService {
      * @return The user with the given ID, or null if not found.
      */
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(()->new RuntimeException("User doesn't exits"));
+        return userRepository.findById(id).orElseThrow(()->new NotFoundException("The user with id: " + id + ", doesn't exist"));
     }
 
     /**
@@ -76,7 +78,6 @@ public class UserService {
      * @return The created user.
      */
     public User createUser(User user) {
-        // Add password encryption
         user.getRoles().add(Roles.ADMIN);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -89,14 +90,15 @@ public class UserService {
      * @param user The updated user details.
      * @return The updated user, or null if the user with the given ID does not exist.
      */
-    public User updateUser(Long id, User user) {
-        if (userRepository.existsById(id)) {
-            user.setId(id);
-            return userRepository.save(user);
-        } else {
-            // throw error
-            return null;
-        }
+    public User updateCurrentUser(Long id, User user) {
+//        User user = getUserById();
+//        if (userRepository.existsById(id)) {
+//            user.setId(id);
+//            return userRepository.save(user);
+//        } else {
+//            throw new NotFoundException("The user with id: " + id + ", doesn't exist");
+//        }
+        return user;
     }
 
     /**
@@ -104,7 +106,7 @@ public class UserService {
      * @param id The ID of the user to delete.
      * @return True if the user was deleted, false otherwise.
      */
-    public boolean deleteUser(Long id) {
+    public boolean deleteCurrentUser(Long id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
             return true;
