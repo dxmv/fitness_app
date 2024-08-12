@@ -85,34 +85,25 @@ public class UserService {
     }
 
     /**
-     * Update an existing user.
-     * @param id The ID of the user to update.
+     * Update the current user.
      * @param user The updated user details.
      * @return The updated user, or null if the user with the given ID does not exist.
      */
-    public User updateCurrentUser(Long id, User user) {
-//        User user = getUserById();
-//        if (userRepository.existsById(id)) {
-//            user.setId(id);
-//            return userRepository.save(user);
-//        } else {
-//            throw new NotFoundException("The user with id: " + id + ", doesn't exist");
-//        }
-        return user;
+    public User updateCurrentUser(User user) {
+        User currentUser = getCurrentUser();
+
+        // Only update allowed fields
+        currentUser.setEmail(user.getEmail());
+        currentUser.setUsername(user.getUsername());
+
+        return userRepository.save(currentUser);
     }
 
     /**
-     * Delete a user by ID.
-     * @param id The ID of the user to delete.
-     * @return True if the user was deleted, false otherwise.
+     * Delete the current user
      */
-    public boolean deleteCurrentUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return true;
-        } else {
-            // throw error
-            return false;
-        }
+    public void deleteCurrentUser() {
+        User currentUser = getCurrentUser();
+        userRepository.deleteById(currentUser.getId());
     }
 }
