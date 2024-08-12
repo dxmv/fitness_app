@@ -5,12 +5,14 @@ import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.models.Roles;
 import org.example.server.models.User;
 import org.example.server.repositories.UserRepository;
+import org.example.server.utils.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ImageService imageService;
 
     /**
      * Get all users.
@@ -77,24 +82,28 @@ public class UserService {
      * @param user The user to create.
      * @return The created user.
      */
-    public User createUser(User user) {
+    public User createUser(User user, MultipartFile image) {
         user.getRoles().add(Roles.ADMIN);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setProfilePicture(imageService.uploadImage("profile_pictures/",image));
 
         return userRepository.save(user);
     }
 
     /**
      * Update the current user.
-     * @param user The updated user details.
+     * @param username New username
+     * @param email New email
+     * @param profilePicture New profile picture
      * @return The updated user, or null if the user with the given ID does not exist.
      */
-    public User updateCurrentUser(User user) {
+    public User updateCurrentUser(String username, String email, MultipartFile profilePicture) {
         User currentUser = getCurrentUser();
 
         // Only update allowed fields
-        currentUser.setEmail(user.getEmail());
-        currentUser.setUsername(user.getUsername());
+        currentUser.setEmail(email);
+        currentUser.setUsername(username);
+        currentUser.setProfilePicture(imageService.uploadImage("profile_pictures/",profilePicture));
 
         return userRepository.save(currentUser);
     }

@@ -4,9 +4,11 @@ import org.example.server.models.User;
 import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -57,9 +59,12 @@ public class UsersController {
      * @param user The updated user details.
      * @return The updated user.
      */
-    @PutMapping("/current")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.updateCurrentUser(user), HttpStatus.OK);
+    @PutMapping(path="/current",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<User> updateUser(
+            @RequestPart("username") String username,
+            @RequestPart("email") String email,
+            @RequestPart(value = "profilePicture", required = false) MultipartFile profilePicture ){
+        return new ResponseEntity<>(userService.updateCurrentUser(username,email,profilePicture), HttpStatus.OK);
     }
 
     /**
