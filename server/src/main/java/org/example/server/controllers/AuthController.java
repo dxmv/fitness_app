@@ -72,6 +72,7 @@ public class AuthController {
 
     @Getter
     @Setter
+    static
     class AuthenticationRequest {
 
         private String username;

@@ -1,11 +1,14 @@
 package org.example.server.utils;
 
 import org.example.server.exceptions.http.InternalServerException;
-import org.springframework.beans.factory.annotation.Value;
+import org.example.server.exceptions.http.NotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,4 +54,45 @@ public class ImageService {
             throw new InternalServerException("Error while uploading an image");
         }
     }
+
+    /**
+     * Deletes an image file from the server.
+     *
+     * @param imagePath The relative path of the image to be deleted.
+     * @throws InternalServerException if an error occurs during deletion.
+     * @throws NotFoundException if the image file does not exist.
+     */
+    public void deleteImage(String imagePath) {
+        Path filePath = Paths.get(uploadDir + imagePath);
+        try {
+            if (!Files.exists(filePath)) {
+                throw new NotFoundException("Image not found: " + imagePath);
+            }
+            Files.delete(filePath);
+        } catch (IOException e) {
+            throw new InternalServerException("Error while deleting the image: " + imagePath);
+        }
+    }
+
+    /**
+     * Retrieves an image file as a Resource.
+     *
+     * @param imagePath The relative path of the image to be retrieved.
+     * @return Resource object representing the image file.
+     * @throws NotFoundException if the image file does not exist or cannot be read.
+     */
+    public Resource getImage(String imagePath) {
+        try {
+            Path filePath = Paths.get(uploadDir + imagePath);
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new NotFoundException("Image not found: " + imagePath);
+            }
+        } catch (MalformedURLException e) {
+            throw new NotFoundException("Image not found: " + imagePath);
+        }
+    }
+
 }
