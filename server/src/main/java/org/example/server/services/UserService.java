@@ -100,6 +100,9 @@ public class UserService {
     public User updateCurrentUser(String username, String email, MultipartFile profilePicture) {
         User currentUser = getCurrentUser();
 
+        // delete the previous profile picture
+        imageService.deleteImage(imageService.getImagePathFromUrl(currentUser.getProfilePicture()));
+
         // Only update allowed fields
         currentUser.setEmail(email);
         currentUser.setUsername(username);
@@ -109,10 +112,12 @@ public class UserService {
     }
 
     /**
-     * Delete the current user
+     * Delete the current user and his profile picture
      */
     public void deleteCurrentUser() {
         User currentUser = getCurrentUser();
+        // delete user's profile picture
+        imageService.deleteImage(imageService.getImagePathFromUrl(currentUser.getProfilePicture()));
         userRepository.deleteById(currentUser.getId());
     }
 }

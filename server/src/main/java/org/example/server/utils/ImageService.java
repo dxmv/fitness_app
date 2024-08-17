@@ -95,4 +95,21 @@ public class ImageService {
         }
     }
 
+    /**
+     * Retrieves an image file as a Resource.
+     *
+     * @param url Url for the image (example: http://localhost:8080/uploads/{folder_path}/{image_name})
+     * @return String that represents the path to the image
+     * @throws Exception If the url is not in the right format
+     */
+    public String getImagePathFromUrl(String url){
+        try{
+            String[] parts = url.split("/");
+            return parts[parts.length-2] + "/" + parts[parts.length-1] ;
+        }
+        catch(Exception e){
+            throw new InternalServerException("Error while deleting the image");
+        }
+    }
+
 }
