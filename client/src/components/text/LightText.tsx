@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Text } from "react-native";
 
-const BoldText = ({
+const LightText = ({
 	children,
 	className,
 }: {
@@ -9,10 +9,10 @@ const BoldText = ({
 	children: ReactNode;
 }) => {
 	return (
-		<Text className={className} style={{ fontFamily: "Poppins-Bold" }}>
+		<Text style={{ fontFamily: "Poppins-Light" }} className={className}>
 			{children}
 		</Text>
 	);
 };
 
-export default BoldText;
+export default LightText;
