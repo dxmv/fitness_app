@@ -10,6 +10,7 @@ import {
 	handlePasswordChange,
 } from "../../utils/handleAuth";
 import authApi from "../../api/authApi";
+import secureStorage from "../../utils/secureStorage";
 
 const Login = () => {
 	// form data
@@ -29,8 +30,10 @@ const Login = () => {
 				password: password.value,
 			};
 
-			const token = await authApi.login(data);
-			console.log(token);
+			const res = await authApi.login(data);
+			// store the token
+			await secureStorage.storeToken(res.jwt);
+			console.log(await secureStorage.getToken());
 		} catch (e) {
 			console.log(e);
 		}
