@@ -1,20 +1,39 @@
 import React, { useState } from "react";
 import RegularText from "../../components/text/RegularText";
-import { Button, TextInput, View } from "react-native";
+import { Button, View } from "react-native";
 import BoldText from "../../components/text/BoldText";
 import LightText from "../../components/text/LightText";
 import CustomTextInput from "../../components/CustomTextInput";
+import { ITextInput } from "../../types";
+import {
+	handleUsernameChange,
+	handlePasswordChange,
+} from "../../utils/handleAuth";
+import authApi from "../../api/authApi";
 
 const Login = () => {
-	const [email, setEmail] = useState<string>("N");
-	const [password, setPassword] = useState<string>("N");
+	// form data
+	const [username, setUsername] = useState<ITextInput>({
+		value: "",
+		errorMessage: "",
+	});
+	const [password, setPassword] = useState<ITextInput>({
+		value: "",
+		errorMessage: "",
+	});
 
-	const handleEmailChange = (text: string) => {
-		setEmail(text);
-	};
+	const handleSubmit = async () => {
+		try {
+			const data = {
+				username: username.value,
+				password: password.value,
+			};
 
-	const handlePasswordChange = (text: string) => {
-		setPassword(text);
+			const token = await authApi.login(data);
+			console.log(token);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	return (
@@ -22,20 +41,22 @@ const Login = () => {
 			{/* Image */}
 			<View className="bg-white mt-60 h-full rounded-t-3xl py-4 px-8">
 				<BoldText className="text-red-500 mb-3 ">Welcome back</BoldText>
-				{/* Email field */}
+				{/* Username field */}
 				<CustomTextInput
-					value={email}
-					label="Email:"
-					onChangeText={handleEmailChange}
+					value={username.value}
+					errorText={username.errorMessage}
+					label="Username:"
+					onChangeText={text => handleUsernameChange(text, setUsername)}
 				/>
 				{/* Password field */}
 				<CustomTextInput
-					value={password}
+					value={password.value}
+					errorText={password.errorMessage}
 					label="Password:"
-					onChangeText={handlePasswordChange}
+					onChangeText={text => handlePasswordChange(text, setPassword)}
 				/>
 				<LightText className="text-right text-sm my-3">Need help?</LightText>
-				<Button title="Log In" />
+				<Button title="Log In" onPress={handleSubmit} />
 				<RegularText>- OR -</RegularText>
 				<RegularText>Create an account</RegularText>
 			</View>

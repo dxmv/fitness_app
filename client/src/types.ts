@@ -1,4 +1,4 @@
-export interface TextInput {
+export interface ITextInput {
 	value: string;
 	errorMessage: string;
 }
