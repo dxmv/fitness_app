@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, Text } from "react-native";
 import Login from "./src/screens/auth/Login";
 import { useFonts } from "expo-font";
+import Register from "./src/screens/auth/Register";
 
 export default function App() {
 	const [fontsLoaded] = useFonts({
@@ -16,7 +17,7 @@ export default function App() {
 	return (
 		<SafeAreaView className="flex-1 bg-white">
 			<StatusBar backgroundColor="transparent" translucent={false} />
-			<Login />
+			<Register />
 		</SafeAreaView>
 	);
 }

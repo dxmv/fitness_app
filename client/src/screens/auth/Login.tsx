@@ -33,7 +33,6 @@ const Login = () => {
 			const res = await authApi.login(data);
 			// store the token
 			await secureStorage.storeToken(res.jwt);
-			console.log(await secureStorage.getToken());
 		} catch (e) {
 			console.log(e);
 		}
