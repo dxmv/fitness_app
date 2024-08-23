@@ -3,13 +3,13 @@ import { Text } from "react-native";
 
 const RegularText = ({
 	children,
-	className,
+	classNames,
 }: {
-	className?: string;
 	children: ReactNode;
+	classNames?: string;
 }) => {
 	return (
-		<Text style={{ fontFamily: "Poppins-Regular" }} className={className}>
+		<Text style={{ fontFamily: "Poppins-Regular" }} className={classNames}>
 			{children}
 		</Text>
 	);

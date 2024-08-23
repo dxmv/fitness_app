@@ -1,15 +1,13 @@
-import React, { ReactNode } from "react";
-import { Text } from "react-native";
+import React from "react";
+import { Text, TextProps } from "react-native";
 
-const BoldText = ({
-	children,
-	className,
-}: {
-	className?: string;
-	children: ReactNode;
-}) => {
+const BoldText = ({ children, className, ...props }: TextProps) => {
 	return (
-		<Text className={className} style={{ fontFamily: "Poppins-Bold" }}>
+		<Text
+			className={`${className} font-bold`}
+			style={{ fontFamily: "Poppins-Bold" }}
+			{...props}
+		>
 			{children}
 		</Text>
 	);

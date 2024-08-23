@@ -7,10 +7,8 @@ const index = () => {
 	return (
 		<View>
 			<Link href="/(auth)/login">Go to Login</Link>
-			<Link href="/(auth)/login">Go to Login</Link>
-			<Link href="/(auth)/login">Go to Login</Link>
-			<Link href="/(auth)/login">Go to Login</Link>
-			<Link href="/(auth)/login">Go to Login</Link>
+			<Link href="/(auth)/login">Go to Register</Link>
+			<Link href="/(user)/profile">Go to User Profile</Link>
 		</View>
 	);
 };

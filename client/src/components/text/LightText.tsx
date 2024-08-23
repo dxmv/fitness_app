@@ -1,15 +1,12 @@
 import React, { ReactNode } from "react";
-import { Text } from "react-native";
+import { Text, TextProps } from "react-native";
 
-const LightText = ({
-	children,
-	className,
-}: {
-	className?: string;
-	children: ReactNode;
-}) => {
+const LightText = ({ children, className, ...props }: TextProps) => {
 	return (
-		<Text style={{ fontFamily: "Poppins-Light" }} className={className}>
+		<Text
+			style={{ fontFamily: "Poppins-Light" }}
+			className={`${className} font-light`}
+		>
 			{children}
 		</Text>
 	);
