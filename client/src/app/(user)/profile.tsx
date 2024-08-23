@@ -1,16 +1,19 @@
-import { View } from "react-native";
-import React, { useEffect, useState } from "react";
+import { TouchableOpacity, View } from "react-native";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { IUser } from "../../types";
 import userApi from "../../api/userApi";
 import RegularText from "../../components/text/RegularText";
 import BoldText from "../../components/text/BoldText";
-import secureStorage from "../../utils/secureStorage";
 import LightText from "../../components/text/LightText";
 import CustomAvatar from "../../components/CustomAvatar";
+import Feather from "@expo/vector-icons/Feather";
+import secureStorage from "../../utils/secureStorage";
 
 const profile = () => {
 	// State to store user data
 	const [user, setUser] = useState<IUser | null>(null);
+	// the dropdown visibility
+	const [isVisible, setIsVisible] = useState<boolean>(false);
 
 	// Fetch the current user data when the component mounts
 	useEffect(() => {
@@ -25,6 +28,8 @@ const profile = () => {
 		fetchUser();
 	}, []);
 
+	const toggleDropdown = () => setIsVisible(prev => !prev);
+
 	// If user data is still loading, you can display a loading indicator or message
 	if (!user) {
 		return (
@@ -36,7 +41,11 @@ const profile = () => {
 
 	return (
 		<View className="flex flex-col items-center w-full h-full mt-3">
-			{/* Three dots for editing the user & logging out */}
+			<DropdownMenu
+				isVisible={isVisible}
+				toggleDropdown={toggleDropdown}
+				setUser={setUser}
+			/>
 			{/* Basic info */}
 			<CustomAvatar
 				image={user.profilePicture}
@@ -59,6 +68,52 @@ const profile = () => {
 			{/* Recent workouts */}
 			{/* Favorite exercises */}
 		</View>
+	);
+};
+
+const DropdownMenu = ({
+	isVisible,
+	toggleDropdown,
+	setUser,
+}: {
+	isVisible: boolean;
+	toggleDropdown: () => void;
+	setUser: React.Dispatch<SetStateAction<IUser | null>>;
+}) => {
+	const handleEdit = () => {};
+
+	const handleLogout = async () => {
+		// delete the current token
+		await secureStorage.removeToken();
+		// when component re-renders
+		setUser(null);
+	};
+	return (
+		<>
+			{/* Three dots for editing the user & logging out */}
+			<TouchableOpacity onPress={toggleDropdown}>
+				<Feather
+					name="more-horizontal"
+					size={24}
+					color="black"
+					className="text-right"
+				/>
+			</TouchableOpacity>
+			{/* Dropdown menu */}
+			{isVisible && (
+				<View className="absolute top-8 right-0 bg-white rounded-md shadow-md">
+					<TouchableOpacity
+						className="px-4 py-2 border-b border-gray-200"
+						onPress={handleEdit}
+					>
+						<RegularText className="text-gray-800">Edit</RegularText>
+					</TouchableOpacity>
+					<TouchableOpacity className="px-4 py-2" onPress={handleLogout}>
+						<RegularText className="text-gray-800">Logout</RegularText>
+					</TouchableOpacity>
+				</View>
+			)}
+		</>
 	);
 };
 

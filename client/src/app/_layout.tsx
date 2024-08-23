@@ -3,6 +3,7 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native";
 import { Slot } from "expo-router";
+import ProtectedRoutes from "../components/ProtectedRoutes";
 
 const _layout = () => {
 	const [fontsLoaded] = useFonts({
@@ -16,14 +17,16 @@ const _layout = () => {
 	}
 	// render all components within a safe area
 	return (
-		<SafeAreaView
-			className="flex-1 bg-white"
-			style={{
-				paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-			}}
-		>
-			<Slot />
-		</SafeAreaView>
+		<ProtectedRoutes>
+			<SafeAreaView
+				className="flex-1 bg-white"
+				style={{
+					paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+				}}
+			>
+				<Slot />
+			</SafeAreaView>
+		</ProtectedRoutes>
 	);
 };
 

@@ -1,15 +1,13 @@
 import React, { ReactNode } from "react";
-import { Text } from "react-native";
+import { Text, TextProps } from "react-native";
 
-const RegularText = ({
-	children,
-	classNames,
-}: {
-	children: ReactNode;
-	classNames?: string;
-}) => {
+const RegularText = ({ children, className, ...props }: TextProps) => {
 	return (
-		<Text style={{ fontFamily: "Poppins-Regular" }} className={classNames}>
+		<Text
+			style={{ fontFamily: "Poppins-Regular" }}
+			className={className}
+			{...props}
+		>
 			{children}
 		</Text>
 	);

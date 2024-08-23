@@ -39,7 +39,7 @@ const Login = () => {
 	};
 
 	return (
-		<View className="w-full h-full bg-purple-600">
+		<>
 			{/* Image */}
 			<View className="bg-white mt-60 h-full rounded-t-3xl py-4 px-8">
 				<BoldText className="text-red-500 mb-3 ">Welcome back</BoldText>
@@ -62,7 +62,7 @@ const Login = () => {
 				<RegularText>- OR -</RegularText>
 				<RegularText>Create an account</RegularText>
 			</View>
-		</View>
+		</>
 	);
 };
 
