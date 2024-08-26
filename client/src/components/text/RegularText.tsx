@@ -5,7 +5,7 @@ const RegularText = ({ children, className, ...props }: TextProps) => {
 	return (
 		<Text
 			style={{ fontFamily: "Poppins-Regular" }}
-			className={className}
+			className={`${className} font-normal`}
 			{...props}
 		>
 			{children}

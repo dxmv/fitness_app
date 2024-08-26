@@ -2,8 +2,9 @@ import { Text, StatusBar, Platform } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native";
-import { Slot } from "expo-router";
+import { Slot, Stack } from "expo-router";
 import ProtectedRoutes from "../components/ProtectedRoutes";
+import BottomNavigation from "../components/BottomNavigation";
 
 const _layout = () => {
 	const [fontsLoaded] = useFonts({
@@ -24,7 +25,8 @@ const _layout = () => {
 					paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 				}}
 			>
-				<Slot />
+				<Stack screenOptions={{ headerShown: false }} />
+				<BottomNavigation />
 			</SafeAreaView>
 		</ProtectedRoutes>
 	);

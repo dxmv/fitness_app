@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RegularText from "../../components/text/RegularText";
-import { Button, View } from "react-native";
+import { Button, TouchableOpacity, View } from "react-native";
 import BoldText from "../../components/text/BoldText";
 import LightText from "../../components/text/LightText";
 import CustomTextInput from "../../components/CustomTextInput";
@@ -11,6 +11,7 @@ import {
 } from "../../utils/handleAuth";
 import authApi from "../../api/authApi";
 import secureStorage from "../../utils/secureStorage";
+import { Link } from "expo-router";
 
 const Login = () => {
 	// form data
@@ -41,8 +42,10 @@ const Login = () => {
 	return (
 		<>
 			{/* Image */}
-			<View className="bg-white mt-60 h-full rounded-t-3xl py-4 px-8">
-				<BoldText className="text-red-500 mb-3 ">Welcome back</BoldText>
+			<View className="items-center bg-white mt-60 h-full rounded-t-3xl py-4 px-8 shadow">
+				<BoldText className="text-2xl text-center mb-5 text-dark-black">
+					Welcome back
+				</BoldText>
 				{/* Username field */}
 				<CustomTextInput
 					value={username.value}
@@ -59,8 +62,14 @@ const Login = () => {
 				/>
 				<LightText className="text-right text-sm my-3">Need help?</LightText>
 				<Button title="Log In" onPress={handleSubmit} />
-				<RegularText>- OR -</RegularText>
-				<RegularText>Create an account</RegularText>
+				<BoldText className="text-dark-black my-5 text-center">- OR -</BoldText>
+				<TouchableOpacity>
+					<Link href="/(auth)/register">
+						<RegularText className="text-dark-purple">
+							Create an account
+						</RegularText>
+					</Link>
+				</TouchableOpacity>
 			</View>
 		</>
 	);
