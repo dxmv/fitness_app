@@ -8,6 +8,7 @@ const BottomNavigation = () => {
 
 	const navItems = [
 		{ name: "/index", icon: "home" },
+		{ name: "workouts/2", icon: "fitness" },
 		{ name: "exercises/1", icon: "fitness" },
 		{ name: "/(user)/profile", icon: "person" },
 	];

@@ -1,24 +1,21 @@
 import React, { ReactNode, useEffect } from "react";
 import { useRouter, useSegments } from "expo-router";
-import secureStorage from "../utils/secureStorage";
+import useAuth from "../hooks/auth/useAuth";
 
 // This component will handle the protected routing logic
 const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
+	const { isAuthenticated, loading } = useAuth();
 	const segments = useSegments();
 	const router = useRouter();
 
 	useEffect(() => {
-		const redirect = async () => {
-			const token = await secureStorage.getToken();
-			const inAuthGroup = segments[0] === "(auth)";
-
-			if (!token && !inAuthGroup) {
-				// Redirect to the login page if the user is not logged in and not in the auth group
+		const inAuthGroup = segments[0] === "(auth)";
+		if (!loading) {
+			if (!isAuthenticated && !inAuthGroup) {
 				router.replace("/(auth)/login");
 			}
-		};
-		redirect();
-	}, [segments]);
+		}
+	}, [segments, isAuthenticated, loading]);
 
 	return <>{children}</>;
 };
