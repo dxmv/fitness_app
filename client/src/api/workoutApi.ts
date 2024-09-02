@@ -18,6 +18,21 @@ const getById = async (id: number): Promise<IWorkout> =>
 		},
 	});
 
+/**
+ * Returns all workouts for the current user
+ * @param id - The id of the workout.
+ * @returns {Promise<IWorkout>} - The workout
+ */
+const getAll = async (): Promise<Array<IWorkout>> =>
+	await fetchApi(`${API_URL}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getById,
+	getAll,
 };

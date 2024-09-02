@@ -2,10 +2,12 @@ import { View } from "react-native";
 import React from "react";
 import "expo-router/entry";
 import { Link } from "expo-router";
+import BoldText from "../components/text/BoldText";
 
 const index = () => {
 	return (
 		<View>
+			<BoldText>Welcome</BoldText>
 			<Link href="/(auth)/login">Go to Login</Link>
 			<Link href="/(auth)/login">Go to Register</Link>
 			<Link href="/(user)/profile">Go to User Profile</Link>
