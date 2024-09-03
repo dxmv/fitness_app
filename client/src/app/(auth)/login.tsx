@@ -12,6 +12,7 @@ import {
 import authApi from "../../api/authApi";
 import secureStorage from "../../utils/secureStorage";
 import { Link } from "expo-router";
+import CustomLink from "../../components/buttons/CustomLink";
 
 const Login = () => {
 	// form data
@@ -42,8 +43,8 @@ const Login = () => {
 	return (
 		<>
 			{/* Image */}
-			<View className="items-center bg-white mt-60 h-full rounded-t-3xl py-4 px-8 shadow">
-				<BoldText className="text-2xl text-center mb-5 text-dark-black">
+			<View className="items-center bg-dark-black mt-60 h-full rounded-t-3xl py-4 px-8 shadow">
+				<BoldText className="text-2xl text-center mb-5 text-light-purple">
 					Welcome back
 				</BoldText>
 				{/* Username field */}
@@ -60,16 +61,16 @@ const Login = () => {
 					label="Password:"
 					onChangeText={text => handlePasswordChange(text, setPassword)}
 				/>
-				<LightText className="text-right text-sm my-3">Need help?</LightText>
+				<LightText className="text-right text-sm my-3 text-light-pink">
+					Need help?
+				</LightText>
 				<Button title="Log In" onPress={handleSubmit} />
-				<BoldText className="text-dark-black my-5 text-center">- OR -</BoldText>
-				<TouchableOpacity>
-					<Link href="/(auth)/register">
-						<RegularText className="text-dark-purple">
-							Create an account
-						</RegularText>
-					</Link>
-				</TouchableOpacity>
+				<BoldText className="text-light-gray my-5 text-center">- OR -</BoldText>
+				<CustomLink href="/(auth)/register">
+					<RegularText className="text-dark-purple">
+						Create an account
+					</RegularText>
+				</CustomLink>
 			</View>
 		</>
 	);

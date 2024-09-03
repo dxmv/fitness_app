@@ -1,10 +1,10 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { IWorkout } from "../../types";
-import workoutApi from "../../api/workoutApi";
+import { IWorkout } from "../../../types";
+import workoutApi from "../../../api/workoutApi";
 import { useLocalSearchParams } from "expo-router";
-import LightText from "../../components/text/LightText";
-import BoldText from "../../components/text/BoldText";
+import LightText from "../../../components/text/LightText";
+import BoldText from "../../../components/text/BoldText";
 
 const WorkoutScreen = () => {
 	const [workout, setWorkout] = useState<IWorkout | null>();

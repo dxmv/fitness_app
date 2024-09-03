@@ -23,12 +23,15 @@ const ReusableModal: React.FC<MyModalProps> = ({
 			visible={isVisible}
 			onRequestClose={onClose}
 		>
-			<View className="flex-1 justify-end bg-black bg-opacity-50">
-				<View className="bg-white rounded-t-3xl p-6">
+			<View
+				className="flex-1 justify-center items-center"
+				style={{ backgroundColor: "rgba(18, 18, 18, 0.7)" }}
+			>
+				<View className="bg-light-gray rounded-lg p-6 shadow-lg w-11/12 max-w-md">
 					<View className="flex-row justify-between items-center mb-4">
-						<BoldText className="text-xl">{title}</BoldText>
+						<BoldText className="text-primary-pink text-xl">{title}</BoldText>
 						<TouchableOpacity onPress={onClose}>
-							<Feather name="x" size={24} color="black" />
+							<Feather name="x" size={24} color="dark-black" />
 						</TouchableOpacity>
 					</View>
 					{children}

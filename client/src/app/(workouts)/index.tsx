@@ -1,10 +1,10 @@
-import { TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import BoldText from "../../components/text/BoldText";
 import { IWorkout } from "../../types";
 import LightText from "../../components/text/LightText";
 import workoutApi from "../../api/workoutApi";
-import WorkoutItem from "./components/WorkoutItem";
+import WorkoutItem from "./_components/WorkoutItem";
 import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
 
@@ -25,23 +25,28 @@ const AllWorkouts = () => {
 		getAll();
 	}, []);
 
-	const handleAddWorkout = () => {
-		setIsAddModalVisible(true);
-	};
-
+	// Function to handle the submission of a new workout
 	const handleAddWorkoutSubmit = async () => {
+		// Check if the new workout name is not empty after trimming
 		if (newWorkoutName.trim()) {
 			try {
-				// Assuming your API has a create method. Adjust as necessary.
-				// const newWorkout = await workoutApi.create({
-				//   name: newWorkoutName.trim(),
-				// });
-				// setWorkouts(prevWorkouts =>
-				//   prevWorkouts ? [...prevWorkouts, newWorkout] : [newWorkout]
-				// );
+				// Create a new workout using the API
+				const newWorkout = await workoutApi.createWorkout(
+					newWorkoutName.trim()
+				);
+
+				// Update the workouts state with the new workout
+				setWorkouts(prevWorkouts =>
+					prevWorkouts ? [...prevWorkouts, newWorkout] : [newWorkout]
+				);
+
+				// Reset the new workout name input
 				setNewWorkoutName("");
+
+				// Close the add workout modal
 				setIsAddModalVisible(false);
 			} catch (e) {
+				// Log any errors that occur during the process
 				console.error("Failed to add workout", e);
 			}
 		}
@@ -57,18 +62,30 @@ const AllWorkouts = () => {
 		console.log("Delete workout", workout.id);
 	};
 
+	const renderWorkoutItem = ({ item }: { item: IWorkout }) => (
+		<WorkoutItem item={item} />
+	);
+
 	return (
-		<View className="flex-1">
+		<View className="flex-1 bg-gray-100 p-4">
 			<View className="flex-row justify-between items-center mb-4">
-				<BoldText className="text-3xl">Your workouts</BoldText>
-				<TouchableOpacity onPress={handleAddWorkout}>
-					<Feather name="plus-circle" size={30} color="black" />
+				<BoldText className="text-3xl text-gray-800">Your Workouts</BoldText>
+				<TouchableOpacity onPress={() => setIsAddModalVisible(true)}>
+					<Feather name="plus-circle" size={30} color="#4F46E5" />
 				</TouchableOpacity>
 			</View>
 			{workouts ? (
-				workouts.map(el => <WorkoutItem key={el.id} item={el} />)
+				<FlatList
+					data={workouts}
+					renderItem={renderWorkoutItem}
+					keyExtractor={item => item.id.toString()}
+					contentContainerStyle={{ paddingBottom: 100 }}
+					showsVerticalScrollIndicator={false}
+				/>
 			) : (
-				<LightText>No workouts to show</LightText>
+				<LightText className="text-center text-gray-600">
+					No workouts to show
+				</LightText>
 			)}
 			<ReusableModal
 				isVisible={isAddModalVisible}
@@ -93,3 +110,5 @@ const AllWorkouts = () => {
 		</View>
 	);
 };
+
+export default AllWorkouts;

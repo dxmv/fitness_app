@@ -32,7 +32,23 @@ const getAll = async (): Promise<Array<IWorkout>> =>
 		},
 	});
 
+/**
+ * Creates a new workout
+ * @param workoutName - The workout to create.
+ * @returns {Promise<IWorkout>} - The created workout
+ */
+const createWorkout = async (workoutName: string): Promise<IWorkout> =>
+	await fetchApi(`${API_URL}`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+		body: JSON.stringify({ name: workoutName }),
+	});
+
 export default {
 	getById,
 	getAll,
+	createWorkout,
 };

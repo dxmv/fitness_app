@@ -1,15 +1,44 @@
-import { TouchableOpacity, View } from "react-native";
-import React from "react";
-import { Link, usePathname } from "expo-router";
+import { TouchableOpacity, View, Keyboard } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Link, usePathname, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 const BottomNavigation = () => {
 	const pathname = usePathname();
+	const segments = useSegments();
+	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+	useEffect(() => {
+		// Add listener for keyboard show event
+		const keyboardDidShowListener = Keyboard.addListener(
+			"keyboardDidShow",
+			() => {
+				setKeyboardVisible(true); // Set state to true when keyboard is shown
+			}
+		);
+		// Add listener for keyboard hide event
+		const keyboardDidHideListener = Keyboard.addListener(
+			"keyboardDidHide",
+			() => {
+				setKeyboardVisible(false); // Set state to false when keyboard is hidden
+			}
+		);
+
+		// Cleanup function to remove listeners
+		return () => {
+			keyboardDidHideListener.remove(); // Remove hide listener
+			keyboardDidShowListener.remove(); // Remove show listener
+		};
+	}, []);
+
+	// Don't show bottom nav on auth screens or when keyboard is visible
+	if (segments[0] === "(auth)" || isKeyboardVisible) {
+		return null;
+	}
 
 	const navItems = [
-		{ name: "/index", icon: "home" },
-		{ name: "workouts/", icon: "fitness" },
-		{ name: "exercises/1", icon: "fitness" },
+		{ name: "/", icon: "home" },
+		{ name: "/(workouts)/", icon: "fitness" },
 		{ name: "/(user)/profile", icon: "person" },
 	];
 
@@ -18,7 +47,7 @@ const BottomNavigation = () => {
 			{navItems.map(item => (
 				<Link
 					key={item.name}
-					href={`/${item.name}`}
+					href={`${item.name}`}
 					asChild
 					style={{ width: `${100 / navItems.length}%` }}
 				>
@@ -26,7 +55,7 @@ const BottomNavigation = () => {
 						<Ionicons
 							name={item.icon}
 							size={24}
-							color={pathname === `/${item.name}` ? "#FF4081" : "#7B1FA2"}
+							color={pathname === `${item.name}` ? "#FF4081" : "#7B1FA2"}
 						/>
 					</TouchableOpacity>
 				</Link>

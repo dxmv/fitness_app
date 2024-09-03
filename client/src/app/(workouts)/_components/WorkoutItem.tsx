@@ -7,7 +7,7 @@ const WorkoutItem = ({ index, item }: { index?: number; item: IWorkout }) => {
 	const router = useRouter();
 
 	const handlePress = () => {
-		router.push(`/workouts/${item.id}`);
+		router.push(`/(workouts)/details/${item.id}`);
 	};
 	return (
 		<TouchableOpacity onPress={handlePress}>
