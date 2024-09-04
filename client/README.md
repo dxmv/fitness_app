@@ -6,14 +6,24 @@
   - [x] Create a new workout on this screen
 
 - [ ] Implement Workout Detail screen
+
   - [x] Getting the workout
   - [ ] Edit workout name
-  - [ ] Delete the workout
+  - [x] Delete the workout
   - [x] Add exercises to the workout
-  - [ ] Remove exercises from the workout with a swipe
-  - [ ] Deleting the workout
-  - [ ] Editing the workout
-  - [ ] Starting the workout
+  - [x] Remove exercises from the workout with a swipe
+  - [ ] Refresh the workout list after deleting a workout
+
+- [ ] Start workout
+  - [ ] Start the workout
+  - [ ] Stop the workout
+  - [ ] Pause the workout
+  - [ ] Resume the workout
+  - [ ] Skip to the next exercise
+  - [ ] Mark the exercise as completed
+  - [ ] Mark the workout as completed
+  - [ ] Save the workout
+  - [ ] Share the workout
 
 # Frontend Development Checklist
 

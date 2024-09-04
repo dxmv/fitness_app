@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { Button, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { IWorkout, IExercise } from "../../../types";
 import workoutApi from "../../../api/workoutApi";
@@ -11,6 +11,7 @@ import ReusableModal from "../../../components/MyModal";
 import WorkoutExerciseItem from "../_components/WorkoutExerciseItem";
 
 const WorkoutScreen = () => {
+	const router = useRouter();
 	const [workout, setWorkout] = useState<IWorkout | null>(null);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [exercises, setExercises] = useState<IExercise[]>([]);
@@ -74,6 +75,16 @@ const WorkoutScreen = () => {
 		}
 	};
 
+	const handleDeleteWorkout = async () => {
+		try {
+			await workoutApi.deleteWorkout(workout.id);
+		} catch (e) {
+			console.log(e);
+		} finally {
+			router.back();
+		}
+	};
+
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			{/* Workout header */}
@@ -95,6 +106,11 @@ const WorkoutScreen = () => {
 					/>
 				))
 			)}
+			<Button
+				title="Start Workout"
+				onPress={() => console.log("Start Workout")}
+			/>
+			<Button title="Delete Workout" onPress={handleDeleteWorkout} />
 			{/* Modal for adding exercises */}
 			<ReusableModal
 				isVisible={isModalVisible}

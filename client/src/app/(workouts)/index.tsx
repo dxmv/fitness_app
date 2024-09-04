@@ -52,16 +52,6 @@ const AllWorkouts = () => {
 		}
 	};
 
-	const handleEditWorkout = (workout: IWorkout) => {
-		// Implement edit workout logic
-		console.log("Edit workout", workout.id);
-	};
-
-	const handleDeleteWorkout = (workout: IWorkout) => {
-		// Implement delete workout logic
-		console.log("Delete workout", workout.id);
-	};
-
 	const renderWorkoutItem = ({ item }: { item: IWorkout }) => (
 		<WorkoutItem item={item} />
 	);

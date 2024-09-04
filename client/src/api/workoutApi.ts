@@ -48,6 +48,20 @@ const createWorkout = async (workoutName: string): Promise<IWorkout> =>
 	});
 
 /**
+ * Removes an workout exercise from a workout
+ * @param workoutId - The id of the workout.
+ * @returns {Promise<void>}
+ */
+const deleteWorkout = async (workoutId: number): Promise<void> =>
+	await fetchApi(`${API_URL}/${workoutId}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
+/**
  * Adds an workout exercise to a workout
  * @param workoutId - The id of the workout.
  * @param exerciseId - The id of the exercise.
@@ -69,7 +83,7 @@ const addExerciseToWorkout = async (
  * Removes an workout exercise from a workout
  * @param workoutId - The id of the workout.
  * @param workoutExerciseId - The id of the workout exercise.
- * @returns {Promise<void>} - The created workout
+ * @returns {Promise<void>}
  */
 const removeExerciseFromWorkout = async (
 	workoutId: number,
@@ -89,4 +103,5 @@ export default {
 	createWorkout,
 	addExerciseToWorkout,
 	removeExerciseFromWorkout,
+	deleteWorkout,
 };
