@@ -7,6 +7,10 @@
 
 - [ ] Implement Workout Detail screen
   - [x] Getting the workout
+  - [ ] Edit workout name
+  - [ ] Delete the workout
+  - [x] Add exercises to the workout
+  - [ ] Remove exercises from the workout with a swipe
   - [ ] Deleting the workout
   - [ ] Editing the workout
   - [ ] Starting the workout

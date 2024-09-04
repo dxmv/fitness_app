@@ -65,9 +65,28 @@ const addExerciseToWorkout = async (
 		},
 	});
 
+/**
+ * Removes an workout exercise from a workout
+ * @param workoutId - The id of the workout.
+ * @param workoutExerciseId - The id of the workout exercise.
+ * @returns {Promise<void>} - The created workout
+ */
+const removeExerciseFromWorkout = async (
+	workoutId: number,
+	workoutExerciseId: number
+): Promise<void> =>
+	await fetchApi(`${API_URL}/${workoutId}/exercises/${workoutExerciseId}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getById,
 	getAll,
 	createWorkout,
 	addExerciseToWorkout,
+	removeExerciseFromWorkout,
 };

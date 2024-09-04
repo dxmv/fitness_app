@@ -8,6 +8,7 @@ import LightText from "../../../components/text/LightText";
 import BoldText from "../../../components/text/BoldText";
 import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../../components/MyModal";
+import WorkoutExerciseItem from "../_components/WorkoutExerciseItem";
 
 const WorkoutScreen = () => {
 	const [workout, setWorkout] = useState<IWorkout | null>(null);
@@ -64,6 +65,15 @@ const WorkoutScreen = () => {
 		return <LightText>Loading...</LightText>;
 	}
 
+	const handleDeleteExercise = async (exerciseId: number) => {
+		try {
+			// Assuming you have an API function to remove an exercise from a workout
+			await workoutApi.removeExerciseFromWorkout(workout.id, exerciseId);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			{/* Workout header */}
@@ -78,16 +88,11 @@ const WorkoutScreen = () => {
 				<LightText>No exercises yet</LightText>
 			) : (
 				workout.workoutExercises.map(workoutExercise => (
-					<View key={workoutExercise.id}>
-						<LightText>{workoutExercise.exercise.name}</LightText>
-						{workoutExercise.sets.map((set, index) => (
-							<View key={index}>
-								<LightText>
-									Set {index + 1}: {set.repCount} reps, {set.weight} kg
-								</LightText>
-							</View>
-						))}
-					</View>
+					<WorkoutExerciseItem
+						key={workoutExercise.id}
+						workoutExercise={workoutExercise}
+						onDelete={handleDeleteExercise}
+					/>
 				))
 			)}
 			{/* Modal for adding exercises */}
