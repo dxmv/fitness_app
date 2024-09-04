@@ -47,8 +47,27 @@ const createWorkout = async (workoutName: string): Promise<IWorkout> =>
 		body: JSON.stringify({ name: workoutName }),
 	});
 
+/**
+ * Adds an workout exercise to a workout
+ * @param workoutId - The id of the workout.
+ * @param exerciseId - The id of the exercise.
+ * @returns {Promise<IWorkout>} - The created workout
+ */
+const addExerciseToWorkout = async (
+	workoutId: string,
+	exerciseId: string
+): Promise<IWorkout> =>
+	await fetchApi(`${API_URL}/${workoutId}/exercises/${exerciseId}`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getById,
 	getAll,
 	createWorkout,
+	addExerciseToWorkout,
 };
