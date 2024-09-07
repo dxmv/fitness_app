@@ -9,7 +9,7 @@ const API_URL = "http://192.168.1.14:8080/api/workouts";
  * @param id - The id of the workout.
  * @returns {Promise<IWorkout>} - The workout
  */
-const getById = async (id: number): Promise<IWorkout> =>
+const getById = async (id: string): Promise<IWorkout> =>
 	await fetchApi(`${API_URL}/${id}`, {
 		method: "GET",
 		headers: {

@@ -35,10 +35,13 @@ const AllWorkouts = () => {
 					newWorkoutName.trim()
 				);
 
+				console.log("newWorkout", newWorkout);
+
+				// get the updated list of workouts
+				const updatedWorkouts = await workoutApi.getAll();
+
 				// Update the workouts state with the new workout
-				setWorkouts(prevWorkouts =>
-					prevWorkouts ? [...prevWorkouts, newWorkout] : [newWorkout]
-				);
+				setWorkouts(updatedWorkouts);
 
 				// Reset the new workout name input
 				setNewWorkoutName("");

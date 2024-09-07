@@ -26,7 +26,7 @@ const WorkoutScreen = () => {
 	const addExercise = async (exerciseId: string) => {
 		try {
 			const updatedWorkout = await workoutApi.addExerciseToWorkout(
-				id[0],
+				id.toString(),
 				exerciseId
 			);
 			setWorkout(updatedWorkout);
@@ -36,21 +36,17 @@ const WorkoutScreen = () => {
 		}
 	};
 
-	// Fetch the workout details
 	useEffect(() => {
-		const getExercise = async () => {
+		// Fetch the workout details
+		const getWorkout = async () => {
 			try {
-				const res = await workoutApi.getById(Number.parseInt(id[0]));
+				const res = await workoutApi.getById(id.toString());
 				setWorkout(res);
 			} catch (e) {
 				console.log(e);
 			}
 		};
-		getExercise();
-	}, []);
-
-	// Fetch all available exercises
-	useEffect(() => {
+		// Fetch all available exercises
 		const getAllExercises = async () => {
 			try {
 				const res = await exerciseApi.getAll();
@@ -59,6 +55,8 @@ const WorkoutScreen = () => {
 				console.log(e);
 			}
 		};
+		getWorkout();
+
 		getAllExercises();
 	}, []);
 

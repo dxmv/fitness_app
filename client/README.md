@@ -12,7 +12,15 @@
   - [x] Delete the workout
   - [x] Add exercises to the workout
   - [x] Remove exercises from the workout with a swipe
-  - [ ] Refresh the workout list after deleting a workout
+
+- Known issues:
+
+  - [x] Fetching a workout with an id above 10 doesn't work
+  - [x] Can't add the exercise to the workout with an id above 10
+  - [] Can start workout without exercises
+  - [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
+  - [ ] When deleting a workout, the workout list screen is not refreshed
+  - [ ] No text on the workout list screen, telling the user that they have no workouts
 
 - [ ] Start workout
   - [ ] Start the workout
