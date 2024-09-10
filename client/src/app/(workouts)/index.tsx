@@ -35,8 +35,6 @@ const AllWorkouts = () => {
 					newWorkoutName.trim()
 				);
 
-				console.log("newWorkout", newWorkout);
-
 				// get the updated list of workouts
 				const updatedWorkouts = await workoutApi.getAll();
 

@@ -15,15 +15,21 @@
 
 - [ ] Do a workout
 
-  - [ ] Start the workout
-  - [ ] Show a list of exercises
-  - [ ] Show the number of sets and reps for each exercise
+  - [x] Start the workout
+  - [x] Show a list of exercises
+  - [x] Show the number of sets and reps for each exercise
 
-  - [ ] Add the set
-  - [ ] Remove the set
-  - [ ] Edit the set
+  - [x] Show sets for each exercise
+  - [x] Add the set
+  - [x] Edit the set
+  - [x] Remove the set
 
+  - [ ] Start the rest timer
+  - [ ] Stop the rest timer
+  - [ ] Pause the rest timer
+  - [ ] Resume the rest timer
   - [ ] Show the rest timer between exercises
+  - [ ] Modify the rest timer
 
   - [ ] Pause the workout
   - [ ] Resume the workout
@@ -41,6 +47,9 @@
 - [ ] When deleting a workout, the workout list screen is not refreshed
 - [ ] No text on the workout list screen, telling the user that they have no workouts
 - [ ] Login doesn't redirect to the home screen
+- [ ] Can add infinite sets to the workout
+- [ ] Can add sets with 0 reps
+- [ ] Figure out what to do when the user updates the set
 
 # Frontend Development Checklist
 
