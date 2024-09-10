@@ -1,4 +1,4 @@
-# Tasks today:
+## Current tasks:
 
 - [x] Implement Workout List screen
 
@@ -13,25 +13,34 @@
   - [x] Add exercises to the workout
   - [x] Remove exercises from the workout with a swipe
 
-- Known issues:
+- [ ] Do a workout
 
-  - [x] Fetching a workout with an id above 10 doesn't work
-  - [x] Can't add the exercise to the workout with an id above 10
-  - [] Can start workout without exercises
-  - [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
-  - [ ] When deleting a workout, the workout list screen is not refreshed
-  - [ ] No text on the workout list screen, telling the user that they have no workouts
-
-- [ ] Start workout
   - [ ] Start the workout
-  - [ ] Stop the workout
+  - [ ] Show a list of exercises
+  - [ ] Show the number of sets and reps for each exercise
+
+  - [ ] Add the set
+  - [ ] Remove the set
+  - [ ] Edit the set
+
+  - [ ] Show the rest timer between exercises
+
   - [ ] Pause the workout
   - [ ] Resume the workout
-  - [ ] Skip to the next exercise
-  - [ ] Mark the exercise as completed
-  - [ ] Mark the workout as completed
+  - [ ] Stop the workout
+  - [ ] End the workout
   - [ ] Save the workout
   - [ ] Share the workout
+
+## Known issues:
+
+- [x] Fetching a workout with an id above 10 doesn't work
+- [x] Can't add the exercise to the workout with an id above 10
+- [ ] Can start workout without exercises
+- [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
+- [ ] When deleting a workout, the workout list screen is not refreshed
+- [ ] No text on the workout list screen, telling the user that they have no workouts
+- [ ] Login doesn't redirect to the home screen
 
 # Frontend Development Checklist
 

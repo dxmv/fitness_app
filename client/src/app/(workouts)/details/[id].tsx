@@ -83,6 +83,13 @@ const WorkoutScreen = () => {
 		}
 	};
 
+	const handleStartWorkout = () => {
+		router.push({
+			pathname: "/active",
+			params: { workout: JSON.stringify(workout) },
+		});
+	};
+
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			{/* Workout header */}
@@ -104,10 +111,7 @@ const WorkoutScreen = () => {
 					/>
 				))
 			)}
-			<Button
-				title="Start Workout"
-				onPress={() => console.log("Start Workout")}
-			/>
+			<Button title="Start Workout" onPress={handleStartWorkout} />
 			<Button title="Delete Workout" onPress={handleDeleteWorkout} />
 			{/* Modal for adding exercises */}
 			<ReusableModal
