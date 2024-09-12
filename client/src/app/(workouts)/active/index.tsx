@@ -1,4 +1,4 @@
-import { Button, View } from "react-native";
+import { Button, Platform, Vibration, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import BoldText from "../../../components/text/BoldText";
@@ -7,9 +7,13 @@ import { IExerciseSet, IWorkout } from "../../../types";
 import RegularText from "../../../components/text/RegularText";
 import ActiveWorkoutExercise from "../_components/ActiveWorkoutExercise";
 import MyModal from "../../../components/MyModal";
+import { showTimer } from "../../../utils/restTimer";
 
 const TIMER_CHANGE_INTERVAL = 10;
-const DEFAULT_TIMER_DURATION = 60;
+const DEFAULT_TIMER_DURATION = 2;
+
+const VIBRATION_PATTERN =
+	Platform.OS === "ios" ? [0, 1000, 2000, 3000] : [1000, 2000, 1000, 2000];
 
 const ActiveWorkoutScreen = () => {
 	const router = useRouter();
@@ -55,6 +59,8 @@ const ActiveWorkoutScreen = () => {
 					// Check if the previous time is less than or equal to 1 second
 					if (prevTime <= 1) {
 						setIsRunning(false); // Stop the timer
+						setTimeLeft(timerDuration);
+						Vibration.vibrate(VIBRATION_PATTERN); // Vibrate for 2 seconds, pause, then vibrate again
 						return 0; // Set time left to zero
 					}
 					return prevTime - 1; // Decrement the time left by 1 second
@@ -127,7 +133,7 @@ const ActiveWorkoutScreen = () => {
 			{/* Workout header */}
 			<View className="flex-row justify-between items-center mb-4 border-b-2 border-dark-black">
 				<BoldText className="text-3xl text-gray-800">
-					{activeWorkout.name} - {isRunning && timeLeft}
+					{activeWorkout.name} - {isRunning && showTimer(timeLeft)}
 				</BoldText>
 				<RegularText onPress={() => setIsTimerModalVisible(true)}>
 					Rest timer
@@ -197,6 +203,20 @@ const RestTimerModal = ({
 		setIsRunning(false);
 	};
 
+	// Function to update the timer duration by a specified change value
+	const updateTimer = (change: number) => {
+		// Check if the new timer duration exceeds the maximum limit of 600 seconds or is less than or equal to 0
+		if (
+			timerDuration + change > 600 ||
+			timerDuration + change <= 0 ||
+			isRunning
+		) {
+			return; // If so, exit the function without making changes
+		}
+		// Update the timer duration by adding the change value to the previous duration
+		setTimerDuration(prev => prev + change);
+	};
+
 	return (
 		<MyModal
 			isVisible={isTimerModalVisible}
@@ -208,16 +228,14 @@ const RestTimerModal = ({
 				<View className="flex-row justify-between items-center">
 					<Button
 						title="<"
-						onPress={() =>
-							setTimerDuration(prev => prev - TIMER_CHANGE_INTERVAL)
-						}
+						onPress={() => updateTimer(-TIMER_CHANGE_INTERVAL)}
+						disabled={isRunning}
 					/>
 					<BoldText>{timerDuration}</BoldText>
 					<Button
 						title=">"
-						onPress={() =>
-							setTimerDuration(prev => prev + TIMER_CHANGE_INTERVAL)
-						}
+						onPress={() => updateTimer(TIMER_CHANGE_INTERVAL)}
+						disabled={isRunning}
 					/>
 				</View>
 				{isRunning ? (

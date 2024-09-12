@@ -35,8 +35,10 @@
   - [x] Pause the rest timer
   - [x] Resume the rest timer
   - [ ] Show paused time
-  - [ ] Play a sound or vibration when the rest timer is done
-  - [ ] Show the rest timer in minutes and seconds
+  - [x] Vibration when rest is over
+  - [x] Show the rest timer in minutes and seconds
+  - [x] Limits on rest timer
+  - [x] Disable time modification when the timer is running
 
   - [ ] Pause the workout
   - [ ] Resume the workout
@@ -58,6 +60,11 @@
 - [x] Fetching a workout with an id above 10 doesn't work
 - [x] Can't add the exercise to the workout with an id above 10
 - [x] Can start workout without exercises
+- [ ] Cleaner code for workouts
+  - [ ] Separate into files better
+  - [ ] Cleaner state management
+  - [ ] More comments
+  - [ ] More readable
 - [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
 - [ ] When deleting a workout, the workout list screen is not refreshed
 - [x] No text on the workout list screen, telling the user that they have no workouts
@@ -65,6 +72,7 @@
 - [ ] Can add infinite sets to the workout
 - [ ] Can add sets with 0 reps
 - [ ] Figure out what to do when the user updates the set
+- [ ] Vibration pattern can be changed in settings
 
 ## Alerts:
 
