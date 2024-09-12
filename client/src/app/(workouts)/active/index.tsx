@@ -1,28 +1,28 @@
-import {
-	View,
-	Button,
-	TouchableOpacity,
-	TextInput,
-	Animated,
-	PanResponder,
-	GestureResponderEvent,
-} from "react-native";
+import { Button, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import BoldText from "../../../components/text/BoldText";
 import LightText from "../../../components/text/LightText";
-import { IWorkout, IWorkoutExercise } from "../../../types";
+import { IExerciseSet, IWorkout } from "../../../types";
 import RegularText from "../../../components/text/RegularText";
+import ActiveWorkoutExercise from "../_components/ActiveWorkoutExercise";
+import MyModal from "../../../components/MyModal";
 
-interface ISet {
-	weight: number;
-	reps: number;
-}
+const TIMER_CHANGE_INTERVAL = 10;
+const DEFAULT_TIMER_DURATION = 60;
 
 const ActiveWorkoutScreen = () => {
 	const [activeWorkout, setActiveWorkout] = useState<IWorkout | null>(null);
-	const [sets, setSets] = useState<{ [key: string]: Array<ISet> }>({});
+	const [sets, setSets] = useState<{ [key: string]: Array<IExerciseSet> }>({});
 	const { workout } = useLocalSearchParams();
+	// rest timer
+	const [isTimerModalVisible, setIsTimerModalVisible] =
+		useState<boolean>(false);
+	const [timerDuration, setTimerDuration] = useState<number>(
+		DEFAULT_TIMER_DURATION
+	); // Default 60 seconds
+	const [isRunning, setIsRunning] = useState<boolean>(false);
+	const [timeLeft, setTimeLeft] = useState<number>(DEFAULT_TIMER_DURATION);
 
 	useEffect(() => {
 		const getWorkout = async () => {
@@ -42,10 +42,31 @@ const ActiveWorkoutScreen = () => {
 		getWorkout();
 	}, [workout]);
 
+	// This useEffect hook manages the countdown timer for the workout rest period.
+	// It sets up an interval that decrements the time left every second while the timer is running.
+	// If the time left reaches zero, it stops the timer.
+	useEffect(() => {
+		let interval: NodeJS.Timeout;
+		if (isRunning && timeLeft > 0) {
+			interval = setInterval(() => {
+				setTimeLeft(prevTime => {
+					// Check if the previous time is less than or equal to 1 second
+					if (prevTime <= 1) {
+						setIsRunning(false); // Stop the timer
+						return 0; // Set time left to zero
+					}
+					return prevTime - 1; // Decrement the time left by 1 second
+				});
+			}, 1000);
+		}
+		// Cleanup function to clear the interval when the component unmounts or dependencies change
+		return () => clearInterval(interval);
+	}, [isRunning, timeLeft]);
+
 	// Function to add a new set for a specific exercise
 	const addSet = (exerciseName: string) => {
 		setSets(prevSets => {
-			const newSet: ISet = { weight: 0, reps: 0 }; // Initialize with default values
+			const newSet: IExerciseSet = { weight: 0, repCount: 0 }; // Initialize with default values
 			return {
 				...prevSets,
 				[exerciseName]: prevSets[exerciseName]
@@ -60,16 +81,19 @@ const ActiveWorkoutScreen = () => {
 		exerciseName: string,
 		index: number,
 		weight: number,
-		reps: number
+		repCount: number
 	) => {
 		setSets(prevSets => {
 			const updatedSets = [...prevSets[exerciseName]];
-			updatedSets[index] = { weight, reps };
+			updatedSets[index] = { weight, repCount };
 			return {
 				...prevSets,
 				[exerciseName]: updatedSets,
 			};
 		});
+		// start the rest timer
+		setIsRunning(true);
+		setTimeLeft(timerDuration);
 	};
 
 	// Function to delete a specific set for an exercise
@@ -93,12 +117,14 @@ const ActiveWorkoutScreen = () => {
 			{/* Workout header */}
 			<View className="flex-row justify-between items-center mb-4 border-b-2 border-dark-black">
 				<BoldText className="text-3xl text-gray-800">
-					{activeWorkout.name}
+					{activeWorkout.name} - {isRunning && timeLeft}
 				</BoldText>
-				<RegularText>Rest timer</RegularText>
+				<RegularText onPress={() => setIsTimerModalVisible(true)}>
+					Rest timer
+				</RegularText>
 			</View>
 			{activeWorkout.workoutExercises.map((element, index) => (
-				<WorkoutItemSkeleton
+				<ActiveWorkoutExercise
 					workoutExercise={element}
 					key={index}
 					onAddSet={addSet}
@@ -107,136 +133,86 @@ const ActiveWorkoutScreen = () => {
 					sets={sets[element.exercise.name] || []}
 				/>
 			))}
+			<RestTimerModal
+				isTimerModalVisible={isTimerModalVisible}
+				timerDuration={timerDuration}
+				setIsTimerModalVisible={setIsTimerModalVisible}
+				setTimerDuration={setTimerDuration}
+				isRunning={isRunning}
+				setIsRunning={setIsRunning}
+				setTimeLeft={setTimeLeft}
+			/>
 		</View>
 	);
 };
 
-const SetItem = ({
-	index,
-	set,
-	exerciseName,
-	onUpdateSet,
-	onDeleteSet,
+// RestTimerModal component to manage the rest timer functionality
+const RestTimerModal = ({
+	isTimerModalVisible,
+	timerDuration,
+	isRunning,
+	setIsTimerModalVisible,
+	setTimerDuration,
+	setIsRunning,
+	setTimeLeft,
 }: {
-	index: number;
-	set: ISet;
-	exerciseName: string;
-	onUpdateSet: (
-		exerciseName: string,
-		index: number,
-		weight: number,
-		reps: number
-	) => void;
-	onDeleteSet: (exerciseName: string, index: number) => void;
+	isTimerModalVisible: boolean;
+	timerDuration: number;
+	isRunning: boolean;
+	setIsTimerModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	setTimerDuration: React.Dispatch<React.SetStateAction<number>>;
+	setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
+	setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-	const translateX = new Animated.Value(0);
-	const panResponder = React.useRef(
-		PanResponder.create({
-			onMoveShouldSetPanResponder: (
-				evt: GestureResponderEvent,
-				gestureState
-			) => {
-				return gestureState.dx > 30; // Detect right swipe
-			},
-			onPanResponderMove: (evt, gestureState) => {
-				translateX.setValue(gestureState.dx);
-			},
-			onPanResponderRelease: (evt, gestureState) => {
-				if (gestureState.dx > 100) {
-					// If swiped more than 100px, trigger delete
-					Animated.timing(translateX, {
-						toValue: 500,
-						duration: 300,
-						useNativeDriver: true,
-					}).start(() => {
-						onDeleteSet(exerciseName, index);
-					});
-				} else {
-					Animated.spring(translateX, {
-						toValue: 0,
-						useNativeDriver: true,
-					}).start();
-				}
-			},
-		})
-	).current;
-	const [weight, setWeight] = useState(set.weight);
-	const [reps, setReps] = useState(set.reps);
+	const [timePaused, setTimePaused] = useState<number>(-1);
+	// Function to start the timer
+	const startTimer = () => {
+		setIsRunning(true);
+	};
+
+	// Function to stop the timer and reset time left
+	const stopTimer = () => {
+		setIsRunning(false);
+		setTimeLeft(0);
+	};
+
+	// Function to pause the timer
+	const pauseTimer = () => {
+		setIsRunning(false);
+	};
 
 	return (
-		<Animated.View
-			style={{ transform: [{ translateX }] }}
-			{...panResponder.panHandlers}
-			key={index}
-			className="flex-row justify-between mb-2"
+		<MyModal
+			isVisible={isTimerModalVisible}
+			onClose={() => setIsTimerModalVisible(false)}
+			title="Rest Timer"
 		>
-			<RegularText className="flex-1 text-center">Set {index + 1}</RegularText>
-			<TextInput
-				className="flex-1 text-center border rounded-md px-2"
-				value={String(weight)}
-				onChangeText={text => setWeight(Number(text))}
-				keyboardType="numeric"
-			/>
-			<TextInput
-				className="flex-1 text-center border rounded-md px-2"
-				value={String(reps)}
-				onChangeText={text => setReps(Number(text))}
-				keyboardType="numeric"
-			/>
-			<Button
-				title="U"
-				onPress={() => {
-					onUpdateSet(exerciseName, index, weight, reps);
-				}}
-			/>
-		</Animated.View>
-	);
-};
-
-const WorkoutItemSkeleton = ({
-	workoutExercise,
-	onAddSet,
-	onUpdateSet,
-	onDeleteSet,
-	sets,
-}: {
-	workoutExercise: IWorkoutExercise;
-	onAddSet: (exerciseName: string) => void;
-	onUpdateSet: (
-		exerciseName: string,
-		index: number,
-		weight: number,
-		reps: number
-	) => void;
-	onDeleteSet: (exerciseName: string, index: number) => void;
-	sets: ISet[];
-}) => {
-	return (
-		<View className="border-b-2 border-dark-black">
-			<BoldText>{workoutExercise.exercise.name}</BoldText>
 			<View>
-				<View className="flex-row justify-between mb-2">
-					<BoldText className="flex-1 text-center">#</BoldText>
-					<BoldText className="flex-1 text-center">Weight in kg</BoldText>
-					<BoldText className="flex-1 text-center">Reps</BoldText>
-					<View className="w-10" />
+				{/* Controls for adjusting timer duration */}
+				<View className="flex-row justify-between items-center">
+					<Button
+						title="<"
+						onPress={() =>
+							setTimerDuration(prev => prev - TIMER_CHANGE_INTERVAL)
+						}
+					/>
+					<BoldText>{timerDuration}</BoldText>
+					<Button
+						title=">"
+						onPress={() =>
+							setTimerDuration(prev => prev + TIMER_CHANGE_INTERVAL)
+						}
+					/>
 				</View>
+				{isRunning ? (
+					<Button title="Pause" onPress={pauseTimer} />
+				) : (
+					<Button title="Start" onPress={startTimer} />
+				)}
+
+				<Button title="Stop" onPress={stopTimer} />
 			</View>
-			{sets.map((set, index) => (
-				<SetItem
-					key={index}
-					index={index}
-					set={set}
-					exerciseName={workoutExercise.exercise.name}
-					onUpdateSet={onUpdateSet}
-					onDeleteSet={onDeleteSet}
-				/>
-			))}
-			<Button
-				title="Add set"
-				onPress={() => onAddSet(workoutExercise.exercise.name)}
-			/>
-		</View>
+		</MyModal>
 	);
 };
 

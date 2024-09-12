@@ -23,13 +23,15 @@
   - [x] Add the set
   - [x] Edit the set
   - [x] Remove the set
+  - [x] When updating the set, start the rest timer
 
-  - [ ] Start the rest timer
-  - [ ] Stop the rest timer
-  - [ ] Pause the rest timer
-  - [ ] Resume the rest timer
-  - [ ] Show the rest timer between exercises
-  - [ ] Modify the rest timer
+  - [x] Show the rest timer between exercises
+  - [x] Start the rest timer
+  - [x] Stop the rest timer
+  - [x] Modify the rest timer
+  - [x] Pause the rest timer
+  - [x] Resume the rest timer
+  - [ ] Show paused time
 
   - [ ] Pause the workout
   - [ ] Resume the workout

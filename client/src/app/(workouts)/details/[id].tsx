@@ -84,6 +84,10 @@ const WorkoutScreen = () => {
 	};
 
 	const handleStartWorkout = () => {
+		// if the workout has no exercises, don't allow the user to start the workout
+		if (workout.workoutExercises.length <= 0) {
+			return;
+		}
 		router.push({
 			pathname: "/active",
 			params: { workout: JSON.stringify(workout) },

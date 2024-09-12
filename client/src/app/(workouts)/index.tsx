@@ -34,20 +34,12 @@ const AllWorkouts = () => {
 				const newWorkout = await workoutApi.createWorkout(
 					newWorkoutName.trim()
 				);
-
 				// get the updated list of workouts
 				const updatedWorkouts = await workoutApi.getAll();
-
-				// Update the workouts state with the new workout
 				setWorkouts(updatedWorkouts);
-
-				// Reset the new workout name input
 				setNewWorkoutName("");
-
-				// Close the add workout modal
 				setIsAddModalVisible(false);
 			} catch (e) {
-				// Log any errors that occur during the process
 				console.error("Failed to add workout", e);
 			}
 		}
