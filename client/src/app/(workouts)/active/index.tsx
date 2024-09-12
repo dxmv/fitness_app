@@ -1,6 +1,6 @@
 import { Button, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import BoldText from "../../../components/text/BoldText";
 import LightText from "../../../components/text/LightText";
 import { IExerciseSet, IWorkout } from "../../../types";
@@ -12,6 +12,8 @@ const TIMER_CHANGE_INTERVAL = 10;
 const DEFAULT_TIMER_DURATION = 60;
 
 const ActiveWorkoutScreen = () => {
+	const router = useRouter();
+
 	const [activeWorkout, setActiveWorkout] = useState<IWorkout | null>(null);
 	const [sets, setSets] = useState<{ [key: string]: Array<IExerciseSet> }>({});
 	const { workout } = useLocalSearchParams();
@@ -108,6 +110,14 @@ const ActiveWorkoutScreen = () => {
 		});
 	};
 
+	// Function to end the workout
+	const endWorkout = () => {
+		router.push({
+			pathname: "/active/end",
+			params: { workout: JSON.stringify(workout), sets: JSON.stringify(sets) },
+		});
+	};
+
 	if (!activeWorkout) {
 		return <LightText>Loading...</LightText>;
 	}
@@ -125,14 +135,20 @@ const ActiveWorkoutScreen = () => {
 			</View>
 			{activeWorkout.workoutExercises.map((element, index) => (
 				<ActiveWorkoutExercise
-					workoutExercise={element}
 					key={index}
+					workoutExercise={element}
+					sets={sets[element.exercise.name] || []}
+					stopTimer={() => {
+						setIsRunning(false);
+						setTimeLeft(timerDuration);
+					}}
 					onAddSet={addSet}
 					onUpdateSet={updateSet}
 					onDeleteSet={deleteSet}
-					sets={sets[element.exercise.name] || []}
 				/>
 			))}
+			<Button title="End" onPress={endWorkout} />
+
 			<RestTimerModal
 				isTimerModalVisible={isTimerModalVisible}
 				timerDuration={timerDuration}

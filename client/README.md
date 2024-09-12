@@ -12,6 +12,8 @@
   - [x] Delete the workout
   - [x] Add exercises to the workout
   - [x] Remove exercises from the workout with a swipe
+  - [ ] Change the order of the exercises
+  - [ ] Better exercise adding
 
 - [ ] Do a workout
 
@@ -24,6 +26,7 @@
   - [x] Edit the set
   - [x] Remove the set
   - [x] When updating the set, start the rest timer
+  - [x] When the user click on an exercise, show a screen with the exercise details
 
   - [x] Show the rest timer between exercises
   - [x] Start the rest timer
@@ -32,26 +35,42 @@
   - [x] Pause the rest timer
   - [x] Resume the rest timer
   - [ ] Show paused time
+  - [ ] Play a sound or vibration when the rest timer is done
+  - [ ] Show the rest timer in minutes and seconds
 
   - [ ] Pause the workout
   - [ ] Resume the workout
-  - [ ] Stop the workout
-  - [ ] End the workout
-  - [ ] Save the workout
-  - [ ] Share the workout
+  - [x] End the workout
+
+- [ ] End workout screen
+
+  - [ ] Show the exercises done
+  - [ ] Show the total time of the workout
+  - [ ] Show the total weight lifted
+  - [ ] Show the total sets done
+
+  - [ ] Save the workout button
+  - [ ] Share the workout button
+  - [x] Continue button
 
 ## Known issues:
 
 - [x] Fetching a workout with an id above 10 doesn't work
 - [x] Can't add the exercise to the workout with an id above 10
-- [ ] Can start workout without exercises
+- [x] Can start workout without exercises
 - [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
 - [ ] When deleting a workout, the workout list screen is not refreshed
-- [ ] No text on the workout list screen, telling the user that they have no workouts
+- [x] No text on the workout list screen, telling the user that they have no workouts
 - [ ] Login doesn't redirect to the home screen
 - [ ] Can add infinite sets to the workout
 - [ ] Can add sets with 0 reps
 - [ ] Figure out what to do when the user updates the set
+
+## Alerts:
+
+- [ ] Alert the user once rest is over
+- [ ] Alert the user that they can't start the workout without exercises
+- [ ] Alert the user that they can't add an exercise with 0 reps
 
 # Frontend Development Checklist
 

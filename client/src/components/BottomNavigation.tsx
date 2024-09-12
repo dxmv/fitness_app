@@ -31,8 +31,12 @@ const BottomNavigation = () => {
 		};
 	}, []);
 
-	// Don't show bottom nav on auth screens or when keyboard is visible
-	if (segments[0] === "(auth)" || isKeyboardVisible) {
+	// Don't show bottom nav on auth screens, exercise screens or when keyboard is visible
+	if (
+		segments[0] === "(auth)" ||
+		segments[0] === "exercises" ||
+		isKeyboardVisible
+	) {
 		return null;
 	}
 

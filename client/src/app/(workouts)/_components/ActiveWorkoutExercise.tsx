@@ -4,12 +4,15 @@ import {
 	GestureResponderEvent,
 	PanResponder,
 	TextInput,
+	TouchableOpacity,
 	View,
 } from "react-native";
 import BoldText from "../../../components/text/BoldText";
 import { IExerciseSet, IWorkoutExercise } from "../../../types";
 import RegularText from "../../../components/text/RegularText";
 import { useRef, useState } from "react";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useRouter } from "expo-router";
 
 const SetItem = ({
 	index,
@@ -95,12 +98,15 @@ const SetItem = ({
 
 const ActiveWorkoutExercise = ({
 	workoutExercise,
+	sets,
+	stopTimer,
 	onAddSet,
 	onUpdateSet,
 	onDeleteSet,
-	sets,
 }: {
 	workoutExercise: IWorkoutExercise;
+	sets: IExerciseSet[];
+	stopTimer: () => void;
 	onAddSet: (exerciseName: string) => void;
 	onUpdateSet: (
 		exerciseName: string,
@@ -109,11 +115,22 @@ const ActiveWorkoutExercise = ({
 		reps: number
 	) => void;
 	onDeleteSet: (exerciseName: string, index: number) => void;
-	sets: IExerciseSet[];
 }) => {
+	const router = useRouter();
+
+	const handleInfoPress = () => {
+		router.push(`/exercises/${workoutExercise.exercise.id}`);
+		stopTimer();
+	};
+
 	return (
 		<View className="border-b-2 border-dark-black">
-			<BoldText>{workoutExercise.exercise.name}</BoldText>
+			<View className="flex-row justify-between items-center">
+				<BoldText>{workoutExercise.exercise.name}</BoldText>
+				<TouchableOpacity onPress={handleInfoPress}>
+					<AntDesign name="infocirlce" size={16} color="black" />
+				</TouchableOpacity>
+			</View>
 			<View>
 				<View className="flex-row justify-between mb-2">
 					<BoldText className="flex-1 text-center">#</BoldText>

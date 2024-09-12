@@ -57,7 +57,7 @@ const AllWorkouts = () => {
 					<Feather name="plus-circle" size={30} color="#4F46E5" />
 				</TouchableOpacity>
 			</View>
-			{workouts ? (
+			{workouts && workouts.length > 0 ? (
 				<FlatList
 					data={workouts}
 					renderItem={renderWorkoutItem}
@@ -66,7 +66,7 @@ const AllWorkouts = () => {
 					showsVerticalScrollIndicator={false}
 				/>
 			) : (
-				<LightText className="text-center text-gray-600">
+				<LightText className="text-center text-dark-black">
 					No workouts to show
 				</LightText>
 			)}
