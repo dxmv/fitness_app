@@ -58,4 +58,14 @@ export interface IExerciseSet {
 	weight: number;
 }
 
-export interface IRoutine {}
+export interface IRoutine {
+	id: number;
+	name: string;
+	routineExercises: Array<IRoutineExercise>;
+}
+
+export interface IRoutineExercise {
+	id: number;
+	exercise: IExercise;
+	routine: IRoutine;
+}

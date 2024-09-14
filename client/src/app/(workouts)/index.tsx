@@ -52,7 +52,7 @@ const AllWorkouts = () => {
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			<View className="flex-row justify-between items-center mb-4">
-				<BoldText className="text-3xl text-gray-800">Your Workouts</BoldText>
+				<BoldText className="text-3xl text-dark-black">Your Workouts</BoldText>
 				<TouchableOpacity onPress={() => setIsAddModalVisible(true)}>
 					<Feather name="plus-circle" size={30} color="#4F46E5" />
 				</TouchableOpacity>

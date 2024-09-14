@@ -12,10 +12,11 @@
   - [x] Delete the workout
   - [x] Add exercises to the workout
   - [x] Remove exercises from the workout with a swipe
+  - [ ] Click on an exercise to see its details
   - [ ] Change the order of the exercises
   - [ ] Better exercise adding
 
-- [ ] Do a workout
+- [ ] Workout functionality
 
   - [x] Start the workout
   - [x] Show a list of exercises
@@ -46,25 +47,72 @@
 
 - [ ] End workout screen
 
-  - [ ] Show the exercises done
+  - [x] Show the exercises done
   - [ ] Show the total time of the workout
-  - [ ] Show the total weight lifted
-  - [ ] Show the total sets done
+  - [x] Show the total weight lifted
+  - [x] Show the total sets done
 
   - [ ] Save the workout button
   - [ ] Share the workout button
   - [x] Continue button
+
+- [ ] Cleaner code for workouts
+
+  - [ ] Separate into files better
+  - [ ] Cleaner state management
+  - [ ] More comments
+  - [ ] More readable
+
+- [ ] Home screen:
+
+  - [ ] Recent activities
+  - [ ] A weekly calendar with the workouts from the routine
+
+- [ ] Routines screen:
+
+  - [x] Display routines
+  - [ ] Show the active routine
+  - [x] Show other routines
+
+  - [ ] Make routine active
+  - [ ] Change active routine
+
+  - [x] Add a routine
+  - [ ] Remove a routine
+
+- [ ] Single routine screen:
+
+  - [ ] Display the weekly calendar with the workouts
+  - [ ] Re-order workouts in the calendar
+
+  - [ ] Add a workout to the routine
+  - [ ] Remove a workout from the routine
+  - [ ] Re-order workouts in the routine
+
+  - [ ] Make the current routine active
+
+  - [ ] Change the routine name
+  - [ ] Delete the routine
+
+- [ ] Profile screen:
+
+  - [ ] Avatar
+  - [ ] User info
+  - [ ] Stats
+  - [ ] Progress
+
+- [ ] Optimizations:
+
+  - [ ] Use a fetch wrapper for screens to fetch again
+  - [ ] Use a swipe wrapper to wrap items, pass the function to execute when swiping
+
+- [ ] Settings
 
 ## Known issues:
 
 - [x] Fetching a workout with an id above 10 doesn't work
 - [x] Can't add the exercise to the workout with an id above 10
 - [x] Can start workout without exercises
-- [ ] Cleaner code for workouts
-  - [ ] Separate into files better
-  - [ ] Cleaner state management
-  - [ ] More comments
-  - [ ] More readable
 - [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
 - [ ] When deleting a workout, the workout list screen is not refreshed
 - [x] No text on the workout list screen, telling the user that they have no workouts
@@ -73,6 +121,8 @@
 - [ ] Can add sets with 0 reps
 - [ ] Figure out what to do when the user updates the set
 - [ ] Vibration pattern can be changed in settings
+- [ ] Not using text input for routine name
+- [ ] Not using text input for workout name
 
 ## Alerts:
 

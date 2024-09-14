@@ -115,6 +115,7 @@ const WorkoutScreen = () => {
 					/>
 				))
 			)}
+			<View className="mb-10"></View>
 			<Button title="Start Workout" onPress={handleStartWorkout} />
 			<Button title="Delete Workout" onPress={handleDeleteWorkout} />
 			{/* Modal for adding exercises */}
