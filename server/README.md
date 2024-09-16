@@ -1,12 +1,20 @@
 - [ ] Redesign the database
 
-  - [ ] Active routine
-  - [ ] Routines created
-  - [ ] Workout entries
+  - [x] Active routine
+  - [x] Routines created
+  - [x] Workout entries
 
 - [ ] Routine:
 
   - [ ] Initialize routine with the days of the week
+  - [ ] Route to make the routine active/de-active
+
+- [ ] Completed workout:
+  - [ ] Get all for user
+  - [ ] Add 
+  - [ ] Delete
+  - [ ] Clear
+  - [ ] Edit?
 
 - [ ] Script to add exercises to the database
 

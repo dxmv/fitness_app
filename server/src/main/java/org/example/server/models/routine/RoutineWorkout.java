@@ -1,8 +1,10 @@
-package org.example.server.models;
+package org.example.server.models.routine;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.server.models.routine.Routine;
+import org.example.server.models.workout.Workout;
 
 import java.time.DayOfWeek;
 

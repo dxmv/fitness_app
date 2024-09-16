@@ -1,12 +1,9 @@
 package org.example.server.services;
 
-import org.example.server.models.RoutineWorkout;
-import org.example.server.models.Routine;
-import org.example.server.models.User;
-import org.example.server.models.Workout;
+import org.example.server.models.routine.RoutineWorkout;
+import org.example.server.models.routine.Routine;
+import org.example.server.models.workout.Workout;
 import org.example.server.repositories.RoutineWorkoutRepository;
-import org.example.server.repositories.RoutineRepository;
-import org.example.server.repositories.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

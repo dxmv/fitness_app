@@ -1,23 +1,24 @@
-package org.example.server.models;
+package org.example.server.models.routine;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import org.example.server.models.User;
 
 import java.util.List;
 
 @Entity
 @Data
-public class Workout {
+public class Routine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
-    private List<WorkoutExercise> workoutExercises;
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoutineWorkout> weeklySchedule;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -2,7 +2,7 @@ package org.example.server.services;
 
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
-import org.example.server.models.Routine;
+import org.example.server.models.routine.Routine;
 import org.example.server.models.User;
 import org.example.server.repositories.RoutineRepository;
 import org.springframework.beans.factory.annotation.Autowired;

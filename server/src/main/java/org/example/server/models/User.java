@@ -2,6 +2,9 @@ package org.example.server.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.server.models.routine.Routine;
+import org.example.server.models.workout.Workout;
+import org.example.server.models.workout_entries.CompletedWorkout;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,10 +35,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Routine> routines;
 
+    @OneToOne
+    private Routine activeRoutine;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "User_Roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Set<Roles> roles = new HashSet<>();
+
+    // Bidirectional relationship with CompletedWorkout
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CompletedWorkout> completedWorkouts;
 
 }

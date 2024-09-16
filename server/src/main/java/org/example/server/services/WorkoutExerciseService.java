@@ -1,10 +1,8 @@
 package org.example.server.services;
 
-import org.example.server.exceptions.http.BadRequestException;
 import org.example.server.models.Exercise;
-import org.example.server.models.ExerciseSet;
-import org.example.server.models.Workout;
-import org.example.server.models.WorkoutExercise;
+import org.example.server.models.workout.Workout;
+import org.example.server.models.workout.WorkoutExercise;
 import org.example.server.repositories.WorkoutExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,20 +63,6 @@ public class WorkoutExerciseService {
         return workoutExerciseRepository.save(workoutExercise);
     }
 
-//    /**
-//     * Updates an existing workout exercise with new details.
-//     *
-//     * @param exerciseId The ID of the workout exercise to update.
-//     * @param workoutExercise The updated WorkoutExercise details.
-//     * @param workoutId The ID of the workout to which the exercise belongs.
-//     * @return The updated WorkoutExercise object.
-//     * @throws RuntimeException if the exercise or workout is not found or does not match.
-//     */
-//    public WorkoutExercise updateWorkoutExercise(Long exerciseId, WorkoutExercise workoutExercise, Long workoutId) {
-//        // Verify the existence of the exercise and ensure it matches the provided workout
-//
-//        return new WorkoutExercise();
-//    }
 
     /**
      * Deletes a specific workout exercise.
@@ -90,80 +74,5 @@ public class WorkoutExerciseService {
         // Verify the existence of the exercise and ensure it matches the provided workout
         WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
         workoutExerciseRepository.delete(workoutExercise);
-    }
-
-    /**
-     * Retrieves all sets for a specific workout exercise.
-     *
-     * @param workoutExerciseId The ID of the workout exercise.
-     * @return A list of sets associated with the workout exercise.
-     */
-    public List<ExerciseSet> getAllSetsForWorkoutExercise(Long workoutExerciseId) {
-        WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
-        return workoutExercise.getSets();
-    }
-
-    /**
-     * Retrieves a specific set by its index within the workout exercise.
-     *
-     * @param workoutExerciseId The ID of the workout exercise.
-     * @param index The index of the set in the list.
-     * @return The Set object at the specified index.
-     */
-    public ExerciseSet getSetByIndex(Long workoutExerciseId, int index) {
-        WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
-        List<ExerciseSet> sets = workoutExercise.getSets();
-        if (index < 0 || index >= sets.size()) {
-            throw new BadRequestException("Set with index: " + index + ", not found");
-        }
-        return sets.get(index);
-    }
-
-    /**
-     * Adds a new set to a workout exercise.
-     *
-     * @param workoutExerciseId The ID of the workout exercise.
-     * @param set The Set object to add.
-     * @return The updated WorkoutExercise object.
-     */
-    public WorkoutExercise addSet(Long workoutExerciseId, ExerciseSet set) {
-        WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
-        workoutExercise.getSets().add(set);
-        return workoutExerciseRepository.save(workoutExercise);
-    }
-
-    /**
-     * Updates an existing set within a workout exercise.
-     *
-     * @param workoutExerciseId The ID of the workout exercise.
-     * @param index The index of the set in the list.
-     * @param updatedSet The Set object with updated details.
-     * @return The updated Set object.
-     */
-    public ExerciseSet updateSet(Long workoutExerciseId, int index, ExerciseSet updatedSet) {
-        WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
-        List<ExerciseSet> sets = workoutExercise.getSets();
-        if (index < 0 || index >= sets.size()) {
-            throw new BadRequestException("Set with index: " + index + ", not found");
-        }
-        sets.set(index, updatedSet);
-        workoutExerciseRepository.save(workoutExercise);
-        return updatedSet;
-    }
-
-    /**
-     * Deletes a set from a workout exercise.
-     *
-     * @param workoutExerciseId The ID of the workout exercise.
-     * @param index The index of the set to delete in the list.
-     */
-    public void deleteSet(Long workoutExerciseId, int index) {
-        WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
-        List<ExerciseSet> sets = workoutExercise.getSets();
-        if (index < 0 || index >= sets.size()) {
-            throw new BadRequestException("Set with index: " + index + ", not found");
-        }
-        sets.remove(index);
-        workoutExerciseRepository.save(workoutExercise);
     }
 }

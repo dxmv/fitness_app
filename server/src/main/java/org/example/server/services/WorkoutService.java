@@ -3,13 +3,12 @@ package org.example.server.services;
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.User;
-import org.example.server.models.Workout;
+import org.example.server.models.workout.Workout;
 import org.example.server.repositories.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class WorkoutService {

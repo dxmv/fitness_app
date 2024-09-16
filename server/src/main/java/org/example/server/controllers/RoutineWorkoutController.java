@@ -1,6 +1,6 @@
 package org.example.server.controllers;
 
-import org.example.server.models.RoutineWorkout;
+import org.example.server.models.routine.RoutineWorkout;
 import org.example.server.services.RoutineWorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
