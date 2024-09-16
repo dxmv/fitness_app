@@ -33,7 +33,8 @@ public class WorkoutService {
      * @return A list of all workouts.
      */
     public List<Workout> getAllWorkoutsForUser() {
-        return workoutRepository.findAll();
+        User u = userService.getCurrentUser();
+        return workoutRepository.findByUserId(u.getId());
     }
 
     /**
