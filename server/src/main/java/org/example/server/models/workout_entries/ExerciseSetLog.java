@@ -1,5 +1,6 @@
 package org.example.server.models.workout_entries;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class ExerciseSetLog {
     // The completed exercise this set belongs to
     @ManyToOne
     @JoinColumn(name = "completed_exercise_id", nullable = false)
+    @JsonBackReference
     private CompletedExercise completedExercise;
 
     // The number of this set within the exercise

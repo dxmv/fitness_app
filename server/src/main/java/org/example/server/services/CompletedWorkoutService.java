@@ -143,5 +143,30 @@ public class CompletedWorkoutService {
         return setLog;
     }
 
+    /**
+     * Deletes a completed workout by its ID.
+     * 
+     * @param id The ID of the completed workout to delete.
+     * @throws NotFoundException if no completed workout is found with the given ID.
+     * @throws UnauthorizedException if the completed workout does not belong to the user.
+     */
+    public void deleteById(long id) {
+        Optional<CompletedWorkout> cw = completedWorkoutRepository.findById(id);
+        if(cw.isEmpty()){
+            throw new NotFoundException("No completed workout with id: " + id);
+        }
+        if(!belongsToUser(cw.get())){
+            throw new UnauthorizedException("You don't have access to completed workout with id: " + id);
+        }
+        completedWorkoutRepository.deleteById(id);
+    }
 
+    /**
+     * Deletes all completed workouts for the currently authenticated user.
+     */
+    public void deleteAll() {
+        User currentUser = userService.getCurrentUser();
+        List<CompletedWorkout> completedWorkouts = currentUser.getCompletedWorkouts();
+        completedWorkoutRepository.deleteAll(completedWorkouts);
+    }
 }

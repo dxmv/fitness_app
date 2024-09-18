@@ -1,5 +1,6 @@
 package org.example.server.models.workout_entries;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.example.server.models.Exercise;
@@ -21,6 +22,7 @@ public class CompletedExercise {
     // The completed workout this exercise belongs to
     @ManyToOne
     @JoinColumn(name = "completed_workout_id", nullable = false)
+    @JsonBackReference
     private CompletedWorkout completedWorkout;
 
     // The original exercise that was completed

@@ -12,13 +12,15 @@
   - [ ] Route to make the routine active/de-active
 
 - [ ] Completed workout:
+
   - [x] Get all for user
   - [x] Get single
-  - [x] Add 
-  - [ ] Json back reference
-  - [ ] Delete
-  - [ ] Clear
-  - [ ] Edit?
+  - [x] Add
+  - [x] Json back reference
+  - [x] Delete
+  - [x] Clear
+
+- [ ] Delete Response
 
 - [ ] Script to add exercises to the database
 
