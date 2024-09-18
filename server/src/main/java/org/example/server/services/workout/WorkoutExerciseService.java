@@ -1,9 +1,10 @@
-package org.example.server.services;
+package org.example.server.services.workout;
 
 import org.example.server.models.Exercise;
 import org.example.server.models.workout.Workout;
 import org.example.server.models.workout.WorkoutExercise;
 import org.example.server.repositories.WorkoutExerciseRepository;
+import org.example.server.services.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

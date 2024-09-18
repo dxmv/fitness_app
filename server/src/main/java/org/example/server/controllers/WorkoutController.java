@@ -1,7 +1,7 @@
 package org.example.server.controllers;
 
 import org.example.server.models.workout.Workout;
-import org.example.server.services.WorkoutService;
+import org.example.server.services.workout.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

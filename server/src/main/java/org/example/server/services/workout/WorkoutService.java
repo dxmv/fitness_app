@@ -1,10 +1,11 @@
-package org.example.server.services;
+package org.example.server.services.workout;
 
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.User;
 import org.example.server.models.workout.Workout;
 import org.example.server.repositories.WorkoutRepository;
+import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

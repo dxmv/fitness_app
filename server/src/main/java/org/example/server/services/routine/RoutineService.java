@@ -1,10 +1,11 @@
-package org.example.server.services;
+package org.example.server.services.routine;
 
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.routine.Routine;
 import org.example.server.models.User;
 import org.example.server.repositories.RoutineRepository;
+import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

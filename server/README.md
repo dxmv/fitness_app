@@ -3,6 +3,8 @@
   - [x] Active routine
   - [x] Routines created
   - [x] Workout entries
+  - [x] Delete exercise sets
+  - [ ] Add the new fields
 
 - [ ] Routine:
 
@@ -10,13 +12,19 @@
   - [ ] Route to make the routine active/de-active
 
 - [ ] Completed workout:
-  - [ ] Get all for user
-  - [ ] Add 
+  - [x] Get all for user
+  - [x] Get single
+  - [x] Add 
+  - [ ] Json back reference
   - [ ] Delete
   - [ ] Clear
   - [ ] Edit?
 
 - [ ] Script to add exercises to the database
+
+- [ ] Generic method to check if the element belongs to the user
+
+- [ ] Optimize gets
 
 - [ ] Forgot password
 

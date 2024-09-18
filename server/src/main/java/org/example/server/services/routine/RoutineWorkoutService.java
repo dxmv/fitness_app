@@ -1,9 +1,11 @@
-package org.example.server.services;
+package org.example.server.services.routine;
 
 import org.example.server.models.routine.RoutineWorkout;
 import org.example.server.models.routine.Routine;
 import org.example.server.models.workout.Workout;
 import org.example.server.repositories.RoutineWorkoutRepository;
+import org.example.server.services.UserService;
+import org.example.server.services.workout.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
