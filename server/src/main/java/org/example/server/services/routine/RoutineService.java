@@ -4,11 +4,14 @@ import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.routine.Routine;
 import org.example.server.models.User;
+import org.example.server.models.routine.RoutineWorkout;
 import org.example.server.repositories.RoutineRepository;
 import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -65,10 +68,24 @@ public class RoutineService {
      * @param routine The routine to be created.
      * @return The created routine.
      */
-    public Routine createRoutine( Routine routine) {
+    public Routine createRoutine(Routine routine) {
         User user = userService.getCurrentUser();
 
         routine.setUser(user);
+
+        List<RoutineWorkout> weeklySchedule = new ArrayList<>();
+
+        for (DayOfWeek day : DayOfWeek.values()) {
+            RoutineWorkout routineWorkout = new RoutineWorkout();
+            routineWorkout.setDayOfWeek(day);
+            routineWorkout.setRoutine(routine);
+            // We're not setting a workout here, so it remains null
+
+            weeklySchedule.add(routineWorkout);
+        }
+
+        routine.setWeeklySchedule(weeklySchedule);
+
         return routineRepository.save(routine);
     }
 

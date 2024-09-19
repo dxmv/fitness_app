@@ -8,10 +8,12 @@
 
 - [ ] Routine:
 
-  - [ ] Initialize routine with the days of the week
+  - [x] Initialize routine with the days of the week
+  - [ ] Fix add routine workout
+  - [ ] Remove routine workout
   - [ ] Route to make the routine active/de-active
 
-- [ ] Completed workout:
+- [x] Completed workout:
 
   - [x] Get all for user
   - [x] Get single
@@ -19,8 +21,11 @@
   - [x] Json back reference
   - [x] Delete
   - [x] Clear
+  - [x] Date field
 
 - [ ] Delete Response
+
+- [ ] Default pfp for user
 
 - [ ] Script to add exercises to the database
 

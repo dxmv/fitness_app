@@ -25,6 +25,6 @@ public class RoutineWorkout {
     private DayOfWeek dayOfWeek;
 
     @ManyToOne
-    @JoinColumn(name = "workout_id", nullable = false)
+    @JoinColumn(name = "workout_id", nullable = true)
     private Workout workout;
 }

@@ -33,9 +33,8 @@ public class CompletedWorkout {
     private Workout workout;
 
     @Column(nullable = false)
-    private LocalDateTime startTime;
+    private LocalDateTime completedAt;
 
-    private LocalDateTime endTime;
 
     private String notes;
 

@@ -86,8 +86,7 @@ public class CompletedWorkoutService {
         CompletedWorkout completedWorkout = new CompletedWorkout();
         completedWorkout.setUser(currentUser);
         completedWorkout.setWorkout(workout);
-        completedWorkout.setStartTime(LocalDateTime.now()); // Set start time
-        completedWorkout.setEndTime(LocalDateTime.now());   // Set end time (you may want to adjust this)
+        completedWorkout.setCompletedAt(LocalDateTime.now()); // Set the current date
 
         List<CompletedExercise> completedExercises = new ArrayList<>();
 
