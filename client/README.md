@@ -65,8 +65,14 @@
 
 - [ ] Home screen:
 
-  - [ ] Recent activities (show the last 3 workouts & have a button to see more)
+  - [x] Recent activities (show the last 3 workouts & have a button to see more)
   - [ ] A weekly calendar with the workouts from the routine
+
+- [ ] Recent workouts screen:
+
+  - [ ] Fetch all workouts
+  - [ ] Details screen
+  - [ ] Delete the log in the details screen
 
 - [ ] Routines screen:
 

@@ -79,11 +79,14 @@ export interface IRoutineWorkout {
 }
 
 export interface ICompletedWorkout {
-	workoutId: number;
-	exercises: Array<ICompletedExercise>;
+	id: number;
+	workout: IWorkout;
+	completedExercises: Array<ICompletedExercise>;
+	completedAt: string;
 }
 
-interface ICompletedExercise {
-	exerciseId: number;
+export interface ICompletedExercise {
+	exercise: IExercise;
 	sets: Array<IExerciseSet>;
+	orderInWorkout: number;
 }
