@@ -1,5 +1,6 @@
 package org.example.server.controllers;
 
+import org.example.server.models.User;
 import org.example.server.models.routine.Routine;
 import org.example.server.services.routine.RoutineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,27 @@ public class RoutineController {
     @PutMapping("/{routineId}")
     public ResponseEntity<Routine> updateRoutine(@PathVariable Long routineId, @RequestBody Routine routine) {
         return new ResponseEntity<>(routineService.updateRoutine(routineId, routine), HttpStatus.OK);
+    }
+
+    /**
+     * Make routine active
+     *
+     * @param routineId The ID of the routine to make active.
+     * @return ResponseEntity containing the updated user and HTTP status.
+     */
+    @PatchMapping("/activate/{routineId}")
+    public ResponseEntity<User> activateRoutine(@PathVariable Long routineId) {
+        return new ResponseEntity<>(routineService.activateRoutine(routineId), HttpStatus.OK);
+    }
+
+    /**
+     * Deactivate routine
+     *
+     * @return ResponseEntity containing the updated user and HTTP status.
+     */
+    @PatchMapping("/deactivate")
+    public ResponseEntity<User> deactivateRoutine() {
+        return new ResponseEntity<>(routineService.deactivateRoutine(), HttpStatus.OK);
     }
 
     /**

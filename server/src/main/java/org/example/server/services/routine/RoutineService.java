@@ -6,6 +6,7 @@ import org.example.server.models.routine.Routine;
 import org.example.server.models.User;
 import org.example.server.models.routine.RoutineWorkout;
 import org.example.server.repositories.RoutineRepository;
+import org.example.server.repositories.UserRepository;
 import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,13 @@ public class RoutineService {
 
     private final RoutineRepository routineRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RoutineService(RoutineRepository routineRepository, UserService userService) {
+    public RoutineService(RoutineRepository routineRepository, UserService userService, UserRepository userRepository) {
         this.routineRepository = routineRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -115,5 +118,18 @@ public class RoutineService {
         Routine routine = getRoutineById(routineId);
 
         routineRepository.delete(routine);
+    }
+
+    public User activateRoutine(Long routineId){
+        Routine routine = this.getRoutineById(routineId);
+        User current = userService.getCurrentUser();
+        current.setActiveRoutine(routine);
+        return userRepository.save(current);
+    }
+
+    public User deactivateRoutine(){
+        User current = userService.getCurrentUser();
+        current.setActiveRoutine(null);
+        return userRepository.save(current);
     }
 }
