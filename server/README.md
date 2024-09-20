@@ -9,7 +9,7 @@
 - [ ] Routine:
 
   - [x] Initialize routine with the days of the week
-  - [ ] Fix add routine workout
+  - [x] Fix add routine workout
   - [ ] Remove routine workout
   - [ ] Route to make the routine active/de-active
 
