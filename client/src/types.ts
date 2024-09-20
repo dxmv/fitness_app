@@ -54,18 +54,29 @@ export interface IExercise {
 }
 
 export interface IExerciseSet {
-	repCount: number;
+	reps: number;
 	weight: number;
 }
 
 export interface IRoutine {
 	id: number;
 	name: string;
-	routineExercises: Array<IRoutineExercise>;
+	weeklySchedule: Array<IRoutineExercise>;
 }
 
 export interface IRoutineExercise {
 	id: number;
 	exercise: IExercise;
 	routine: IRoutine;
+	dayOfWeek: string;
+}
+
+export interface ICompletedWorkout {
+	workoutId: number;
+	exercises: Array<ICompletedExercise>;
+}
+
+interface ICompletedExercise {
+	exerciseId: number;
+	sets: Array<IExerciseSet>;
 }

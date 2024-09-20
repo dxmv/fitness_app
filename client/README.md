@@ -82,6 +82,8 @@
 
 - [ ] Single routine screen:
 
+  - [x] Fetch the routine
+
   - [ ] Display the weekly calendar with the workouts
   - [ ] Re-order workouts in the calendar
 
@@ -113,6 +115,7 @@
 - [x] Fetching a workout with an id above 10 doesn't work
 - [x] Can't add the exercise to the workout with an id above 10
 - [x] Can start workout without exercises
+- [ ] When adding an exercise to a workout, add the order
 - [ ] When adding an exercise to a workout, we need to restart the app to see the exercise in the list
 - [ ] When deleting a workout, the workout list screen is not refreshed
 - [x] No text on the workout list screen, telling the user that they have no workouts

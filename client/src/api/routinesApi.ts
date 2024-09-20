@@ -32,7 +32,22 @@ const createRoutine = async (name: string): Promise<IRoutine> =>
 		body: JSON.stringify({ name }),
 	});
 
+/**
+ * Returns a routine by its ID
+ * @param {string} id - The ID of the routine to get
+ * @returns {Promise<IRoutine>} - The routine
+ */
+const getRoutineById = async (id: string): Promise<IRoutine> =>
+	await fetchApi(`${API_URL}/${id}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getAllRoutines,
 	createRoutine,
+	getRoutineById,
 };

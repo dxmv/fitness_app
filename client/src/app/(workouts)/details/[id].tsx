@@ -41,7 +41,7 @@ const WorkoutScreen = () => {
 		const getWorkout = async () => {
 			try {
 				const res = await workoutApi.getById(id.toString());
-				setWorkout(res);
+				await setWorkout(res);
 			} catch (e) {
 				console.log(e);
 			}
@@ -50,7 +50,7 @@ const WorkoutScreen = () => {
 		const getAllExercises = async () => {
 			try {
 				const res = await exerciseApi.getAll();
-				setExercises(res);
+				await setExercises(res);
 			} catch (e) {
 				console.log(e);
 			}

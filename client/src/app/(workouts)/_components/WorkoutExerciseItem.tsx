@@ -60,13 +60,6 @@ const WorkoutExerciseItem: React.FC<WorkoutExerciseItemProps> = ({
 			{...panResponder.panHandlers} // Attach the pan responder handlers
 		>
 			<LightText>{workoutExercise.exercise.name}</LightText>
-			{workoutExercise.sets.map((set, index) => (
-				<View key={index}>
-					<LightText>
-						Set {index + 1}: {set.repCount} reps, {set.weight} kg
-					</LightText>
-				</View>
-			))}
 		</Animated.View>
 	);
 };

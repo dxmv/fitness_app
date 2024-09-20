@@ -17,20 +17,20 @@ import { useRouter } from "expo-router";
 const SetItem = ({
 	index,
 	set,
-	exerciseName,
+	exerciseId,
 	onUpdateSet,
 	onDeleteSet,
 }: {
 	index: number;
 	set: IExerciseSet;
-	exerciseName: string;
+	exerciseId: number;
 	onUpdateSet: (
-		exerciseName: string,
+		exerciseId: number,
 		index: number,
 		weight: number,
 		reps: number
 	) => void;
-	onDeleteSet: (exerciseName: string, index: number) => void;
+	onDeleteSet: (exerciseId: number, index: number) => void;
 }) => {
 	const translateX = new Animated.Value(0);
 	const panResponder = useRef(
@@ -52,7 +52,7 @@ const SetItem = ({
 						duration: 300,
 						useNativeDriver: true,
 					}).start(() => {
-						onDeleteSet(exerciseName, index);
+						onDeleteSet(exerciseId, index);
 					});
 				} else {
 					Animated.spring(translateX, {
@@ -64,7 +64,7 @@ const SetItem = ({
 		})
 	).current;
 	const [weight, setWeight] = useState(set.weight);
-	const [reps, setReps] = useState(set.repCount);
+	const [reps, setReps] = useState(set.reps);
 
 	return (
 		<Animated.View
@@ -89,7 +89,7 @@ const SetItem = ({
 			<Button
 				title="U"
 				onPress={() => {
-					onUpdateSet(exerciseName, index, weight, reps);
+					onUpdateSet(exerciseId, index, weight, reps);
 				}}
 			/>
 		</Animated.View>
@@ -107,14 +107,14 @@ const ActiveWorkoutExercise = ({
 	workoutExercise: IWorkoutExercise;
 	sets: IExerciseSet[];
 	stopTimer: () => void;
-	onAddSet: (exerciseName: string) => void;
+	onAddSet: (exerciseId: number) => void;
 	onUpdateSet: (
-		exerciseName: string,
+		exerciseId: number,
 		index: number,
 		weight: number,
 		reps: number
 	) => void;
-	onDeleteSet: (exerciseName: string, index: number) => void;
+	onDeleteSet: (exerciseId: number, index: number) => void;
 }) => {
 	const router = useRouter();
 
@@ -144,14 +144,14 @@ const ActiveWorkoutExercise = ({
 					key={index}
 					index={index}
 					set={set}
-					exerciseName={workoutExercise.exercise.name}
+					exerciseId={workoutExercise.exercise.id}
 					onUpdateSet={onUpdateSet}
 					onDeleteSet={onDeleteSet}
 				/>
 			))}
 			<Button
 				title="Add set"
-				onPress={() => onAddSet(workoutExercise.exercise.name)}
+				onPress={() => onAddSet(workoutExercise.exercise.id)}
 			/>
 		</View>
 	);

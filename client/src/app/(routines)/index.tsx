@@ -13,6 +13,7 @@ import LightText from "../../components/text/LightText";
 import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
 import RegularText from "../../components/text/RegularText";
+import { Link } from "expo-router";
 
 const RoutinesScreen = () => {
 	// State to hold the list of routines
@@ -41,9 +42,9 @@ const RoutinesScreen = () => {
 	};
 
 	const renderRoutineItem = ({ item }: { item: IRoutine }) => (
-		<View>
+		<Link href={`/(routines)/details/${item.id}`}>
 			<RegularText>{item.name}</RegularText>
-		</View>
+		</Link>
 	);
 
 	return (

@@ -3,6 +3,7 @@ import BoldText from "../../../components/text/BoldText";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { IExerciseSet, IWorkout } from "../../../types";
 import RegularText from "../../../components/text/RegularText";
+import workoutLogApi from "../../../api/workoutLogApi";
 
 // Screen that shows when the workout is finished
 export default function End() {
@@ -12,11 +13,27 @@ export default function End() {
 		sets: string;
 	}>();
 
-	const parsedWorkout: IWorkout = JSON.parse(workout);
+	const parsedWorkout: any = JSON.parse(workout);
 	const parsedSets: Record<string, IExerciseSet[]> = JSON.parse(sets);
 
-	const handleSaveWorkout = () => {
-		console.log("save workout", parsedWorkout, parsedSets);
+	// Function to handle saving the workout data
+	const handleSaveWorkout = async () => {
+		const finalWorkout = {
+			workoutId: parsedWorkout.id,
+			exercises: Object.entries(parsedSets).map(([exerciseId, sets]) => ({
+				exerciseId: parseInt(exerciseId, 10),
+				sets: sets.map(({ weight, reps }) => ({ weight, reps })),
+				orderInWorkout: 0,
+			})),
+		};
+		console.log("finalWorkout", finalWorkout.exercises[0].sets);
+		try {
+			const response = await workoutLogApi.completeWorkout(finalWorkout);
+			console.log("response", response);
+		} catch (error) {
+			console.log("error", error);
+		}
+		handleContinueWorkout();
 	};
 
 	const handleContinueWorkout = () => {

@@ -19,8 +19,8 @@ const ActiveWorkoutScreen = () => {
 	const router = useRouter();
 
 	const [activeWorkout, setActiveWorkout] = useState<IWorkout | null>(null);
-	const [sets, setSets] = useState<{ [key: string]: Array<IExerciseSet> }>({});
-	const { workout } = useLocalSearchParams();
+	const [sets, setSets] = useState<{ [key: number]: Array<IExerciseSet> }>({});
+	const { workout } = useLocalSearchParams<{ workout: string }>();
 	// rest timer
 	const [isTimerModalVisible, setIsTimerModalVisible] =
 		useState<boolean>(false);
@@ -39,7 +39,7 @@ const ActiveWorkoutScreen = () => {
 					await setSets(prevSets => {
 						return {
 							...prevSets,
-							[exercise.exercise.name]: [],
+							[exercise.exercise.id]: [],
 						};
 					});
 				}
@@ -72,13 +72,13 @@ const ActiveWorkoutScreen = () => {
 	}, [isRunning, timeLeft]);
 
 	// Function to add a new set for a specific exercise
-	const addSet = (exerciseName: string) => {
+	const addSet = (exerciseId: number) => {
 		setSets(prevSets => {
-			const newSet: IExerciseSet = { weight: 0, repCount: 0 }; // Initialize with default values
+			const newSet: IExerciseSet = { weight: 0, reps: 0 }; // Initialize with default values
 			return {
 				...prevSets,
-				[exerciseName]: prevSets[exerciseName]
-					? [...prevSets[exerciseName], newSet]
+				[exerciseId]: prevSets[exerciseId]
+					? [...prevSets[exerciseId], newSet]
 					: [newSet],
 			};
 		});
@@ -86,17 +86,17 @@ const ActiveWorkoutScreen = () => {
 
 	// Function to update an existing set for a specific exercise
 	const updateSet = (
-		exerciseName: string,
+		id: number,
 		index: number,
 		weight: number,
-		repCount: number
+		reps: number
 	) => {
 		setSets(prevSets => {
-			const updatedSets = [...prevSets[exerciseName]];
-			updatedSets[index] = { weight, repCount };
+			const updatedSets = [...prevSets[id]];
+			updatedSets[index] = { weight, reps };
 			return {
 				...prevSets,
-				[exerciseName]: updatedSets,
+				[id]: updatedSets,
 			};
 		});
 		// start the rest timer
@@ -105,13 +105,13 @@ const ActiveWorkoutScreen = () => {
 	};
 
 	// Function to delete a specific set for an exercise
-	const deleteSet = (exerciseName: string, index: number) => {
+	const deleteSet = (id: number, index: number) => {
 		setSets(prevSets => {
-			const updatedSets = [...prevSets[exerciseName]];
+			const updatedSets = [...prevSets[id]];
 			updatedSets.splice(index, 1);
 			return {
 				...prevSets,
-				[exerciseName]: updatedSets,
+				[id]: updatedSets,
 			};
 		});
 	};
@@ -120,7 +120,7 @@ const ActiveWorkoutScreen = () => {
 	const endWorkout = () => {
 		router.push({
 			pathname: "/active/end",
-			params: { workout: JSON.stringify(workout), sets: JSON.stringify(sets) },
+			params: { workout: workout, sets: JSON.stringify(sets) },
 		});
 	};
 
@@ -143,7 +143,7 @@ const ActiveWorkoutScreen = () => {
 				<ActiveWorkoutExercise
 					key={index}
 					workoutExercise={element}
-					sets={sets[element.exercise.name] || []}
+					sets={sets[element.exercise.id] || []}
 					stopTimer={() => {
 						setIsRunning(false);
 						setTimeLeft(timerDuration);
