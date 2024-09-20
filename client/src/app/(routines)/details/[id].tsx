@@ -5,6 +5,7 @@ import routinesApi from "../../../api/routinesApi";
 import { IRoutine } from "../../../types";
 import LightText from "../../../components/text/LightText";
 import BoldText from "../../../components/text/BoldText";
+import WeeklyScheduleRoutine from "../../../components/WeeklyScheduleRoutine";
 
 const SingleRoutineScreen = () => {
 	const [routine, setRoutine] = useState<IRoutine | null>(null);
@@ -22,15 +23,10 @@ const SingleRoutineScreen = () => {
 		return <LightText>Loading...</LightText>;
 	}
 
-	console.log(Object.entries(routine.weeklySchedule));
-
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
-			<BoldText>{routine.name}</BoldText>
-			<FlatList
-				data={routine.weeklySchedule}
-				renderItem={({ item }) => <Text>{item.dayOfWeek}</Text>}
-			/>
+			<BoldText className="text-3xl text-dark-black">{routine.name}</BoldText>
+			<WeeklyScheduleRoutine weeklySchedule={routine.weeklySchedule} />
 		</View>
 	);
 };

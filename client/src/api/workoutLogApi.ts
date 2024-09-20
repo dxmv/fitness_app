@@ -1,3 +1,4 @@
+import { ICompletedWorkout } from "../types";
 import secureStorage from "../utils/secureStorage";
 import fetchApi from "./fetchApi";
 
@@ -28,6 +29,20 @@ const completeWorkout = async (workoutData: {
 		body: JSON.stringify(workoutData),
 	});
 
+/**
+ * Get all completed workouts
+ * @returns {Promise<ICompletedWorkout[]>} - An array of completed workouts.
+ */
+const getCompletedWorkouts = async (): Promise<ICompletedWorkout[]> =>
+	await fetchApi(`${API_URL}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	completeWorkout,
+	getCompletedWorkouts,
 };

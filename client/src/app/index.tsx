@@ -1,20 +1,32 @@
 import { View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "expo-router/entry";
 import { Link } from "expo-router";
 import BoldText from "../components/text/BoldText";
+import { ICompletedWorkout } from "../types";
+import workoutLogApi from "../api/workoutLogApi";
+import LightText from "../components/text/LightText";
 
-const index = () => {
+const HomeScreen = () => {
+	const [recentWorkouts, setRecentWorkouts] = useState<ICompletedWorkout[]>([]);
+
+	useEffect(() => {
+		const fetchRecentWorkouts = async () => {
+			const workouts = await workoutLogApi.getCompletedWorkouts();
+			setRecentWorkouts(workouts);
+		};
+		fetchRecentWorkouts();
+	}, []);
+
 	return (
-		<View>
+		<View className="flex-1 bg-gray-100 p-4">
 			<BoldText>Welcome</BoldText>
-			<Link href="/(auth)/login">Go to Login</Link>
-			<Link href="/(auth)/login">Go to Register</Link>
-			<Link href="/(user)/profile">Go to User Profile</Link>
-			<Link href="/exercises/1">Go to Exercise</Link>
-			<Link href="/(workouts)/all">Go to Workout</Link>
+			<View>
+				<BoldText>Recent workouts</BoldText>
+				<LightText>Show all</LightText>
+			</View>
 		</View>
 	);
 };
 
-export default index;
+export default HomeScreen;

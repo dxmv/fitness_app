@@ -52,7 +52,7 @@
   - [x] Show the total weight lifted
   - [x] Show the total sets done
 
-  - [ ] Save the workout button
+  - [x] Save the workout button
   - [ ] Share the workout button
   - [x] Continue button
 
@@ -65,7 +65,7 @@
 
 - [ ] Home screen:
 
-  - [ ] Recent activities
+  - [ ] Recent activities (show the last 3 workouts & have a button to see more)
   - [ ] A weekly calendar with the workouts from the routine
 
 - [ ] Routines screen:
@@ -84,7 +84,7 @@
 
   - [x] Fetch the routine
 
-  - [ ] Display the weekly calendar with the workouts
+  - [x] Display the weekly calendar with the workouts
   - [ ] Re-order workouts in the calendar
 
   - [ ] Add a workout to the routine

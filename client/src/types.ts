@@ -3,6 +3,14 @@ export interface ITextInput {
 	errorMessage: string;
 }
 
+export type DayOfWeek =
+	| "MONDAY"
+	| "TUESDAY"
+	| "WEDNESDAY"
+	| "THURSDAY"
+	| "FRIDAY"
+	| "SATURDAY"
+	| "SUNDAY";
 export type IUserRole = "ADMIN" | "USER";
 export enum MuscleGroup {
 	CHEST = "CHEST",
@@ -61,14 +69,13 @@ export interface IExerciseSet {
 export interface IRoutine {
 	id: number;
 	name: string;
-	weeklySchedule: Array<IRoutineExercise>;
+	weeklySchedule: Array<IRoutineWorkout>;
 }
 
-export interface IRoutineExercise {
+export interface IRoutineWorkout {
 	id: number;
-	exercise: IExercise;
-	routine: IRoutine;
-	dayOfWeek: string;
+	workout: IWorkout | null;
+	dayOfWeek: DayOfWeek;
 }
 
 export interface ICompletedWorkout {
