@@ -95,7 +95,7 @@ const WorkoutScreen = () => {
 	};
 
 	return (
-		<View className="flex-1 bg-gray-100 p-4">
+		<View className="flex-1 bg-light-gray p-4">
 			{/* Workout header */}
 			<View className="flex-row justify-between items-center mb-4">
 				<BoldText className="text-3xl text-gray-800">{workout.name}</BoldText>

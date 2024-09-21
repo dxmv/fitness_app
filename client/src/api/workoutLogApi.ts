@@ -42,7 +42,22 @@ const getCompletedWorkouts = async (): Promise<ICompletedWorkout[]> =>
 		},
 	});
 
+/**
+ * Delete a workout log
+ * @param {number} workoutId - The ID of the workout to delete.
+ * @returns {Promise<any>} - The response from the API.
+ */
+const deleteWorkoutLog = async (workoutId: number): Promise<any> =>
+	await fetchApi(`${API_URL}/${workoutId}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	completeWorkout,
 	getCompletedWorkouts,
+	deleteWorkoutLog,
 };

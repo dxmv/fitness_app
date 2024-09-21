@@ -87,6 +87,6 @@ export interface ICompletedWorkout {
 
 export interface ICompletedExercise {
 	exercise: IExercise;
-	sets: Array<IExerciseSet>;
+	exerciseSetLogs: Array<IExerciseSet>;
 	orderInWorkout: number;
 }

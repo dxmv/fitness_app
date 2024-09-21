@@ -68,11 +68,11 @@
   - [x] Recent activities (show the last 3 workouts & have a button to see more)
   - [ ] A weekly calendar with the workouts from the routine
 
-- [ ] Recent workouts screen:
+- [x] Recent workouts screen:
 
-  - [ ] Fetch all workouts
-  - [ ] Details screen
-  - [ ] Delete the log in the details screen
+  - [x] Fetch all workouts
+  - [x] Details modal
+  - [x] Delete the log in the details screen
 
 - [ ] Routines screen:
 
@@ -81,7 +81,7 @@
   - [x] Show other routines
 
   - [ ] Make routine active
-  - [ ] Change active routine
+  - [ ] Deactivate the routine
 
   - [x] Add a routine
   - [ ] Remove a routine
@@ -113,6 +113,12 @@
 
   - [ ] Use a fetch wrapper for screens to fetch again
   - [ ] Use a swipe wrapper to wrap items, pass the function to execute when swiping
+
+- [ ] Exercise screen:
+
+  - [ ] Show the gif
+  - [ ] Show 4 videos
+  - [ ] Show the progression chart
 
 - [ ] Settings
 

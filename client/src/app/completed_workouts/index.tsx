@@ -6,41 +6,63 @@ import { ICompletedWorkout } from "../../types";
 import RegularText from "../../components/text/RegularText";
 import LightText from "../../components/text/LightText";
 import ReusableModal from "../../components/MyModal";
+import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
 
 const CompletedWorkoutsScreen = () => {
+	// State to hold completed workouts
 	const [completedWorkouts, setCompletedWorkouts] = useState<
 		ICompletedWorkout[]
 	>([]);
 
+	// State to manage the currently selected workout log for the modal
 	const [modalLog, setModalLog] = useState<ICompletedWorkout | null>(null);
+	// State to control the visibility of the modal
 	const [showModal, setShowModal] = useState<boolean>(false);
 
+	// Function to fetch recent completed workouts from the API
+	const fetchRecentWorkouts = async () => {
+		const workouts = await workoutLogApi.getCompletedWorkouts();
+		setCompletedWorkouts(workouts); // Update state with fetched workouts
+	};
+
+	// useEffect to fetch workouts when the component mounts
 	useEffect(() => {
-		const fetchRecentWorkouts = async () => {
-			const workouts = await workoutLogApi.getCompletedWorkouts();
-			setCompletedWorkouts(workouts);
-		};
 		fetchRecentWorkouts();
 	}, []);
 
+	// Function to show the workout log in a modal
 	const handleShowWorkoutLog = (workout: ICompletedWorkout) => {
-		setModalLog(workout);
-		console.log("workout", workout);
-		setShowModal(true);
+		setModalLog(workout); // Set the selected workout log
+		setShowModal(true); // Show the modal
+	};
+
+	// Function to delete a workout log
+	const handleDeleteWorkout = async (workout: ICompletedWorkout) => {
+		try {
+			await workoutLogApi.deleteWorkoutLog(workout.id); // Call API to delete the workout
+			await fetchRecentWorkouts(); // Refresh the list of workouts
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			<BoldText>Completed workouts</BoldText>
 			{completedWorkouts.map(workout => (
-				<TouchableOpacity
+				<RightSwipeWrapper
 					key={workout.id}
-					className="flex-row justify-between"
-					onPress={() => handleShowWorkoutLog(workout)}
+					onRightSwipe={() => {
+						handleDeleteWorkout(workout);
+					}}
 				>
-					<RegularText>{workout.workout.name}</RegularText>
-					<LightText>{workout.completedAt}</LightText>
-				</TouchableOpacity>
+					<View className="flex-row justify-between">
+						<TouchableOpacity onPress={() => handleShowWorkoutLog(workout)}>
+							<RegularText>{workout.workout.name}</RegularText>
+							<LightText>{workout.completedAt}</LightText>
+						</TouchableOpacity>
+					</View>
+				</RightSwipeWrapper>
 			))}
 			{showModal && modalLog && (
 				<ReusableModal
@@ -55,10 +77,19 @@ const CompletedWorkoutsScreen = () => {
 								className="flex-row justify-between"
 							>
 								<RegularText>{completedExercise.exercise.name}</RegularText>
+								{completedExercise.exerciseSetLogs.map((set, index) => (
+									<View key={index} className="flex-row">
+										<RegularText>
+											{set.reps} reps x {set.weight} kg
+										</RegularText>
+									</View>
+								))}
 							</View>
 						))}
 					</View>
-					<RegularText>Completed at: {modalLog.completedAt}</RegularText>
+					<RegularText>
+						Completed at: {modalLog.completedAt.slice(0, 10)}
+					</RegularText>
 				</ReusableModal>
 			)}
 		</View>
