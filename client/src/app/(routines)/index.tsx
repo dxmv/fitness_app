@@ -14,10 +14,12 @@ import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
 import RegularText from "../../components/text/RegularText";
 import { Link } from "expo-router";
+import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
 
 const RoutinesScreen = () => {
 	// State to hold the list of routines
 	const [routines, setRoutines] = useState<Array<IRoutine>>([]);
+	const [activeRoutine, setActiveRoutine] = useState<IRoutine | null>(null);
 	// State to control the visibility of the add routine modal
 	const [isAddModalVisible, setIsAddModalVisible] = useState<boolean>(false);
 	// State to hold the name of the new routine being added
@@ -42,9 +44,15 @@ const RoutinesScreen = () => {
 	};
 
 	const renderRoutineItem = ({ item }: { item: IRoutine }) => (
-		<Link href={`/(routines)/details/${item.id}`}>
-			<RegularText>{item.name}</RegularText>
-		</Link>
+		<RightSwipeWrapper
+			onRightSwipe={() => {
+				console.log("delete");
+			}}
+		>
+			<Link href={`/(routines)/details/${item.id}`}>
+				<RegularText>{item.name}</RegularText>
+			</Link>
+		</RightSwipeWrapper>
 	);
 
 	return (
@@ -55,19 +63,19 @@ const RoutinesScreen = () => {
 					<Feather name="plus-circle" size={30} color="#4F46E5" />
 				</TouchableOpacity>
 			</View>
-			<Text>
-				{routines.length === 0 ? (
-					<LightText>No routines to show</LightText>
-				) : (
-					<FlatList
-						data={routines}
-						renderItem={renderRoutineItem}
-						keyExtractor={item => item.id.toString()}
-						contentContainerStyle={{ paddingBottom: 100 }}
-						showsVerticalScrollIndicator={false}
-					/>
-				)}
-			</Text>
+			<BoldText>Active Routine</BoldText>
+			{/* {renderRoutineItem()} */}
+			{routines.length === 0 ? (
+				<LightText>No routines to show</LightText>
+			) : (
+				<FlatList
+					data={routines}
+					renderItem={renderRoutineItem}
+					keyExtractor={item => item.id.toString()}
+					contentContainerStyle={{ paddingBottom: 100 }}
+					showsVerticalScrollIndicator={false}
+				/>
+			)}
 			<ReusableModal
 				isVisible={isAddModalVisible}
 				onClose={() => setIsAddModalVisible(false)}

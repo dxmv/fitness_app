@@ -32,10 +32,6 @@ const WeeklyScheduleRoutine = ({
 					</View>
 				))}
 			</View>
-			<View>
-				<Button title="Make active" />
-				<Button title="Delete" />
-			</View>
 		</View>
 	);
 };

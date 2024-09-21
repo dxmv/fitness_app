@@ -1,4 +1,4 @@
-import { IRoutine } from "../types";
+import { IRoutine, IUser } from "../types";
 import secureStorage from "../utils/secureStorage";
 import fetchApi from "./fetchApi";
 
@@ -46,8 +46,39 @@ const getRoutineById = async (id: string): Promise<IRoutine> =>
 		},
 	});
 
+/**
+ * Deletes a routine by its ID
+ * @param {string} id - The ID of the routine to delete
+ * @returns {Promise<void>} - The routine
+ */
+const deleteRoutine = async (id: number): Promise<void> =>
+	await fetchApi(`${API_URL}/${id}`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
+/**
+ * Make routine active by its ID
+ * @param {string} id - The ID of the routine to make active
+ * @returns {Promise<IUser>} - The user
+ */
+
+const activateRoutine = async (id: number): Promise<IUser> =>
+	await fetchApi(`${API_URL}/activate/${id}`, {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getAllRoutines,
 	createRoutine,
 	getRoutineById,
+	deleteRoutine,
+	activateRoutine,
 };

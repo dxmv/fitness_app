@@ -66,6 +66,7 @@
 - [ ] Home screen:
 
   - [x] Recent activities (show the last 3 workouts & have a button to see more)
+  - [ ] Weekly calendar that shows whether the user has workouts for that day
   - [ ] A weekly calendar with the workouts from the routine
 
 - [x] Recent workouts screen:
@@ -97,10 +98,11 @@
   - [ ] Remove a workout from the routine
   - [ ] Re-order workouts in the routine
 
-  - [ ] Make the current routine active
+  - [x] Make the current routine active
+  - [ ] Deactivate the routine
 
   - [ ] Change the routine name
-  - [ ] Delete the routine
+  - [x] Delete the routine
 
 - [ ] Profile screen:
 
@@ -122,6 +124,12 @@
 
 - [ ] Settings
 
+- [ ] Other:
+  - [ ] Loading screen
+  - [ ] Error screen
+  - [ ] Offline mode
+  - [ ] Wrap where needed with swipe wrapper
+
 ## Known issues:
 
 - [x] Fetching a workout with an id above 10 doesn't work
@@ -138,6 +146,7 @@
 - [ ] Vibration pattern can be changed in settings
 - [ ] Not using text input for routine name
 - [ ] Not using text input for workout name
+- [ ] When swiping delete show a confirmation modal
 
 ## Alerts:
 

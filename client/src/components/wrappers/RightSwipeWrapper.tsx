@@ -1,7 +1,6 @@
 // This wrapper component is designed to provide a right swipe functionality for its children components.
 import {
 	View,
-	Text,
 	ViewStyle,
 	PanResponder,
 	GestureResponderEvent,
@@ -43,7 +42,7 @@ const RightSwipeWrapper: React.FC<RightSwipeWrapperProps> = ({
 						duration: 300,
 						useNativeDriver: true,
 					}).start(() => {
-						onRightSwipe(); // Call the delete function
+						onRightSwipe(); // Call the onRightSwipe function
 					});
 				} else {
 					// Otherwise, snap back to original position
@@ -55,10 +54,12 @@ const RightSwipeWrapper: React.FC<RightSwipeWrapperProps> = ({
 			},
 		})
 	).current;
+
 	return (
 		<Animated.View
-			style={{ transform: [{ translateX }] }} // Apply the animated translation
+			style={{ transform: [{ translateX }], ...style }} // Apply the animated translation
 			{...panResponder.panHandlers} // Attach the pan responder handlers
+			className="w-full"
 		>
 			{children}
 		</Animated.View>
