@@ -6,6 +6,7 @@ const LightText = ({ children, className, ...props }: TextProps) => {
 		<Text
 			style={{ fontFamily: "Poppins-Light" }}
 			className={`${className} font-light`}
+			{...props}
 		>
 			{children}
 		</Text>

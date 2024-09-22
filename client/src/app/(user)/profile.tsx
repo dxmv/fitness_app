@@ -8,6 +8,7 @@ import LightText from "../../components/text/LightText";
 import CustomAvatar from "../../components/CustomAvatar";
 import Feather from "@expo/vector-icons/Feather";
 import secureStorage from "../../utils/secureStorage";
+import Loading from "../../components/Loading";
 
 const profile = () => {
 	// State to store user data
@@ -30,13 +31,8 @@ const profile = () => {
 
 	const toggleDropdown = () => setIsVisible(prev => !prev);
 
-	// If user data is still loading, you can display a loading indicator or message
 	if (!user) {
-		return (
-			<View>
-				<RegularText>Loading...</RegularText>
-			</View>
-		);
+		return <Loading />;
 	}
 
 	return (

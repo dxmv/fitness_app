@@ -9,7 +9,7 @@ const CustomLink = ({
 	...props
 }: { href: string } & LinkProps<string>) => {
 	return (
-		<TouchableOpacity>
+		<TouchableOpacity className="flex justify-center items-center">
 			<Link href={href} className={className} {...props}>
 				{children}
 			</Link>

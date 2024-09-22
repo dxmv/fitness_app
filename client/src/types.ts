@@ -90,3 +90,9 @@ export interface ICompletedExercise {
 	exerciseSetLogs: Array<IExerciseSet>;
 	orderInWorkout: number;
 }
+
+export interface IErrorResponse {
+	statusCode: number;
+	message: string;
+	description: string;
+}
