@@ -1,5 +1,6 @@
 package org.example.server.services.workout;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.models.Exercise;
 import org.example.server.models.workout.Workout;
 import org.example.server.models.workout.WorkoutExercise;
@@ -71,9 +72,10 @@ public class WorkoutExerciseService {
      * @param workoutExerciseId The ID of the workout exercise to delete.
      * @throws RuntimeException if the exercise or workout is not found or does not match.
      */
-    public void deleteWorkoutExercise(Long workoutExerciseId) {
+    public DeleteResponse deleteWorkoutExercise(Long workoutExerciseId) {
         // Verify the existence of the exercise and ensure it matches the provided workout
         WorkoutExercise workoutExercise = getWorkoutExerciseById(workoutExerciseId);
         workoutExerciseRepository.delete(workoutExercise);
+        return new DeleteResponse("Successfully removed the workout exercise with id: " + workoutExerciseId);
     }
 }

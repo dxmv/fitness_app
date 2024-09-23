@@ -1,5 +1,6 @@
 package org.example.server.services.routine;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.routine.Routine;
@@ -113,11 +114,12 @@ public class RoutineService {
      * @param routineId The ID of the routine to delete.
      * @throws IllegalArgumentException if the routine is not found.
      */
-    public void deleteRoutine(Long routineId) {
+    public DeleteResponse deleteRoutine(Long routineId) {
         // returns the routine only if it exists & belongs to the current user
         Routine routine = getRoutineById(routineId);
 
         routineRepository.delete(routine);
+        return new DeleteResponse("Successfully deleted the routine with id: " + routineId);
     }
 
     public User activateRoutine(Long routineId){

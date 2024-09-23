@@ -1,5 +1,6 @@
 package org.example.server.controllers;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.models.User;
 import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +73,7 @@ public class UsersController {
      * @return HTTP status indicating the result of the operation.
      */
     @DeleteMapping("/current")
-    public ResponseEntity<Void> deleteUser() {
-        userService.deleteCurrentUser();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<DeleteResponse> deleteUser() {
+        return new ResponseEntity<>(userService.deleteCurrentUser(),HttpStatus.OK);
     }
 }

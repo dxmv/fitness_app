@@ -1,5 +1,6 @@
 package org.example.server.services;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.models.Exercise;
 import org.example.server.repositories.ExerciseRepository;
@@ -64,8 +65,9 @@ public class ExerciseService {
      * @param id The ID of the exercise to delete.
      * @return True if the exercise was deleted, false otherwise.
      */
-    public void deleteExercise(Long id) {
+    public DeleteResponse deleteExercise(Long id) {
         Exercise toDelete = getExerciseById(id);
         exerciseRepository.deleteById(id);
+        return new DeleteResponse("Successfully deleted the exercise with id: " + id);
     }
 }

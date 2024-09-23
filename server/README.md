@@ -11,7 +11,8 @@
   - [x] Initialize routine with the days of the week
   - [x] Fix add routine workout
   - [ ] Remove routine workout
-  - [ ] Route to make the routine active/de-active
+  - [x] Route to make the routine active/de-active
+  - [ ] Field that tracks if the routine is active (boolean)
 
 - [x] Completed workout:
 
@@ -32,6 +33,10 @@
 - [ ] Generic method to check if the element belongs to the user
 
 - [ ] Optimize gets
+
+- [ ] Cleaner code & better file structure
+
+- [ ] Compress the images
 
 - [ ] Forgot password
 
@@ -100,7 +105,7 @@
 
 ## Implement Progress Tracking
 
-- [ ] Create endpoints for logging completed workouts
+- [x] Create endpoints for logging completed workouts
 - [ ] Develop logic for calculating and retrieving user statistics
 
 ## Set Up Scheduled Tasks

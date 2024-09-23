@@ -2,6 +2,8 @@ package org.example.server.controllers;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.example.server.dto.auth.AuthenticationRequest;
+import org.example.server.dto.auth.AuthenticationResponse;
 import org.example.server.models.User;
 import org.example.server.services.AuthService;
 import org.example.server.services.UserService;
@@ -36,11 +38,7 @@ public class AuthController {
         return new ResponseEntity<>(new AuthenticationResponse(authService.loginUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())), HttpStatus.CREATED); // Return the generated JWT token
     }
 
-    /**
-     * Register a new user.
-     * @param user The user to register.
-     * @return The registered user.
-     */
+
     /**
      * Create a new user with a profile picture.
      *
@@ -55,37 +53,6 @@ public class AuthController {
         {
             System.out.println(image);
             return new ResponseEntity<>(userService.createUser(user, image), HttpStatus.CREATED);
-        }
-    }
-
-    @Getter
-    class AuthenticationResponse {
-
-        private final String jwt; // JWT token
-
-        // Constructor to initialize JWT token
-        public AuthenticationResponse(String jwt) {
-            this.jwt = jwt;
-        }
-
-    }
-
-    @Getter
-    @Setter
-    static
-    class AuthenticationRequest {
-
-        private String username;
-        private String password;
-
-        // Default constructor for JSON parsing
-        public AuthenticationRequest() {
-        }
-
-        // Constructor to initialize user ID and password
-        public AuthenticationRequest(String username, String password) {
-            this.username = username;
-            this.password = password;
         }
     }
 }

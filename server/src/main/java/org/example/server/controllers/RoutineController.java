@@ -1,5 +1,6 @@
 package org.example.server.controllers;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.models.User;
 import org.example.server.models.routine.Routine;
 import org.example.server.services.routine.RoutineService;
@@ -93,8 +94,7 @@ public class RoutineController {
      * @return ResponseEntity with HTTP status indicating the result of the operation.
      */
     @DeleteMapping("/{routineId}")
-    public ResponseEntity<Void> deleteRoutine(@PathVariable Long routineId) {
-        routineService.deleteRoutine(routineId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<DeleteResponse> deleteRoutine(@PathVariable Long routineId) {
+        return new ResponseEntity<>(routineService.deleteRoutine(routineId),HttpStatus.OK);
     }
 }

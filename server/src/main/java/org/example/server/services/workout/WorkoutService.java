@@ -1,5 +1,6 @@
 package org.example.server.services.workout;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.User;
@@ -80,9 +81,10 @@ public class WorkoutService {
      * Delete a workout by ID.
      * @param id The ID of the workout to delete.
      */
-    public void deleteWorkout(Long id) {
+    public DeleteResponse deleteWorkout(Long id) {
         Workout workoutDb = getWorkoutById(id);
 
         workoutRepository.delete(workoutDb);
+        return new DeleteResponse("Successfully deleted the workout with id: " + id);
     }
 }

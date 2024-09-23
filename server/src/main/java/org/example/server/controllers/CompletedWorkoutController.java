@@ -1,6 +1,7 @@
 package org.example.server.controllers;
 
 import org.example.server.dto.CompletedWorkoutDTO;
+import org.example.server.dto.DeleteResponse;
 import org.example.server.models.workout.Workout;
 import org.example.server.models.workout_entries.CompletedWorkout;
 import org.example.server.services.CompletedWorkoutService;
@@ -44,16 +45,14 @@ public class CompletedWorkoutController {
 
     // Endpoint to delete all completed workouts for the authenticated user
     @DeleteMapping()
-    public ResponseEntity<Void> deleteAllCompletedWorkouts(){
-        completedWorkoutService.deleteAll();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content response
+    public ResponseEntity<DeleteResponse> deleteAllCompletedWorkouts(){
+
+        return new ResponseEntity<>(completedWorkoutService.deleteAll(),HttpStatus.OK);
     }
 
     // Endpoint to delete a completed workout by its ID
-    // This method calls the service to perform the deletion and returns a NO CONTENT status if successful
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompletedWorkout(@PathVariable long id){
-        completedWorkoutService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Return 204 No Content response
+    public ResponseEntity<DeleteResponse> deleteCompletedWorkout(@PathVariable long id){
+        return new ResponseEntity<>(completedWorkoutService.deleteById(id),HttpStatus.OK);
     }
 }

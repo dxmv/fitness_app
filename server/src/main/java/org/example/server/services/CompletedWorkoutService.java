@@ -1,6 +1,7 @@
 package org.example.server.services;
 
 import org.example.server.dto.CompletedWorkoutDTO;
+import org.example.server.dto.DeleteResponse;
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.exceptions.http.UnauthorizedException;
 import org.example.server.models.Exercise;
@@ -149,7 +150,7 @@ public class CompletedWorkoutService {
      * @throws NotFoundException if no completed workout is found with the given ID.
      * @throws UnauthorizedException if the completed workout does not belong to the user.
      */
-    public void deleteById(long id) {
+    public DeleteResponse deleteById(long id) {
         Optional<CompletedWorkout> cw = completedWorkoutRepository.findById(id);
         if(cw.isEmpty()){
             throw new NotFoundException("No completed workout with id: " + id);
@@ -158,14 +159,17 @@ public class CompletedWorkoutService {
             throw new UnauthorizedException("You don't have access to completed workout with id: " + id);
         }
         completedWorkoutRepository.deleteById(id);
+        return new DeleteResponse("Successfully deleted the workout log with id: " + id);
     }
 
     /**
      * Deletes all completed workouts for the currently authenticated user.
+     * @return delete response
      */
-    public void deleteAll() {
+    public DeleteResponse deleteAll() {
         User currentUser = userService.getCurrentUser();
         List<CompletedWorkout> completedWorkouts = currentUser.getCompletedWorkouts();
         completedWorkoutRepository.deleteAll(completedWorkouts);
+        return new DeleteResponse("Successfully deleted all workout logs");
     }
 }

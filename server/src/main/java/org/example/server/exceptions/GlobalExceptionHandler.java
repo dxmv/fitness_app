@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
     // handles all http errors
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ErrorResponse> resourceNotFoundException(HttpException ex, WebRequest request) {
+        System.out.println(ex.getMessage());
         return new ResponseEntity<>(new ErrorResponse(ex.getStatus().value(),ex.getMessage(),request.getDescription(false)), ex.getStatus());
     }
 

@@ -1,5 +1,6 @@
 package org.example.server.controllers;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.models.Exercise;
 import org.example.server.services.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +77,7 @@ public class ExercisesController {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteExercise(@PathVariable Long id) {
-        exerciseService.deleteExercise(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<DeleteResponse> deleteExercise(@PathVariable Long id) {
+        return new ResponseEntity<>(exerciseService.deleteExercise(id),HttpStatus.OK);
     }
 }

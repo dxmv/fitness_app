@@ -1,6 +1,7 @@
 package org.example.server.services;
 
 import org.aspectj.weaver.ast.Not;
+import org.example.server.dto.DeleteResponse;
 import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.models.Roles;
 import org.example.server.models.User;
@@ -114,10 +115,11 @@ public class UserService {
     /**
      * Delete the current user and his profile picture
      */
-    public void deleteCurrentUser() {
+    public DeleteResponse deleteCurrentUser() {
         User currentUser = getCurrentUser();
         // delete user's profile picture
         imageService.deleteImage(imageService.getImagePathFromUrl(currentUser.getProfilePicture()));
         userRepository.deleteById(currentUser.getId());
+        return new DeleteResponse("Successfully deleted the user");
     }
 }

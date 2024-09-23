@@ -1,5 +1,6 @@
 package org.example.server.controllers;
 
+import org.example.server.dto.DeleteResponse;
 import org.example.server.models.workout.Workout;
 import org.example.server.services.workout.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,7 @@ public class WorkoutController {
      * @return HTTP status indicating the result of the operation.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWorkout(@PathVariable Long id) {
-        workoutService.deleteWorkout(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<DeleteResponse> deleteWorkout(@PathVariable Long id) {
+        return new ResponseEntity<>(workoutService.deleteWorkout(id),HttpStatus.OK);
     }
 }
