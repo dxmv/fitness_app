@@ -79,7 +79,7 @@ const Login = () => {
 					password={true}
 				/>
 				<LightText className="text-right text-sm mb-6 text-light-gray">
-					Need help?
+					Forgot your password?
 				</LightText>
 				<PrimaryButton title="Log In" onPress={handleSubmit} />
 				<CustomLink href="/(auth)/register" className="mt-4">

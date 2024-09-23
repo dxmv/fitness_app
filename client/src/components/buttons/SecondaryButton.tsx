@@ -12,11 +12,11 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
 }) => {
 	return (
 		<TouchableOpacity
-			className="bg-black p-4 rounded-lg"
+			className="bg-light-purple p-4 rounded-lg shadow-md active:bg-dark-purple transition-colors duration-200 ease-in-out"
 			onPress={onPress}
 			{...props}
 		>
-			<Text className="text-white font-bold text-lg">{title}</Text>
+			<Text className="text-dark-black font-bold text-center">{title}</Text>
 		</TouchableOpacity>
 	);
 };

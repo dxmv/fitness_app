@@ -1,6 +1,7 @@
 import { View, Button, Image } from "react-native";
 import React, { SetStateAction } from "react";
 import * as ImagePicker from "expo-image-picker";
+import PrimaryButton from "./buttons/PrimaryButton";
 
 const CustomImagePicker = ({
 	image,
@@ -18,8 +19,6 @@ const CustomImagePicker = ({
 			quality: 1,
 		});
 
-		console.log(result);
-
 		if (!result.canceled) {
 			setImage(result.assets[0].uri);
 		}
@@ -27,7 +26,11 @@ const CustomImagePicker = ({
 
 	return (
 		<View style={{ alignItems: "center", justifyContent: "center" }}>
-			<Button title="Pick an image from camera roll" onPress={pickImage} />
+			<PrimaryButton
+				title="Pick an image from camera roll"
+				onPress={pickImage}
+				className="bg-secondary-purple"
+			/>
 		</View>
 	);
 };

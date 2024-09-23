@@ -147,6 +147,9 @@
 - [ ] Not using text input for routine name
 - [ ] Not using text input for workout name
 - [ ] When swiping delete show a confirmation modal
+- [ ] Register screen does't redirect to the home screen
+- [ ] Register screen doesn't show the default avatar
+- [ ] Register screen doesn't hide the password input
 
 ## Alerts:
 
