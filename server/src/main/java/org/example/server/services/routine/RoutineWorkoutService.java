@@ -1,6 +1,7 @@
 package org.example.server.services.routine;
 
 import org.example.server.exceptions.http.BadRequestException;
+import org.example.server.exceptions.http.NotFoundException;
 import org.example.server.models.routine.RoutineWorkout;
 import org.example.server.models.routine.Routine;
 import org.example.server.models.workout.Workout;
@@ -55,34 +56,23 @@ public class RoutineWorkoutService {
      */
     public RoutineWorkout getRoutineWorkoutById(Long id) {
         return routineWorkoutRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("RoutineWorkout not found"));
+                .orElseThrow(() -> new NotFoundException("Routine workout not found"));
     }
 
     /**
      * Adds a workout to a routine
      *
-     * @param routineId      ID of the routine we want to add to
+     * @param routineWorkoutId      ID of the routine workout we want to add to
      * @param workoutId      ID of the workout we want to add
-     * @param day            Day of the week to be changed
-     * @return The updated routine.
-     * @throws BadRequestException if the day of week isn't valid
+     * @return The updated routine workout.
      */
     @Transactional
-    public Routine addWorkoutToRoutine(Long routineId, Long workoutId, DayOfWeek day) {
-        Routine routine = routineService.getRoutineById(routineId);
+    public RoutineWorkout addWorkoutToRoutine(Long routineWorkoutId, Long workoutId) {
+        RoutineWorkout routineWorkout = this.getRoutineWorkoutById(routineWorkoutId);
         Workout workout = workoutService.getWorkoutById(workoutId);
 
-        List<RoutineWorkout> weeklySchedule = routine.getWeeklySchedule();
-
-        // Get the index based on the day of week (assuming the list is ordered from Monday to Sunday)
-        int dayIndex = day.getValue() - 1;  // DayOfWeek.getValue() returns 1 for Monday, 7 for Sunday
-        if (dayIndex < 0 || dayIndex >= weeklySchedule.size()) {
-            throw new BadRequestException("Invalid day index: " + dayIndex);
-        }
-
-        RoutineWorkout routineWorkout = weeklySchedule.get(dayIndex);
         routineWorkout.setWorkout(workout);
-        return routine;
+        return routineWorkoutRepository.save(routineWorkout);
     }
 
 
@@ -90,33 +80,14 @@ public class RoutineWorkoutService {
     /**
      * Remove workout from routine
      *
-     * @param id                    The ID of the routine to update.
-     * @param day                   The day of the week to update.
+     * @param id                    The ID of the routine workout to update.
      * @return The updated routine.
-     * @throws BadRequestException if the day of week isn't valid
      */
     @Transactional
-    public Routine removeWorkoutFromRoutine(Long id,DayOfWeek day) {
-        Routine routine = routineService.getRoutineById(id);
+    public RoutineWorkout removeWorkoutFromRoutine(Long id) {
+        RoutineWorkout routineWorkout = this.getRoutineWorkoutById(id);
 
-        List<RoutineWorkout> weeklySchedule = routine.getWeeklySchedule();
-        // Get the index based on the day of week (assuming the list is ordered from Monday to Sunday)
-        int dayIndex = day.getValue() - 1;  // DayOfWeek.getValue() returns 1 for Monday, 7 for Sunday
-        if (dayIndex < 0 || dayIndex >= weeklySchedule.size()) {
-            throw new BadRequestException("Invalid day index: " + dayIndex);
-        }
-        RoutineWorkout routineWorkout = weeklySchedule.get(dayIndex);
-        if (routineWorkout != null && routineWorkout.getWorkout() != null) {
-            routineWorkout.setWorkout(null);
-            routineWorkoutRepository.save(routineWorkout);
-
-            // Update the routine's weekly schedule
-            weeklySchedule.set(dayIndex, routineWorkout);
-            routine.setWeeklySchedule(weeklySchedule);
-
-            return routineRepository.save(routine);
-        }
-        // If there's no workout to remove, just return the unchanged routine
-        return routine;
+        routineWorkout.setWorkout(null);
+        return routineWorkoutRepository.save(routineWorkout);
     }
 }

@@ -1,9 +1,10 @@
-import { View, Text, FlatList, Button } from "react-native";
+import { View, Button } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import routinesApi from "../../../api/routinesApi";
-import { IRoutine } from "../../../types";
+
 import LightText from "../../../components/text/LightText";
+import routinesApi from "../../../api/routines/routinesApi";
+import { IRoutine } from "../../../types";
 import BoldText from "../../../components/text/BoldText";
 import WeeklyScheduleRoutine from "../../../components/WeeklyScheduleRoutine";
 
@@ -45,7 +46,10 @@ const SingleRoutineScreen = () => {
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			<BoldText className="text-3xl text-dark-black">{routine.name}</BoldText>
-			<WeeklyScheduleRoutine weeklySchedule={routine.weeklySchedule} />
+			<WeeklyScheduleRoutine
+				weeklySchedule={routine.weeklySchedule}
+				routineId={routine.id}
+			/>
 			<Button
 				title="Make active"
 				onPress={() => handleRoutineActivation(routine.id)}

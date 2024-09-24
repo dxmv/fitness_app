@@ -1,4 +1,4 @@
-import { View, Text, Button, TouchableOpacity, FlatList } from "react-native";
+import { View, TouchableOpacity, FlatList } from "react-native";
 import { IRoutineWorkout, IWorkout } from "../types";
 import BoldText from "./text/BoldText";
 import React, { useEffect, useState } from "react";
@@ -9,12 +9,15 @@ import LightText from "./text/LightText";
 import SecondaryButton from "./buttons/SecondaryButton";
 import workoutApi from "../api/workoutApi";
 import RegularText from "./text/RegularText";
+import routineWorkoutsApi from "../api/routines/routineWorkoutsApi";
 
 // Component to display the weekly schedule of workouts
 const WeeklyScheduleRoutine = ({
 	weeklySchedule,
+	routineId,
 }: {
 	weeklySchedule: IRoutineWorkout[];
+	routineId: number;
 }) => {
 	const [openModal, setOpenModal] = useState<boolean>(false);
 	const [selectedRoutineWorkout, setSelectedRoutineWorkout] =
@@ -59,6 +62,7 @@ const WeeklyScheduleRoutine = ({
 				{openModal && selectedRoutineWorkout && (
 					<DayOfWeekModal
 						openModal={openModal}
+						routineId={routineId}
 						selectedRoutineWorkout={selectedRoutineWorkout}
 						handleModalClose={handleModalClose}
 					/>
@@ -71,10 +75,12 @@ const WeeklyScheduleRoutine = ({
 // Modal component for a specific day's workout
 const DayOfWeekModal = ({
 	openModal,
+	routineId,
 	selectedRoutineWorkout,
 	handleModalClose,
 }: {
 	openModal: boolean;
+	routineId: number;
 	selectedRoutineWorkout: IRoutineWorkout;
 	handleModalClose: () => void;
 }) => {
@@ -101,7 +107,24 @@ const DayOfWeekModal = ({
 			return; // No workout selected
 		}
 
-		// TODO: Assign the workout to the routine
+		const routineWorkout = await routineWorkoutsApi.addWorkoutToRoutine(
+			routineId,
+			selectedRoutineWorkout.id,
+			selectedWorkoutId
+		);
+		console.log(routineWorkout);
+	};
+
+	const removeWorkout = async () => {
+		if (!selectedRoutineWorkout) {
+			return; // No routine workout selected
+		}
+
+		const routineWorkout = await routineWorkoutsApi.removeWorkoutFromRoutine(
+			routineId,
+			selectedRoutineWorkout.id
+		);
+		console.log(routineWorkout);
 	};
 
 	// Fetch workouts when the assignment stage is active
@@ -124,8 +147,11 @@ const DayOfWeekModal = ({
 			{selectedRoutineWorkout.workout ? (
 				<View>
 					{/* Display the name of the assigned workout */}
-					<BoldText>{selectedRoutineWorkout.workout.name}</BoldText>
+					<BoldText className="mb-4">
+						{selectedRoutineWorkout.workout.name}
+					</BoldText>
 					{/* Delete button here */}
+					<PrimaryButton title="Remove the workout" onPress={removeWorkout} />
 				</View>
 			) : (
 				<View>
@@ -154,7 +180,7 @@ const DayOfWeekModal = ({
 							/>
 							<PrimaryButton
 								title="Assign this workout"
-								onPress={handleWorkoutAssignmentStage}
+								onPress={assignWorkout}
 								className="mb-4"
 								disabled={!selectedWorkoutId}
 							/>
@@ -173,7 +199,7 @@ const DayOfWeekModal = ({
 							/>
 							<PrimaryButton
 								title="Remove the workout"
-								onPress={handleWorkoutAssignmentStage}
+								onPress={removeWorkout}
 							/>
 						</View>
 					)}

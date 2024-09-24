@@ -24,7 +24,9 @@
   - [x] Clear
   - [x] Date field
 
-- [ ] Delete Response
+- [ ] Preserve the order when updating routine workouts
+
+- [x] Delete Response
 
 - [ ] Default pfp for user
 

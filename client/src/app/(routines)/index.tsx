@@ -1,13 +1,6 @@
-import {
-	View,
-	Text,
-	TouchableOpacity,
-	TextInput,
-	FlatList,
-} from "react-native";
+import { View, TouchableOpacity, TextInput, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { IRoutine } from "../../types";
-import routinesApi from "../../api/routinesApi";
 import BoldText from "../../components/text/BoldText";
 import LightText from "../../components/text/LightText";
 import { Feather } from "@expo/vector-icons";
@@ -15,6 +8,7 @@ import ReusableModal from "../../components/MyModal";
 import RegularText from "../../components/text/RegularText";
 import { Link } from "expo-router";
 import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
+import routinesApi from "../../api/routines/routinesApi";
 
 const RoutinesScreen = () => {
 	// State to hold the list of routines

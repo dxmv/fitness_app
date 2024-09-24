@@ -47,29 +47,26 @@ public class RoutineWorkoutController {
     /**
      * Adds a workout to a routine.
      *
-     * @param routineId The ID of the routine to add to.
-     * @param dayOfWeek The day of the week to be changed
+     * @param routineWorkoutId The ID of the routine workout to add to.
      * @param workoutId The ID of the workout to be added.
      * @return ResponseEntity containing the created RoutineWorkout and HTTP status.
      */
-    @PutMapping("/{dayOfWeek}")
-    public ResponseEntity<Routine> addTheWorkoutToRoutine(
-            @PathVariable Long routineId,
-            @PathVariable DayOfWeek dayOfWeek,
-            @RequestBody Long workoutId) {
-        return new ResponseEntity<>(routineWorkoutService.addWorkoutToRoutine(routineId, workoutId, dayOfWeek), HttpStatus.OK);
+    @PutMapping("/{routineWorkoutId}/{workoutId}")
+    public ResponseEntity<RoutineWorkout> addTheWorkoutToRoutine(
+            @PathVariable Long routineWorkoutId,
+            @PathVariable Long workoutId) {
+        return new ResponseEntity<>(routineWorkoutService.addWorkoutToRoutine(routineWorkoutId, workoutId), HttpStatus.OK);
     }
 
 
     /**
      * Deletes a RoutineWorkout by its ID within a specific Routine.
      *
-     * @param routineId The ID of the Routine.
-     * @param dayOfWeek The ID of the RoutineWorkout to delete.
+     * @param routineWorkoutId The ID of the Routine workout.
      * @return ResponseEntity with HTTP status indicating the result of the operation.
      */
-    @DeleteMapping("/{dayOfWeek}")
-    public ResponseEntity<Routine> removeWorkoutFromRoutine(@PathVariable Long routineId, @PathVariable DayOfWeek dayOfWeek) {
-        return new ResponseEntity<>(routineWorkoutService.removeWorkoutFromRoutine(routineId,dayOfWeek),HttpStatus.OK);
+    @DeleteMapping("/{routineWorkoutId}")
+    public ResponseEntity<RoutineWorkout> removeWorkoutFromRoutine(@PathVariable Long routineWorkoutId) {
+        return new ResponseEntity<>(routineWorkoutService.removeWorkoutFromRoutine(routineWorkoutId),HttpStatus.OK);
     }
 }
