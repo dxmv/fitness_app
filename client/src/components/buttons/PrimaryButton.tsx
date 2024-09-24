@@ -12,7 +12,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 }) => {
 	return (
 		<TouchableOpacity
-			className={`bg-primary-pink p-4 rounded-lg items-center ${props.className}`}
+			className={`bg-primary-pink p-4 rounded-lg items-center  ${props.className}`}
 			onPress={onPress}
 			{...props}
 		>

@@ -1,10 +1,11 @@
-import { Text, StatusBar, Platform } from "react-native";
+import { StatusBar, Platform } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
 import { SafeAreaView } from "react-native";
-import { Slot, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import ProtectedRoutes from "../components/ProtectedRoutes";
 import BottomNavigation from "../components/BottomNavigation";
+import Loading from "../components/Loading";
 
 const _layout = () => {
 	const [fontsLoaded] = useFonts({
@@ -14,20 +15,20 @@ const _layout = () => {
 	});
 
 	if (!fontsLoaded) {
-		return <Text>Loading...</Text>;
+		return <Loading />;
 	}
 	// render all components within a safe area
 	return (
 		<ProtectedRoutes>
 			<SafeAreaView
-				className="flex-1 bg-white"
+				className="flex-1 bg-dark-black"
 				style={{
 					paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 				}}
 			>
 				<Stack screenOptions={{ headerShown: false }} />
-				<BottomNavigation />
 			</SafeAreaView>
+			<BottomNavigation />
 		</ProtectedRoutes>
 	);
 };

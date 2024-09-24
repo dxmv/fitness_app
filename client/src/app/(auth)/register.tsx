@@ -124,7 +124,12 @@ const Register = () => {
 			const data = await authApi.register(formData);
 			// Handle successful registration (e.g., navigate to the login screen)
 		} catch (e) {
-			console.log(e);
+			// Handle errors during login
+			if (typeof e === "object" && e !== null && "message" in e) {
+				setFormError(e.message as string); // Set form error message if available
+			} else {
+				setFormError("An unexpected error occurred"); // Fallback error message
+			}
 		}
 	};
 

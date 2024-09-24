@@ -48,23 +48,25 @@ const BottomNavigation = () => {
 	];
 
 	return (
-		<View className="flex-row justify-around items-center bg-dark-black rounded-full mx-4 mb-8 py-3 shadow-lg">
-			{navItems.map(item => (
-				<Link
-					key={item.name}
-					href={`${item.name}`}
-					asChild
-					style={{ width: `${100 / navItems.length}%` }}
-				>
-					<TouchableOpacity className="items-center">
-						<Ionicons
-							name={item.icon}
-							size={24}
-							color={pathname === `${item.name}` ? "#FF4081" : "#7B1FA2"}
-						/>
-					</TouchableOpacity>
-				</Link>
-			))}
+		<View className="absolute bottom-8 left-4 right-4">
+			<View className="flex-row justify-around items-center bg-dark-black rounded-full py-3 shadow-lg">
+				{navItems.map(item => (
+					<Link
+						key={item.name}
+						href={`${item.name}`}
+						asChild
+						style={{ width: `${100 / navItems.length}%` }}
+					>
+						<TouchableOpacity className="items-center">
+							<Ionicons
+								name={item.icon}
+								size={24}
+								color={pathname === `${item.name}` ? "#FF4081" : "#7B1FA2"}
+							/>
+						</TouchableOpacity>
+					</Link>
+				))}
+			</View>
 		</View>
 	);
 };

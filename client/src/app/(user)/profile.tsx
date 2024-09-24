@@ -9,6 +9,8 @@ import CustomAvatar from "../../components/CustomAvatar";
 import Feather from "@expo/vector-icons/Feather";
 import secureStorage from "../../utils/secureStorage";
 import Loading from "../../components/Loading";
+import { LinearGradient } from "expo-linear-gradient";
+import { LinearGradientWrapper } from "../../components/wrappers/LinearGradientWrapper";
 
 const profile = () => {
 	// State to store user data
@@ -17,15 +19,21 @@ const profile = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 
 	// Fetch the current user data when the component mounts
-	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const userData = await userApi.getCurrent();
-				setUser(userData);
-			} catch (error) {
-				console.error("Failed to fetch user data", error);
+	const fetchUser = async () => {
+		try {
+			const userData = await userApi.getCurrent();
+			setUser(userData);
+		} catch (e) {
+			// Handle errors during login
+			if (typeof e === "object" && e !== null && "message" in e) {
+				console.log(e.message as string); // Set form error message if available
+			} else {
+				console.log("An unexpected error occurred"); // Fallback error message
 			}
-		};
+		}
+	};
+
+	useEffect(() => {
 		fetchUser();
 	}, []);
 
@@ -36,7 +44,7 @@ const profile = () => {
 	}
 
 	return (
-		<View className="flex flex-col items-center w-full h-full mt-3">
+		<LinearGradientWrapper className="flex flex-col items-center p-4">
 			<DropdownMenu
 				isVisible={isVisible}
 				toggleDropdown={toggleDropdown}
@@ -60,10 +68,12 @@ const profile = () => {
 					<BoldText>Nigga</BoldText>
 				</View>
 			</View>
-			{/* Last week activities */}
 			{/* Recent workouts */}
+			{/* Last week activities */}
 			{/* Favorite exercises */}
-		</View>
+			{/* Number of times that workout has been done */}
+			{/* Stats for exercises dropdown */}
+		</LinearGradientWrapper>
 	);
 };
 
@@ -87,13 +97,11 @@ const DropdownMenu = ({
 	return (
 		<>
 			{/* Three dots for editing the user & logging out */}
-			<TouchableOpacity onPress={toggleDropdown}>
-				<Feather
-					name="more-horizontal"
-					size={24}
-					color="black"
-					className="text-right"
-				/>
+			<TouchableOpacity
+				onPress={toggleDropdown}
+				className="w-full flex-row justify-end"
+			>
+				<Feather name="more-vertical" size={24} color="black" />
 			</TouchableOpacity>
 			{/* Dropdown menu */}
 			{isVisible && (
