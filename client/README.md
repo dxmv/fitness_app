@@ -97,8 +97,8 @@
 
 - [ ] Profile screen:
 
-  - [ ] Dropdown menu
-    - [ ] Logout
+  - [x] Dropdown menu
+    - [x] Logout
     - [ ] Edit user info
   - [x] Avatar
     - [x] Display the avatar

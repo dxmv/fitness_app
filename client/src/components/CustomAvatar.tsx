@@ -13,18 +13,20 @@ const CustomAvatar = ({
 	height = 50,
 	className,
 }: {
-	image: string;
-	width?: number;
-	height?: number;
+	image: string; // URI of the image
+	width?: number; // Width of the avatar
+	height?: number; // Height of the avatar
 } & ImageProps) => {
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
 
+	// Function to handle image press event
 	const handleImagePress = () => {
-		setIsModalVisible(true);
+		setIsModalVisible(true); // Show the modal when the image is pressed
 	};
 
+	// Function to close the modal
 	const handleCloseModal = () => {
-		setIsModalVisible(false);
+		setIsModalVisible(false); // Hide the modal
 	};
 
 	return (
@@ -45,20 +47,23 @@ const CustomAvatar = ({
 	);
 };
 
+// Modal component for editing the image
 const EditImageModal = ({
 	isVisible,
 	onClose,
 	currentImage,
 }: {
-	isVisible: boolean;
-	onClose: () => void;
-	currentImage: string;
+	isVisible: boolean; // Modal visibility state
+	onClose: () => void; // Function to close the modal
+	currentImage: string; // Current image URI
 }) => {
-	const [image, setImage] = useState<string | null>(currentImage);
+	const [image, setImage] = useState<string | null>(currentImage); // State to hold the selected image
 
+	// Function to handle saving the new image
 	const handleSave = async () => {
 		const formData = new FormData();
-		if (!image) return;
+		if (!image) return; // Exit if no image is selected
+
 		// Extract the file extension from the image URI
 		const uriParts = image.split(".");
 		const fileType = uriParts[uriParts.length - 1];
@@ -70,6 +75,7 @@ const EditImageModal = ({
 			type: `image/${fileType}`,
 		} as any);
 
+		// Call the API to update the profile picture
 		const user = await userApi.updateProfilePicture(formData);
 		console.log(user);
 		onClose();
