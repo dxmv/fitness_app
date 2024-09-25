@@ -1,4 +1,4 @@
-import { IExercise, IWorkout } from "../types";
+import { IWorkout } from "../types";
 import secureStorage from "../utils/secureStorage";
 import fetchApi from "./fetchApi";
 

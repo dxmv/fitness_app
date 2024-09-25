@@ -9,7 +9,7 @@ import {
 	handleUsernameChange,
 	handlePasswordChange,
 } from "../../utils/handleAuth";
-import authApi from "../../api/authApi";
+import authApi from "../../api/user/authApi";
 import secureStorage from "../../utils/secureStorage";
 import CustomLink from "../../components/buttons/CustomLink";
 import PrimaryButton from "../../components/buttons/PrimaryButton";

@@ -10,11 +10,11 @@ import {
 	handleUsernameChange,
 } from "../../utils/handleAuth";
 import CustomImagePicker from "../../components/CustomImagePicker";
-import authApi from "../../api/authApi";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import CustomLink from "../../components/buttons/CustomLink";
 import SecondaryButton from "../../components/buttons/SecondaryButton";
 import LightText from "../../components/text/LightText";
+import authApi from "../../api/user/authApi";
 
 const Register = () => {
 	const [stage, setStage] = useState<number>(1);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import secureStorage from "../../utils/secureStorage";
-import userApi from "../../api/userApi";
+import userApi from "../../api/user/userApi";
 
 const useAuth = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);

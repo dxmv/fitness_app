@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import React, { SetStateAction, useEffect, useState } from "react";
 import { IUser } from "../../types";
-import userApi from "../../api/userApi";
+import userApi from "../../api/user/userApi";
 import RegularText from "../../components/text/RegularText";
 import BoldText from "../../components/text/BoldText";
 import LightText from "../../components/text/LightText";
@@ -9,7 +9,6 @@ import CustomAvatar from "../../components/CustomAvatar";
 import Feather from "@expo/vector-icons/Feather";
 import secureStorage from "../../utils/secureStorage";
 import Loading from "../../components/Loading";
-import { LinearGradient } from "expo-linear-gradient";
 import { LinearGradientWrapper } from "../../components/wrappers/LinearGradientWrapper";
 
 const profile = () => {
@@ -94,6 +93,7 @@ const DropdownMenu = ({
 		// when component re-renders
 		setUser(null);
 	};
+
 	return (
 		<>
 			{/* Three dots for editing the user & logging out */}

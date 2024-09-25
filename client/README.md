@@ -56,18 +56,11 @@
   - [ ] Share the workout button
   - [x] Continue button
 
-- [ ] Cleaner code for workouts
-
-  - [ ] Separate into files better
-  - [ ] Cleaner state management
-  - [ ] More comments
-  - [ ] More readable
-
 - [ ] Home screen:
 
-  - [x] Recent activities (show the last 3 workouts & have a button to see more)
+  - [ ] Today's workout from the active routine
   - [ ] Weekly calendar that shows whether the user has workouts for that day
-  - [ ] A weekly calendar with the workouts from the routine
+  - [ ] Recent activities (show the workouts from last 7 days)
 
 - [x] Recent workouts screen:
 
@@ -85,18 +78,16 @@
   - [ ] Deactivate the routine
 
   - [x] Add a routine
-  - [ ] Remove a routine
 
 - [ ] Single routine screen:
 
   - [x] Fetch the routine
 
   - [x] Display the weekly calendar with the workouts
-  - [ ] Re-order workouts in the calendar
+  - [ ] Re-order workouts in the calendar?
 
-  - [ ] Add a workout to the routine
-  - [ ] Remove a workout from the routine
-  - [ ] Re-order workouts in the routine
+  - [x] Add a workout to the routine
+  - [x] Remove a workout from the routine
 
   - [x] Make the current routine active
   - [ ] Deactivate the routine
@@ -107,15 +98,12 @@
 - [ ] Profile screen:
 
   - [ ] Dropdown menu
-  - [ ] Avatar
-  - [ ] User info
+    - [ ] Logout
+    - [ ] Edit user info
+  - [x] Avatar
+    - [x] Display the avatar
+    - [x] Change the avatar
   - [ ] Stats
-  - [ ] Progress
-
-- [ ] Optimizations:
-
-  - [ ] Use a fetch wrapper for screens to fetch again
-  - [ ] Use a swipe wrapper to wrap items, pass the function to execute when swiping
 
 - [ ] Exercise screen:
 
@@ -123,13 +111,24 @@
   - [ ] Show 4 videos
   - [ ] Show the progression chart
 
-- [ ] Settings
+- [ ] Settings screen:
+
+  - [ ] Vibration pattern
+  - [ ] Theme
+
+- [ ] Cleaner code for workouts
+
+  - [ ] Separate into files better
+  - [ ] Cleaner state management
+  - [ ] More comments
+  - [ ] More readable
 
 - [ ] Other:
   - [ ] Loading screen
   - [ ] Error screen
   - [ ] Offline mode
-  - [ ] Wrap where needed with swipe wrapper
+  - [ ] Use a fetch wrapper for screens to fetch again
+  - [ ] Use a swipe wrapper to wrap items, pass the function to execute when swiping
 
 ## Known issues:
 
@@ -153,6 +152,7 @@
 - [ ] Register screen doesn't hide the password input
 - [ ] Navigation active icon doesn't change
 - [ ] Disabled button styles
+- [ ] Routine screen doesn't update at all
 
 ## Alerts:
 
