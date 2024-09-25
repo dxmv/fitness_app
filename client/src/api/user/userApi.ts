@@ -32,7 +32,24 @@ const updateProfilePicture = async (formData: FormData): Promise<IUser> =>
 		},
 	});
 
+/**
+ * Updates the username and email of the currently logged in user
+ * @param {string} username - The new username
+ * @param {string} email - The new email
+ * @returns {Promise<IUser>} - The updated user
+ */
+const updateUser = async (username: string, email: string): Promise<IUser> =>
+	await fetchApi(`${API_URL}/current`, {
+		method: "PUT",
+		body: JSON.stringify({ username, email }),
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getCurrent,
 	updateProfilePicture,
+	updateUser,
 };

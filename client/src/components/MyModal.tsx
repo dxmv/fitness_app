@@ -24,10 +24,10 @@ const ReusableModal: React.FC<MyModalProps> = ({
 			onRequestClose={onClose}
 		>
 			<View
-				className="flex-1 justify-center items-center"
+				className="flex-1 justify-center items-center "
 				style={{ backgroundColor: "rgba(18, 18, 18, 0.7)" }}
 			>
-				<View className="bg-light-gray rounded-lg p-6 shadow-lg w-11/12 max-w-md">
+				<View className="bg-dark-black rounded-lg p-6 shadow-lg w-11/12 max-w-md border-2 border-primary-pink">
 					<View className="flex-row justify-between items-center mb-4">
 						<BoldText className="text-primary-pink text-xl">{title}</BoldText>
 						<TouchableOpacity onPress={onClose}>
