@@ -95,20 +95,31 @@ public class UserService {
      * Update the current user.
      * @param username New username
      * @param email New email
+     * @return The updated user, or null if the user with the given ID does not exist.
+     */
+    public User updateCurrentUser(String username, String email) {
+        User currentUser = getCurrentUser();
+
+
+        // Only update allowed fields
+        currentUser.setEmail(email);
+        currentUser.setUsername(username);
+
+        return userRepository.save(currentUser);
+    }
+
+    /**
+     * Update the current user profile picture.
      * @param profilePicture New profile picture
      * @return The updated user, or null if the user with the given ID does not exist.
      */
-    public User updateCurrentUser(String username, String email, MultipartFile profilePicture) {
+    public User updateCurrentUserProfilePicture(MultipartFile profilePicture){
         User currentUser = getCurrentUser();
 
         // delete the previous profile picture
         imageService.deleteImage(imageService.getImagePathFromUrl(currentUser.getProfilePicture()));
 
-        // Only update allowed fields
-        currentUser.setEmail(email);
-        currentUser.setUsername(username);
         currentUser.setProfilePicture(imageService.uploadImage("profile_pictures/",profilePicture));
-
         return userRepository.save(currentUser);
     }
 

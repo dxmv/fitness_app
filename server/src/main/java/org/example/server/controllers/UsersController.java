@@ -57,15 +57,26 @@ public class UsersController {
 
     /**
      * Update an existing user.
-     * @param user The updated user details.
+     * @param username the new username
+     * @param email the new email
      * @return The updated user.
      */
     @PutMapping(path="/current",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<User> updateUser(
             @RequestPart("username") String username,
-            @RequestPart("email") String email,
-            @RequestPart(value = "profilePicture", required = false) MultipartFile profilePicture ){
-        return new ResponseEntity<>(userService.updateCurrentUser(username,email,profilePicture), HttpStatus.OK);
+            @RequestPart("email") String email){
+        return new ResponseEntity<>(userService.updateCurrentUser(username,email), HttpStatus.OK);
+    }
+
+    /**
+     * Update an existing user.
+     * @param profilePicture The new profile picture
+     * @return The updated user.
+     */
+    @PatchMapping(path="/current/image",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<User> updateUser(
+            @RequestPart(value = "profilePicture") MultipartFile profilePicture ){
+        return new ResponseEntity<>(userService.updateCurrentUserProfilePicture(profilePicture), HttpStatus.OK);
     }
 
     /**

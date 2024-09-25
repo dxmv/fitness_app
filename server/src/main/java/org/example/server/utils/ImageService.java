@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Service
 public class ImageService {
-    private String baseUrl = "http://localhost:8080";
+    private final String baseUrl = "http://192.168.1.14:8080";
 
     private final String uploadDir = "src/main/resources/static/uploads/"; // the images will be saved here
 
