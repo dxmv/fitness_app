@@ -99,7 +99,7 @@
 
   - [x] Dropdown menu
     - [x] Logout
-    - [ ] Edit user info
+    - [x] Edit user info
   - [x] Avatar
     - [x] Display the avatar
     - [x] Change the avatar

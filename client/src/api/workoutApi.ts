@@ -68,8 +68,8 @@ const deleteWorkout = async (workoutId: number): Promise<void> =>
  * @returns {Promise<IWorkout>} - The created workout
  */
 const addExerciseToWorkout = async (
-	workoutId: string,
-	exerciseId: string
+	workoutId: number,
+	exerciseId: number
 ): Promise<IWorkout> =>
 	await fetchApi(`${API_URL}/${workoutId}/exercises/${exerciseId}`, {
 		method: "POST",
