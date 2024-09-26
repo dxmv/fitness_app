@@ -90,7 +90,7 @@
   - [x] Remove a workout from the routine
 
   - [x] Make the current routine active
-  - [ ] Deactivate the routine
+  - [x] Deactivate the routine
 
   - [ ] Change the routine name
   - [x] Delete the routine
@@ -153,6 +153,7 @@
 - [ ] Navigation active icon doesn't change
 - [ ] Disabled button styles
 - [ ] Routine screen doesn't update at all
+- [ ] Routine details screen isActive is a string, we want it to be a boolean
 
 ## Alerts:
 

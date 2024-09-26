@@ -6,7 +6,7 @@ import LightText from "../../components/text/LightText";
 import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
 import RegularText from "../../components/text/RegularText";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
 import routinesApi from "../../api/routines/routinesApi";
 import userApi from "../../api/user/userApi";
@@ -122,15 +122,22 @@ const RoutineItem = ({
 				console.log("delete");
 			}}
 		>
-			<Link
-				href={`/(routines)/details/${item.id}`}
+			<TouchableOpacity
+				onPress={() => {
+					router.push({
+						pathname: `/(routines)/details/${item.id}`,
+						params: {
+							isActive: isActive ? 1 : 0,
+						},
+					});
+				}}
 				className="flex-row justify-between items-center"
 			>
 				<RegularText>{item.name}</RegularText>
 				<TouchableOpacity onPress={handleActivity}>
 					<RegularText>{isActive ? "Deactivate" : "Activate"}</RegularText>
 				</TouchableOpacity>
-			</Link>
+			</TouchableOpacity>
 		</RightSwipeWrapper>
 	);
 };

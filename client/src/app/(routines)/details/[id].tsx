@@ -10,7 +10,7 @@ import WeeklyScheduleRoutine from "../../../components/WeeklyScheduleRoutine";
 
 const SingleRoutineScreen = () => {
 	const [routine, setRoutine] = useState<IRoutine | null>(null);
-	const { id } = useLocalSearchParams();
+	const { id, isActive } = useLocalSearchParams();
 	const router = useRouter();
 
 	// Fetch the routine details when the component mounts
@@ -27,11 +27,6 @@ const SingleRoutineScreen = () => {
 		return <LightText>Loading...</LightText>;
 	}
 
-	// Function to activate the routine
-	const handleRoutineActivation = async (routineId: number) => {
-		await routinesApi.activateRoutine(routineId);
-	};
-
 	// Function to delete the routine and redirect to the routines list
 	const handleRoutineDeletion = async (routineId: number) => {
 		try {
@@ -43,6 +38,25 @@ const SingleRoutineScreen = () => {
 		router.replace("/(routines)");
 	};
 
+	const handleActivity = async () => {
+		if (isActive === "1") {
+			await handleDeactivateRoutine();
+		} else {
+			await handleActivateRoutine();
+		}
+		router.replace("/(routines)");
+	};
+
+	const handleActivateRoutine = async () => {
+		await routinesApi.activateRoutine(routine.id);
+	};
+
+	const handleDeactivateRoutine = async () => {
+		await routinesApi.deactivateRoutine();
+	};
+
+	console.log(isActive);
+
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			<BoldText className="text-3xl text-dark-black">{routine.name}</BoldText>
@@ -51,8 +65,8 @@ const SingleRoutineScreen = () => {
 				routineId={routine.id}
 			/>
 			<Button
-				title="Make active"
-				onPress={() => handleRoutineActivation(routine.id)}
+				title={`Make ${isActive === "1" ? "inactive" : "active"}`}
+				onPress={handleActivity}
 			/>
 			<Button
 				title="Delete"
