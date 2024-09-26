@@ -9,6 +9,7 @@ import RegularText from "../../components/text/RegularText";
 import { Link } from "expo-router";
 import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
 import routinesApi from "../../api/routines/routinesApi";
+import userApi from "../../api/user/userApi";
 
 const RoutinesScreen = () => {
 	// State to hold the list of routines
@@ -25,7 +26,12 @@ const RoutinesScreen = () => {
 			const routines = await routinesApi.getAllRoutines();
 			setRoutines(routines);
 		};
+		const fetchActiveRoutine = async () => {
+			const user = await userApi.getCurrent();
+			setActiveRoutine(user.activeRoutine);
+		};
 		fetchRoutines();
+		fetchActiveRoutine();
 	}, []);
 
 	// Function to handle the submission of a new routine
@@ -37,18 +43,6 @@ const RoutinesScreen = () => {
 		setIsAddModalVisible(false); // Close the modal
 	};
 
-	const renderRoutineItem = ({ item }: { item: IRoutine }) => (
-		<RightSwipeWrapper
-			onRightSwipe={() => {
-				console.log("delete");
-			}}
-		>
-			<Link href={`/(routines)/details/${item.id}`}>
-				<RegularText>{item.name}</RegularText>
-			</Link>
-		</RightSwipeWrapper>
-	);
-
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
 			<View className="flex-row justify-between items-center mb-4">
@@ -57,14 +51,19 @@ const RoutinesScreen = () => {
 					<Feather name="plus-circle" size={30} color="#4F46E5" />
 				</TouchableOpacity>
 			</View>
-			<BoldText>Active Routine</BoldText>
-			{/* {renderRoutineItem()} */}
+
+			{activeRoutine && (
+				<View>
+					<BoldText>Active Routine</BoldText>
+					<RoutineItem item={activeRoutine} isActive={true} />
+				</View>
+			)}
 			{routines.length === 0 ? (
 				<LightText>No routines to show</LightText>
 			) : (
 				<FlatList
 					data={routines}
-					renderItem={renderRoutineItem}
+					renderItem={({ item }) => <RoutineItem item={item} />}
 					keyExtractor={item => item.id.toString()}
 					contentContainerStyle={{ paddingBottom: 100 }}
 					showsVerticalScrollIndicator={false}
@@ -91,6 +90,48 @@ const RoutinesScreen = () => {
 				</View>
 			</ReusableModal>
 		</View>
+	);
+};
+
+const RoutineItem = ({
+	item,
+	isActive = false,
+}: {
+	item: IRoutine;
+	isActive?: boolean;
+}) => {
+	const handleActivity = async () => {
+		if (isActive) {
+			handleDeactivateRoutine();
+		} else {
+			handleActivateRoutine();
+		}
+	};
+
+	const handleActivateRoutine = async () => {
+		await routinesApi.activateRoutine(item.id);
+	};
+
+	const handleDeactivateRoutine = async () => {
+		await routinesApi.deactivateRoutine();
+	};
+
+	return (
+		<RightSwipeWrapper
+			onRightSwipe={() => {
+				console.log("delete");
+			}}
+		>
+			<Link
+				href={`/(routines)/details/${item.id}`}
+				className="flex-row justify-between items-center"
+			>
+				<RegularText>{item.name}</RegularText>
+				<TouchableOpacity onPress={handleActivity}>
+					<RegularText>{isActive ? "Deactivate" : "Activate"}</RegularText>
+				</TouchableOpacity>
+			</Link>
+		</RightSwipeWrapper>
 	);
 };
 

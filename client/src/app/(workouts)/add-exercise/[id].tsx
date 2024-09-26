@@ -17,7 +17,8 @@ const AddExercise = () => {
 	const [selectedExerciseId, setSelectedExerciseId] = useState<number | null>(
 		null
 	);
-	const { id } = useLocalSearchParams();
+	const { id, exerciseIds } = useLocalSearchParams();
+	const exerciseIdSet: Set<number> = new Set(JSON.parse(exerciseIds as string));
 
 	useEffect(() => {
 		const getExercises = async () => {
@@ -71,6 +72,7 @@ const AddExercise = () => {
 					exercises={groupedExercises[group as MuscleGroup]}
 					selectedExerciseId={selectedExerciseId}
 					setSelectedExerciseId={setSelectedExerciseId}
+					exerciseIdSet={exerciseIdSet}
 				/>
 			))}
 			{selectedExerciseId && (
@@ -90,11 +92,13 @@ const GroupedExercises = ({
 	exercises,
 	selectedExerciseId,
 	setSelectedExerciseId,
+	exerciseIdSet,
 }: {
 	group: MuscleGroup;
 	exercises: IExercise[];
 	selectedExerciseId: number | null;
 	setSelectedExerciseId: React.Dispatch<React.SetStateAction<number | null>>;
+	exerciseIdSet: Set<number>;
 }) => {
 	return (
 		<View className="mb-4">
@@ -105,8 +109,13 @@ const GroupedExercises = ({
 					<TouchableOpacity
 						className={`flex flex-row items-center justify-between bg-white p-2 rounded-md ${
 							selectedExerciseId === item.id ? "bg-light-pink" : ""
-						}`}
-						onPress={() => setSelectedExerciseId(item.id)}
+						} ${exerciseIdSet.has(item.id) ? "opacity-50" : ""}`}
+						onPress={() => {
+							if (exerciseIdSet.has(item.id)) {
+								return;
+							}
+							setSelectedExerciseId(item.id);
+						}}
 					>
 						<View className="flex flex-row items-center gap-2 justify-between w-full">
 							<View className="flex flex-row items-center gap-2">

@@ -12,13 +12,12 @@ interface RightSwipeWrapperProps {
 	children: ReactNode;
 	onRightSwipe: () => any;
 	style?: ViewStyle;
+	className?: string;
 }
 
-const RightSwipeWrapper: React.FC<RightSwipeWrapperProps> = ({
-	children,
-	onRightSwipe,
-	style,
-}) => {
+const RightSwipeWrapper: React.FC<
+	RightSwipeWrapperProps & Animated.AnimatedProps<ViewStyle>
+> = ({ children, onRightSwipe, style }) => {
 	const translateX = new Animated.Value(0); // Animated value for swipe effect
 
 	// Create a pan responder for swipe gestures
@@ -59,7 +58,7 @@ const RightSwipeWrapper: React.FC<RightSwipeWrapperProps> = ({
 		<Animated.View
 			style={{ transform: [{ translateX }], ...style }} // Apply the animated translation
 			{...panResponder.panHandlers} // Attach the pan responder handlers
-			className="w-full"
+			className={`w-full`}
 		>
 			{children}
 		</Animated.View>

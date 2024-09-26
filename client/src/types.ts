@@ -34,6 +34,7 @@ export interface IUser {
 	username: string;
 	password: string;
 	profilePicture: string;
+	activeRoutine: IRoutine | null;
 	workouts: Array<IWorkout>;
 	routines: Array<IRoutine>;
 	roles: Set<IUserRole>;

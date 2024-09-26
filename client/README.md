@@ -14,7 +14,7 @@
   - [x] Remove exercises from the workout with a swipe
   - [ ] Click on an exercise to see its details
   - [ ] Change the order of the exercises
-  - [ ] Better exercise adding
+  - [x] Better exercise adding
 
 - [ ] Workout functionality
 
@@ -68,14 +68,14 @@
   - [x] Details modal
   - [x] Delete the log in the details screen
 
-- [ ] Routines screen:
+- [x] Routines screen:
 
   - [x] Display routines
-  - [ ] Show the active routine
+  - [x] Show the active routine
   - [x] Show other routines
 
-  - [ ] Make routine active
-  - [ ] Deactivate the routine
+  - [x] Make routine active
+  - [x] Deactivate the routine
 
   - [x] Add a routine
 

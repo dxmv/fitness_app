@@ -75,10 +75,25 @@ const activateRoutine = async (id: number): Promise<IUser> =>
 		},
 	});
 
+/**
+ * Make routine inactive by its ID
+ * @returns {Promise<IUser>} - The user
+ */
+
+const deactivateRoutine = async (): Promise<IUser> =>
+	await fetchApi(`${API_URL}/deactivate`, {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+	});
+
 export default {
 	getAllRoutines,
 	createRoutine,
 	getRoutineById,
 	deleteRoutine,
 	activateRoutine,
+	deactivateRoutine,
 };

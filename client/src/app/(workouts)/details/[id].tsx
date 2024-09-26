@@ -32,7 +32,6 @@ const WorkoutScreen = () => {
 
 	const handleDeleteExercise = async (exerciseId: number) => {
 		try {
-			// Assuming you have an API function to remove an exercise from a workout
 			await workoutApi.removeExerciseFromWorkout(workout.id, exerciseId);
 		} catch (e) {
 			console.log(e);
@@ -66,7 +65,16 @@ const WorkoutScreen = () => {
 			<View className="flex-row justify-between items-center mb-4">
 				<BoldText className="text-3xl text-gray-800">{workout.name}</BoldText>
 				<TouchableOpacity
-					onPress={() => router.push(`/add-exercise/${workout.id}`)}
+					onPress={() =>
+						router.push({
+							pathname: `/add-exercise/${workout.id}`,
+							params: {
+								exerciseIds: JSON.stringify(
+									workout.workoutExercises.map(ex => ex.exercise.id)
+								),
+							},
+						})
+					}
 				>
 					<Feather name="plus-circle" size={30} color="#4F46E5" />
 				</TouchableOpacity>
