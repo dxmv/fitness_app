@@ -9,6 +9,9 @@ import WeeklyScheduleRoutine from "../../../components/WeeklyScheduleRoutine";
 import ReusableModal from "../../../components/MyModal";
 import CustomTextInput from "../../../components/CustomTextInput";
 import PrimaryButton from "../../../components/buttons/PrimaryButton";
+import { LinearGradientWrapper } from "../../../components/wrappers/LinearGradientWrapper";
+import { Feather } from "@expo/vector-icons";
+import Dropdown from "../../../components/Dropdown";
 
 const SingleRoutineScreen = () => {
 	const [routine, setRoutine] = useState<IRoutine | null>(null);
@@ -58,32 +61,43 @@ const SingleRoutineScreen = () => {
 		await routinesApi.deactivateRoutine();
 	};
 
-	console.log(isActive);
-
 	return (
-		<View className="flex-1 bg-gray-100 p-4">
+		<LinearGradientWrapper>
+			<View className="flex-row justify-between items-center mb-4">
+				<TouchableOpacity onPress={() => router.back()}>
+					<Feather name="arrow-left" size={24} color="white" />
+				</TouchableOpacity>
+				<Dropdown
+					options={[
+						{
+							label: `${isActive ? "Deactivate" : "Activate"}`,
+							onPress: () => handleActivity(),
+						},
+						{
+							label: "Delete",
+							onPress: () => handleRoutineDeletion(routine.id),
+						},
+					]}
+				/>
+			</View>
 			<TouchableOpacity onPress={() => setIsEditing(true)}>
-				<BoldText className="text-3xl text-dark-black">{routine.name}</BoldText>
+				<BoldText className="text-3xl text-white mb-4">{routine.name}</BoldText>
 			</TouchableOpacity>
 			<WeeklyScheduleRoutine
 				weeklySchedule={routine.weeklySchedule}
 				routineId={routine.id}
 			/>
-			<Button
-				title={`Make ${isActive === "1" ? "inactive" : "active"}`}
-				onPress={handleActivity}
-			/>
-			<Button
-				title="Delete"
-				onPress={() => handleRoutineDeletion(routine.id)}
-			/>
+			{/* Recent workouts for this routine */}
+			<BoldText className="text-xl text-light-gray my-4">
+				Recent workouts for this routine
+			</BoldText>
 			<EditNameModal
 				isVisible={isEditing}
 				onClose={() => setIsEditing(false)}
 				routineId={routine.id}
 				originalRoutineName={routine.name}
 			/>
-		</View>
+		</LinearGradientWrapper>
 	);
 };
 

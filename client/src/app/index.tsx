@@ -7,6 +7,7 @@ import { ICompletedWorkout } from "../types";
 import workoutLogApi from "../api/workoutLogApi";
 import LightText from "../components/text/LightText";
 import RegularText from "../components/text/RegularText";
+import { LinearGradientWrapper } from "../components/wrappers/LinearGradientWrapper";
 
 const HomeScreen = () => {
 	const [recentWorkouts, setRecentWorkouts] = useState<ICompletedWorkout[]>([]);
@@ -20,8 +21,12 @@ const HomeScreen = () => {
 	}, []);
 
 	return (
-		<View className="flex-1 bg-gray-100 p-4">
-			<BoldText>Welcome</BoldText>
+		<LinearGradientWrapper>
+			<BoldText className="text-2xl text-white mb-4">
+				Welcome, username
+			</BoldText>
+			{/* Workout for today (from the active routine) */}
+
 			<View className="flex-row justify-between items-center">
 				<BoldText>Recent workouts</BoldText>
 				<Link href="/completed_workouts">
@@ -38,7 +43,7 @@ const HomeScreen = () => {
 					<LightText>{workout.completedAt}</LightText>
 				</View>
 			))}
-		</View>
+		</LinearGradientWrapper>
 	);
 };
 

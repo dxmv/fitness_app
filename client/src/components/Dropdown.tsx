@@ -18,7 +18,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options }) => {
 		<View className="flex flex-row justify-end items-end w-full">
 			{/* Button to open the dropdown */}
 			<TouchableOpacity onPress={toggleDropdown} className="p-2 ">
-				<Feather name="more-vertical" size={24} color="black" />
+				<Feather name="more-vertical" size={24} color="white" />
 			</TouchableOpacity>
 
 			{/* Modal for dropdown options */}
