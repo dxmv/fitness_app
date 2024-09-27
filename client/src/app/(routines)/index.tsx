@@ -5,11 +5,11 @@ import BoldText from "../../components/text/BoldText";
 import LightText from "../../components/text/LightText";
 import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
-import RegularText from "../../components/text/RegularText";
-import { Link, router } from "expo-router";
-import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
+import { router } from "expo-router";
 import routinesApi from "../../api/routines/routinesApi";
 import userApi from "../../api/user/userApi";
+import { LinearGradientWrapper } from "../../components/wrappers/LinearGradientWrapper";
+import RoutineItem from "./_components/RoutineItem";
 
 const RoutinesScreen = () => {
 	// State to hold the list of routines
@@ -20,7 +20,7 @@ const RoutinesScreen = () => {
 	// State to hold the name of the new routine being added
 	const [newRoutineName, setNewRoutineName] = useState<string>("");
 
-	// Effect to fetch routines when the component mounts
+	// Effect to fetch routines & active routine when the component mounts
 	useEffect(() => {
 		const fetchRoutines = async () => {
 			const routines = await routinesApi.getAllRoutines();
@@ -44,26 +44,35 @@ const RoutinesScreen = () => {
 	};
 
 	return (
-		<View className="flex-1 bg-gray-100 p-4">
+		<LinearGradientWrapper>
 			<View className="flex-row justify-between items-center mb-4">
-				<BoldText className="text-3xl text-dark-black">Your Routines</BoldText>
+				<TouchableOpacity onPress={() => router.back()}>
+					<Feather name="arrow-left" size={24} color="white" />
+				</TouchableOpacity>
 				<TouchableOpacity onPress={() => setIsAddModalVisible(true)}>
-					<Feather name="plus-circle" size={30} color="#4F46E5" />
+					<Feather name="plus-circle" size={24} color="white" />
 				</TouchableOpacity>
 			</View>
-
-			{activeRoutine && (
-				<View>
-					<BoldText>Active Routine</BoldText>
-					<RoutineItem item={activeRoutine} isActive={true} />
-				</View>
+			{/* Active routine part */}
+			<BoldText className="text-3xl text-white mb-1">Active routine</BoldText>
+			{activeRoutine ? (
+				<RoutineItem item={activeRoutine} isActive={true} />
+			) : (
+				<LightText className="text-light-gray">No active routine</LightText>
 			)}
+
+			{/* All routines part */}
+			<BoldText className="text-3xl text-white mb-1 mt-4">
+				Your Routines
+			</BoldText>
 			{routines.length === 0 ? (
-				<LightText>No routines to show</LightText>
+				<LightText className="text-light-gray">No routines to show</LightText>
 			) : (
 				<FlatList
 					data={routines}
-					renderItem={({ item }) => <RoutineItem item={item} />}
+					renderItem={({ item }) => (
+						<RoutineItem item={item} isActive={item.id === activeRoutine?.id} />
+					)}
 					keyExtractor={item => item.id.toString()}
 					contentContainerStyle={{ paddingBottom: 100 }}
 					showsVerticalScrollIndicator={false}
@@ -89,56 +98,7 @@ const RoutinesScreen = () => {
 					</TouchableOpacity>
 				</View>
 			</ReusableModal>
-		</View>
-	);
-};
-
-const RoutineItem = ({
-	item,
-	isActive = false,
-}: {
-	item: IRoutine;
-	isActive?: boolean;
-}) => {
-	const handleActivity = async () => {
-		if (isActive) {
-			handleDeactivateRoutine();
-		} else {
-			handleActivateRoutine();
-		}
-	};
-
-	const handleActivateRoutine = async () => {
-		await routinesApi.activateRoutine(item.id);
-	};
-
-	const handleDeactivateRoutine = async () => {
-		await routinesApi.deactivateRoutine();
-	};
-
-	return (
-		<RightSwipeWrapper
-			onRightSwipe={() => {
-				console.log("delete");
-			}}
-		>
-			<TouchableOpacity
-				onPress={() => {
-					router.push({
-						pathname: `/(routines)/details/${item.id}`,
-						params: {
-							isActive: isActive ? 1 : 0,
-						},
-					});
-				}}
-				className="flex-row justify-between items-center"
-			>
-				<RegularText>{item.name}</RegularText>
-				<TouchableOpacity onPress={handleActivity}>
-					<RegularText>{isActive ? "Deactivate" : "Activate"}</RegularText>
-				</TouchableOpacity>
-			</TouchableOpacity>
-		</RightSwipeWrapper>
+		</LinearGradientWrapper>
 	);
 };
 

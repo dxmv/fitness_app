@@ -9,7 +9,7 @@ export const LinearGradientWrapper = ({
 }: Omit<LinearGradientProps, "colors">) => {
 	return (
 		<LinearGradient
-			colors={["#121212", "#7B1FA2", "#FF4081"]}
+			colors={["#7B1FA2", "#FF4081"]}
 			start={{ x: 0, y: 1 }}
 			end={{ x: 1, y: 0 }}
 			style={{ flex: 1 }}
