@@ -1,16 +1,19 @@
-import { View, Button } from "react-native";
+import { View, Button, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-
 import LightText from "../../../components/text/LightText";
 import routinesApi from "../../../api/routines/routinesApi";
 import { IRoutine } from "../../../types";
 import BoldText from "../../../components/text/BoldText";
 import WeeklyScheduleRoutine from "../../../components/WeeklyScheduleRoutine";
+import ReusableModal from "../../../components/MyModal";
+import CustomTextInput from "../../../components/CustomTextInput";
+import PrimaryButton from "../../../components/buttons/PrimaryButton";
 
 const SingleRoutineScreen = () => {
 	const [routine, setRoutine] = useState<IRoutine | null>(null);
 	const { id, isActive } = useLocalSearchParams();
+	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const router = useRouter();
 
 	// Fetch the routine details when the component mounts
@@ -59,7 +62,9 @@ const SingleRoutineScreen = () => {
 
 	return (
 		<View className="flex-1 bg-gray-100 p-4">
-			<BoldText className="text-3xl text-dark-black">{routine.name}</BoldText>
+			<TouchableOpacity onPress={() => setIsEditing(true)}>
+				<BoldText className="text-3xl text-dark-black">{routine.name}</BoldText>
+			</TouchableOpacity>
 			<WeeklyScheduleRoutine
 				weeklySchedule={routine.weeklySchedule}
 				routineId={routine.id}
@@ -72,7 +77,55 @@ const SingleRoutineScreen = () => {
 				title="Delete"
 				onPress={() => handleRoutineDeletion(routine.id)}
 			/>
+			<EditNameModal
+				isVisible={isEditing}
+				onClose={() => setIsEditing(false)}
+				routineId={routine.id}
+				originalRoutineName={routine.name}
+			/>
 		</View>
+	);
+};
+
+const EditNameModal = ({
+	isVisible,
+	onClose,
+	routineId,
+	originalRoutineName,
+}: {
+	isVisible: boolean;
+	routineId: number;
+	originalRoutineName: string;
+	onClose: () => void;
+}) => {
+	const [routineName, setRoutineName] = useState<string>(originalRoutineName);
+
+	const handleSave = async () => {
+		// save the new name
+		try {
+			await routinesApi.updateRoutine(routineId, { name: routineName });
+		} catch (e) {
+			console.log(e);
+		}
+		onClose();
+	};
+
+	return (
+		<ReusableModal
+			isVisible={isVisible}
+			onClose={onClose}
+			title="Edit Workout Name"
+		>
+			<View>
+				<CustomTextInput
+					label="Routine Name"
+					value={routineName}
+					onChangeText={setRoutineName}
+					placeholder="Workout Name"
+				/>
+				<PrimaryButton title="Save" onPress={handleSave} />
+			</View>
+		</ReusableModal>
 	);
 };
 

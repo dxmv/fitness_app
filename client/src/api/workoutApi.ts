@@ -48,6 +48,25 @@ const createWorkout = async (workoutName: string): Promise<IWorkout> =>
 	});
 
 /**
+ * Updates an existing workout
+ * @param workoutId - The id of the workout.
+ * @param workoutDetails - The updated workout details.
+ * @returns {Promise<IWorkout>} - The updated workout
+ */
+const updateWorkout = async (
+	workoutId: number,
+	workoutDetails: Partial<IWorkout>
+): Promise<IWorkout> =>
+	await fetchApi(`${API_URL}/${workoutId}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+		body: JSON.stringify(workoutDetails),
+	});
+
+/**
  * Removes an workout exercise from a workout
  * @param workoutId - The id of the workout.
  * @returns {Promise<void>}
@@ -104,4 +123,5 @@ export default {
 	addExerciseToWorkout,
 	removeExerciseFromWorkout,
 	deleteWorkout,
+	updateWorkout,
 };

@@ -47,6 +47,25 @@ const getRoutineById = async (id: string): Promise<IRoutine> =>
 	});
 
 /**
+ * Updates a routine by its ID
+ * @param {string} id - The ID of the routine to update
+ * @param {IRoutine} routine - The routine to update
+ * @returns {Promise<IRoutine>} - The updated routine
+ */
+const updateRoutine = async (
+	id: number,
+	routine: Partial<IRoutine>
+): Promise<IRoutine> =>
+	await fetchApi(`${API_URL}/${id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${await secureStorage.getToken()}`,
+		},
+		body: JSON.stringify(routine),
+	});
+
+/**
  * Deletes a routine by its ID
  * @param {string} id - The ID of the routine to delete
  * @returns {Promise<void>} - The routine
@@ -96,4 +115,5 @@ export default {
 	deleteRoutine,
 	activateRoutine,
 	deactivateRoutine,
+	updateRoutine,
 };
