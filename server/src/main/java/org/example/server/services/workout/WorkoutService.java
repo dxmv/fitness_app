@@ -74,6 +74,7 @@ public class WorkoutService {
     public Workout updateWorkout(Long id, Workout workout) {
         Workout workoutDb = getWorkoutById(id);
         // update here
+        workoutDb.setName(workout.getName());
         return workoutRepository.save(workoutDb);
     }
 

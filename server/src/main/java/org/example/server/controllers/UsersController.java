@@ -1,6 +1,7 @@
 package org.example.server.controllers;
 
 import org.example.server.dto.DeleteResponse;
+import org.example.server.dto.user.UserUpdateDTO;
 import org.example.server.models.User;
 import org.example.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,15 +58,13 @@ public class UsersController {
 
     /**
      * Update an existing user.
-     * @param username the new username
-     * @param email the new email
+     * @param userUpdateDTO The username and email
      * @return The updated user.
      */
-    @PutMapping(path="/current",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping("/current")
     public ResponseEntity<User> updateUser(
-            @RequestPart("username") String username,
-            @RequestPart("email") String email){
-        return new ResponseEntity<>(userService.updateCurrentUser(username,email), HttpStatus.OK);
+            @RequestBody UserUpdateDTO userUpdateDTO){
+        return new ResponseEntity<>(userService.updateCurrentUser(userUpdateDTO.getUsername(),userUpdateDTO.getEmail()), HttpStatus.OK);
     }
 
     /**
