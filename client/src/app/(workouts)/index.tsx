@@ -7,6 +7,8 @@ import workoutApi from "../../api/workoutApi";
 import WorkoutItem from "./_components/WorkoutItem";
 import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
+import { LinearGradientWrapper } from "../../components/wrappers/LinearGradientWrapper";
+import FloatingButton from "../../components/buttons/FloatingButton";
 
 const AllWorkouts = () => {
 	const [workouts, setWorkouts] = useState<Array<IWorkout> | null>(null);
@@ -50,13 +52,8 @@ const AllWorkouts = () => {
 	);
 
 	return (
-		<View className="flex-1 bg-gray-100 p-4">
-			<View className="flex-row justify-between items-center mb-4">
-				<BoldText className="text-3xl text-dark-black">Your Workouts</BoldText>
-				<TouchableOpacity onPress={() => setIsAddModalVisible(true)}>
-					<Feather name="plus-circle" size={30} color="#4F46E5" />
-				</TouchableOpacity>
-			</View>
+		<LinearGradientWrapper className="relative">
+			<BoldText className="text-3xl text-white mb-4">Your Workouts</BoldText>
 			{workouts && workouts.length > 0 ? (
 				<FlatList
 					data={workouts}
@@ -70,6 +67,11 @@ const AllWorkouts = () => {
 					No workouts to show
 				</LightText>
 			)}
+			<FloatingButton
+				iconName="plus-circle"
+				onPress={() => setIsAddModalVisible(true)}
+				className="bg-primary-pink"
+			/>
 			<ReusableModal
 				isVisible={isAddModalVisible}
 				onClose={() => setIsAddModalVisible(false)}
@@ -90,7 +92,7 @@ const AllWorkouts = () => {
 					</TouchableOpacity>
 				</View>
 			</ReusableModal>
-		</View>
+		</LinearGradientWrapper>
 	);
 };
 

@@ -80,7 +80,7 @@ const AddExercise = () => {
 					className="absolute bottom-28 right-5 bg-secondary-purple text-white p-3 rounded-full"
 					onPress={handleAddExercise}
 				>
-					<Feather name="check" size={32} color="white" />
+					<Feather name="check" size={24} color="white" />
 				</TouchableOpacity>
 			)}
 		</View>
