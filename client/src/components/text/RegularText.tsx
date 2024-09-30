@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Text, TextProps } from "react-native";
 
 const RegularText = ({ children, className, ...props }: TextProps) => {

@@ -1,27 +1,24 @@
 // This wrapper component is designed to provide a right swipe functionality for its children components.
 import {
-	View,
 	ViewStyle,
+	ViewProps,
 	PanResponder,
 	GestureResponderEvent,
 	Animated,
 } from "react-native";
 import React, { ReactNode } from "react";
 
-interface RightSwipeWrapperProps {
+const RightSwipeWrapper = ({
+	children,
+	onRightSwipe,
+	...props
+}: {
 	children: ReactNode;
 	onRightSwipe: () => any;
-	style?: ViewStyle;
-	className?: string;
-}
-
-const RightSwipeWrapper: React.FC<
-	RightSwipeWrapperProps & Animated.AnimatedProps<ViewStyle>
-> = ({ children, onRightSwipe, style }) => {
+} & Animated.AnimatedProps<ViewProps>) => {
 	const translateX = new Animated.Value(0); // Animated value for swipe effect
 
 	// Create a pan responder for swipe gestures
-
 	const panResponder = React.useRef(
 		PanResponder.create({
 			onMoveShouldSetPanResponder: (
@@ -56,9 +53,10 @@ const RightSwipeWrapper: React.FC<
 
 	return (
 		<Animated.View
-			style={{ transform: [{ translateX }], ...style }} // Apply the animated translation
+			style={{ transform: [{ translateX }] }} // Apply the animated translation
 			{...panResponder.panHandlers} // Attach the pan responder handlers
-			className={`w-full`}
+			className={`w-full `}
+			{...props}
 		>
 			{children}
 		</Animated.View>

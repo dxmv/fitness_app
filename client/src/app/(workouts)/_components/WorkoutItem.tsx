@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import React from "react";
 import { IWorkout } from "../../../types";
 import { useRouter } from "expo-router";
@@ -9,7 +9,9 @@ import { Ionicons } from "@expo/vector-icons";
 const WorkoutItem = ({ index, item }: { index?: number; item: IWorkout }) => {
 	const router = useRouter();
 
+	// Function to handle the press event
 	const handlePress = () => {
+		// Navigate to the workout details page
 		router.push(`/(workouts)/details/${item.id}`);
 	};
 

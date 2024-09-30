@@ -1,66 +1,60 @@
-import React, { useRef } from "react";
-import {
-	View,
-	GestureResponderEvent,
-	PanResponder,
-	Animated,
-} from "react-native";
+import React from "react";
+import { View, TouchableOpacity, Image } from "react-native";
 import { IWorkoutExercise } from "../../../types";
 import LightText from "../../../components/text/LightText";
+import RightSwipeWrapper from "../../../components/wrappers/RightSwipeWrapper";
+import workoutApi from "../../../api/workoutApi";
+import { Feather } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 // Define the props for the WorkoutExerciseItem component
 interface WorkoutExerciseItemProps {
 	workoutExercise: IWorkoutExercise; // The workout exercise data
-	onDelete: (id: number) => void; // Function to handle deletion of the exercise
+	workoutId: number; // The id of the workout
 }
 
 // Functional component for displaying a workout exercise item
 const WorkoutExerciseItem: React.FC<WorkoutExerciseItemProps> = ({
 	workoutExercise,
-	onDelete,
+	workoutId,
 }) => {
-	const translateX = new Animated.Value(0); // Animated value for swipe effect
-
-	// Create a pan responder for swipe gestures
-	const panResponder = React.useRef(
-		PanResponder.create({
-			onMoveShouldSetPanResponder: (
-				evt: GestureResponderEvent,
-				gestureState
-			) => {
-				return gestureState.dx > 30; // Detect right swipe
-			},
-			onPanResponderMove: (evt, gestureState) => {
-				translateX.setValue(gestureState.dx); // Update the animated value during swipe
-			},
-			onPanResponderRelease: (evt, gestureState) => {
-				if (gestureState.dx > 100) {
-					// If swiped more than 100px, trigger delete
-					Animated.timing(translateX, {
-						toValue: 500,
-						duration: 300,
-						useNativeDriver: true,
-					}).start(() => {
-						onDelete(workoutExercise.id); // Call the delete function
-					});
-				} else {
-					// Otherwise, snap back to original position
-					Animated.spring(translateX, {
-						toValue: 0,
-						useNativeDriver: true,
-					}).start();
-				}
-			},
-		})
-	).current;
+	const handleDeleteExercise = async () => {
+		try {
+			await workoutApi.removeExerciseFromWorkout(workoutId, workoutExercise.id);
+		} catch (e) {
+			console.log(e);
+		}
+	};
 
 	return (
-		<Animated.View
-			style={{ transform: [{ translateX }] }} // Apply the animated translation
-			{...panResponder.panHandlers} // Attach the pan responder handlers
+		<RightSwipeWrapper
+			onRightSwipe={handleDeleteExercise}
+			className="bg-light-purple p-4 rounded-lg shadow-md" // Using NativeWind classes
 		>
-			<LightText>{workoutExercise.exercise.name}</LightText>
-		</Animated.View>
+			<View className="flex-row justify-between items-center">
+				<View className="flex-row items-center gap-2">
+					<Image
+						source={{
+							uri: "https://m.media-amazon.com/images/I/61lpZ1gGxkL._AC_UF1000,1000_QL80_.jpg",
+						}}
+						width={32}
+						height={32}
+						className="rounded-md"
+					/>
+					<LightText className="text-lg font-bold">
+						{workoutExercise.exercise.name}
+					</LightText>
+				</View>
+				{/* Info button */}
+				<TouchableOpacity
+					onPress={() =>
+						router.push(`/exercises/${workoutExercise.exercise.id}`)
+					}
+				>
+					<Feather name="info" size={24} color="white" />
+				</TouchableOpacity>
+			</View>
+		</RightSwipeWrapper>
 	);
 };
 

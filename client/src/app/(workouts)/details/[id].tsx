@@ -5,11 +5,13 @@ import workoutApi from "../../../api/workoutApi";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import LightText from "../../../components/text/LightText";
 import BoldText from "../../../components/text/BoldText";
-import { Feather } from "@expo/vector-icons";
+
 import WorkoutExerciseItem from "../_components/WorkoutExerciseItem";
-import ReusableModal from "../../../components/MyModal";
-import CustomTextInput from "../../../components/CustomTextInput";
-import PrimaryButton from "../../../components/buttons/PrimaryButton";
+import EditNameModal from "../../../components/modals/EditNameModal";
+import FloatingButton from "../../../components/buttons/FloatingButton";
+import { LinearGradientWrapper } from "../../../components/wrappers/LinearGradientWrapper";
+import { Feather } from "@expo/vector-icons";
+import SecondaryButton from "../../../components/buttons/SecondaryButton";
 
 const WorkoutScreen = () => {
 	const router = useRouter();
@@ -34,14 +36,6 @@ const WorkoutScreen = () => {
 		return <LightText>Loading...</LightText>;
 	}
 
-	const handleDeleteExercise = async (exerciseId: number) => {
-		try {
-			await workoutApi.removeExerciseFromWorkout(workout.id, exerciseId);
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
 	const handleDeleteWorkout = async () => {
 		try {
 			await workoutApi.deleteWorkout(workout.id);
@@ -63,92 +57,64 @@ const WorkoutScreen = () => {
 		});
 	};
 
+	const handleUpdateWorkout = async (id: number, name: string) => {
+		try {
+			const res = await workoutApi.updateWorkout(id, { name });
+			setWorkout(res);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	return (
-		<View className="flex-1 bg-light-gray p-4">
+		<LinearGradientWrapper>
 			{/* Workout header */}
 			<View className="flex-row justify-between items-center mb-4">
 				<TouchableOpacity onPress={() => setIsEditing(true)}>
-					<BoldText className="text-3xl text-gray-800">{workout.name}</BoldText>
+					<BoldText className="text-3xl text-white">{workout.name}</BoldText>
 				</TouchableOpacity>
-				<TouchableOpacity
-					onPress={() =>
-						router.push({
-							pathname: `/add-exercise/${workout.id}`,
-							params: {
-								exerciseIds: JSON.stringify(
-									workout.workoutExercises.map(ex => ex.exercise.id)
-								),
-							},
-						})
-					}
-				>
-					<Feather name="plus-circle" size={30} color="#4F46E5" />
+				<TouchableOpacity onPress={handleDeleteWorkout}>
+					<Feather name="trash-2" size={24} color="white" />
 				</TouchableOpacity>
 			</View>
 			{/* List of exercises in the workout */}
 			{workout.workoutExercises && workout.workoutExercises.length === 0 ? (
-				<LightText>No exercises yet</LightText>
+				<LightText className="text-light-gray">No exercises yet</LightText>
 			) : (
 				workout.workoutExercises.map(workoutExercise => (
 					<WorkoutExerciseItem
 						key={workoutExercise.id}
 						workoutExercise={workoutExercise}
-						onDelete={handleDeleteExercise}
+						workoutId={workout.id}
 					/>
 				))
 			)}
-			<View className="mb-10"></View>
-			<Button title="Start Workout" onPress={handleStartWorkout} />
-			<Button title="Delete Workout" onPress={handleDeleteWorkout} />
+			<View className="mb-6"></View>
+			<SecondaryButton title="Start Workout" onPress={handleStartWorkout} />
+			{/* Floating button to add an exercise to the workout */}
+			<FloatingButton
+				onPress={() =>
+					router.push({
+						pathname: `/add-exercise/${workout.id}`,
+						params: {
+							exerciseIds: JSON.stringify(
+								workout.workoutExercises.map(ex => ex.exercise.id)
+							),
+						},
+					})
+				}
+				iconName="plus-circle"
+				className="bg-primary-pink"
+			/>
+			{/* Reusable edit name modal */}
 			<EditNameModal
 				isVisible={isEditing}
 				onClose={() => setIsEditing(false)}
-				workoutId={workout.id}
-				originalWorkoutName={workout.name}
+				itemId={workout.id}
+				originalItemName={workout.name}
+				updateItemApi={handleUpdateWorkout}
 			/>
-		</View>
-	);
-};
-
-const EditNameModal = ({
-	isVisible,
-	onClose,
-	workoutId,
-	originalWorkoutName,
-}: {
-	isVisible: boolean;
-	workoutId: number;
-	originalWorkoutName: string;
-	onClose: () => void;
-}) => {
-	const [workoutName, setWorkoutName] = useState<string>(originalWorkoutName);
-
-	const handleSave = async () => {
-		// save the new name
-		try {
-			await workoutApi.updateWorkout(workoutId, { name: workoutName });
-		} catch (e) {
-			console.log(e);
-		}
-		onClose();
-	};
-
-	return (
-		<ReusableModal
-			isVisible={isVisible}
-			onClose={onClose}
-			title="Edit Workout Name"
-		>
-			<View>
-				<CustomTextInput
-					label="Workout Name"
-					value={workoutName}
-					onChangeText={setWorkoutName}
-					placeholder="Workout Name"
-				/>
-				<PrimaryButton title="Save" onPress={handleSave} />
-			</View>
-		</ReusableModal>
+		</LinearGradientWrapper>
 	);
 };
 
