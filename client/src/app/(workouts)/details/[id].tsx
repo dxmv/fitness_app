@@ -11,7 +11,7 @@ import EditNameModal from "../../../components/modals/EditNameModal";
 import FloatingButton from "../../../components/buttons/FloatingButton";
 import { LinearGradientWrapper } from "../../../components/wrappers/LinearGradientWrapper";
 import { Feather } from "@expo/vector-icons";
-import SecondaryButton from "../../../components/buttons/SecondaryButton";
+import PrimaryButton from "../../../components/buttons/PrimaryButton";
 
 const WorkoutScreen = () => {
 	const router = useRouter();
@@ -90,7 +90,10 @@ const WorkoutScreen = () => {
 				))
 			)}
 			<View className="mb-6"></View>
-			<SecondaryButton title="Start Workout" onPress={handleStartWorkout} />
+			{/* Start workout button */}
+			{workout.workoutExercises.length > 0 && (
+				<PrimaryButton title="Start Workout" onPress={handleStartWorkout} />
+			)}
 			{/* Floating button to add an exercise to the workout */}
 			<FloatingButton
 				onPress={() =>

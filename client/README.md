@@ -58,7 +58,7 @@
 
 - [ ] Home screen:
 
-  - [ ] Today's workout from the active routine
+  - [x] Today's workout from the active routine
   - [ ] Weekly calendar that shows whether the user has workouts for that day
   - [ ] Recent activities (show the workouts from last 7 days)
 
@@ -92,7 +92,7 @@
   - [x] Make the current routine active
   - [x] Deactivate the routine
 
-  - [ ] Change the routine name
+  - [x] Change the routine name
   - [x] Delete the routine
 
 - [ ] Profile screen:

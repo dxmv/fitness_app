@@ -41,11 +41,13 @@ const BottomNavigation = () => {
 	}
 
 	const navItems = [
-		{ name: "/", icon: "home" },
+		{ name: "", icon: "home" },
 		{ name: "/(workouts)/", icon: "fitness" },
-		{ name: "/(routines)/", icon: "fitness" },
+		{ name: "/(routines)", icon: "fitness" },
 		{ name: "/(user)/profile", icon: "person" },
 	];
+
+	console.log(pathname);
 
 	return (
 		<View className="absolute bottom-8 left-4 right-4">
@@ -59,7 +61,7 @@ const BottomNavigation = () => {
 					>
 						<TouchableOpacity className="items-center">
 							<Ionicons
-								name={item.icon}
+								name={item.icon as any}
 								size={24}
 								color={pathname === `${item.name}` ? "#FF4081" : "#7B1FA2"}
 							/>

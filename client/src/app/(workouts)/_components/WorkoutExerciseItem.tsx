@@ -41,7 +41,7 @@ const WorkoutExerciseItem: React.FC<WorkoutExerciseItemProps> = ({
 						height={32}
 						className="rounded-md"
 					/>
-					<LightText className="text-lg font-bold">
+					<LightText className="text-lg font-bold text-secondary-purple">
 						{workoutExercise.exercise.name}
 					</LightText>
 				</View>
@@ -51,7 +51,7 @@ const WorkoutExerciseItem: React.FC<WorkoutExerciseItemProps> = ({
 						router.push(`/exercises/${workoutExercise.exercise.id}`)
 					}
 				>
-					<Feather name="info" size={24} color="white" />
+					<Feather name="info" size={24} color="#F5F5F5" />
 				</TouchableOpacity>
 			</View>
 		</RightSwipeWrapper>

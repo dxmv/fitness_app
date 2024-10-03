@@ -9,6 +9,7 @@ import LightText from "../components/text/LightText";
 import RegularText from "../components/text/RegularText";
 import { LinearGradientWrapper } from "../components/wrappers/LinearGradientWrapper";
 import userApi from "../api/user/userApi";
+import WorkoutItem from "./(workouts)/_components/WorkoutItem";
 
 const HomeScreen = () => {
 	const [recentWorkouts, setRecentWorkouts] = useState<ICompletedWorkout[]>([]);
@@ -27,24 +28,16 @@ const HomeScreen = () => {
 		fetchCurrentUser();
 	}, []);
 
+	console.log(currentUser);
+
 	return (
 		<LinearGradientWrapper>
 			{/* Some image here or a carousel */}
-			<BoldText className="text-2xl text-white mb-4">
-				Welcome, username
+			<BoldText className="text-3xl text-white mb-4">
+				Welcome, {currentUser?.username}
 			</BoldText>
 			{/* Workout for today (from the active routine) */}
-			{currentUser?.activeRoutine ? (
-				<View className="flex-row justify-between items-center">
-					<BoldText>Recent workouts</BoldText>
-					<Link href="/completed_workouts">
-						<LightText>Show all</LightText>
-					</Link>
-				</View>
-			) : (
-				<LightText>No active routine</LightText>
-			)}
-
+			<WorkoutForToday currentUser={currentUser} />
 			<View className="flex-row justify-between items-center">
 				<BoldText>Recent workouts</BoldText>
 				<Link href="/completed_workouts">
@@ -62,6 +55,40 @@ const HomeScreen = () => {
 				</View>
 			))}
 		</LinearGradientWrapper>
+	);
+};
+
+const WorkoutForToday = ({
+	currentUser,
+}: {
+	currentUser: IUser | undefined;
+}) => {
+	return (
+		<>
+			<BoldText className="text-xl text-light-gray mb-2">
+				Today's workout
+			</BoldText>
+			{currentUser?.activeRoutine ? (
+				<View className="flex-row justify-between items-center">
+					{currentUser.activeRoutine.weeklySchedule[new Date().getDay()]
+						.workout ? (
+						<WorkoutItem
+							item={
+								currentUser.activeRoutine.weeklySchedule[new Date().getDay()]
+									.workout
+							}
+						/>
+					) : (
+						<LightText className="text-light-gray">
+							No workout for today
+						</LightText>
+					)}
+				</View>
+			) : (
+				<LightText className="text-light-gray">No active routine</LightText>
+			)}
+			<View className="h-4" />
+		</>
 	);
 };
 

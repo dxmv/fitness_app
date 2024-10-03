@@ -8,6 +8,7 @@ import RegularText from "../../../components/text/RegularText";
 import ActiveWorkoutExercise from "../_components/ActiveWorkoutExercise";
 import MyModal from "../../../components/MyModal";
 import { showTimer } from "../../../utils/restTimer";
+import { LinearGradientWrapper } from "../../../components/wrappers/LinearGradientWrapper";
 
 const TIMER_CHANGE_INTERVAL = 10;
 const DEFAULT_TIMER_DURATION = 2;
@@ -129,7 +130,7 @@ const ActiveWorkoutScreen = () => {
 	}
 
 	return (
-		<View className="flex-1 bg-light-gray p-4">
+		<LinearGradientWrapper>
 			{/* Workout header */}
 			<View className="flex-row justify-between items-center mb-4 border-b-2 border-dark-black">
 				<BoldText className="text-3xl text-gray-800">
@@ -164,7 +165,7 @@ const ActiveWorkoutScreen = () => {
 				setIsRunning={setIsRunning}
 				setTimeLeft={setTimeLeft}
 			/>
-		</View>
+		</LinearGradientWrapper>
 	);
 };
 

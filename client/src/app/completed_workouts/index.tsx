@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
 import BoldText from "../../components/text/BoldText";
 import workoutLogApi from "../../api/workoutLogApi";
 import { ICompletedWorkout } from "../../types";
@@ -7,8 +8,13 @@ import RegularText from "../../components/text/RegularText";
 import LightText from "../../components/text/LightText";
 import ReusableModal from "../../components/MyModal";
 import RightSwipeWrapper from "../../components/wrappers/RightSwipeWrapper";
+import { LinearGradientWrapper } from "../../components/wrappers/LinearGradientWrapper";
+import { Feather } from "@expo/vector-icons";
+import CompletedWorkoutItem from "./_components/CompletedWorkoutItem";
 
 const CompletedWorkoutsScreen = () => {
+	const router = useRouter();
+
 	// State to hold completed workouts
 	const [completedWorkouts, setCompletedWorkouts] = useState<
 		ICompletedWorkout[]
@@ -47,23 +53,23 @@ const CompletedWorkoutsScreen = () => {
 	};
 
 	return (
-		<View className="flex-1 bg-gray-100 p-4">
-			<BoldText>Completed workouts</BoldText>
-			{completedWorkouts.map(workout => (
-				<RightSwipeWrapper
-					key={workout.id}
-					onRightSwipe={() => {
-						handleDeleteWorkout(workout);
-					}}
-				>
-					<View className="flex-row justify-between">
-						<TouchableOpacity onPress={() => handleShowWorkoutLog(workout)}>
-							<RegularText>{workout.workout.name}</RegularText>
-							<LightText>{workout.completedAt}</LightText>
-						</TouchableOpacity>
-					</View>
-				</RightSwipeWrapper>
-			))}
+		<LinearGradientWrapper>
+			{/* Back button */}
+			<TouchableOpacity onPress={() => router.back()} className="mb-8">
+				<Feather name="arrow-left" size={24} color="white" />
+			</TouchableOpacity>
+			{/* Title */}
+			<BoldText className="text-2xl text-white mb-4">
+				Completed workouts
+			</BoldText>
+			{/* List of completed workouts */}
+			<FlatList
+				data={completedWorkouts}
+				keyExtractor={workout => workout.id.toString()}
+				renderItem={({ item: workout }) => (
+					<CompletedWorkoutItem workout={workout} />
+				)}
+			/>
 			{showModal && modalLog && (
 				<ReusableModal
 					isVisible={showModal}
@@ -92,7 +98,7 @@ const CompletedWorkoutsScreen = () => {
 					</RegularText>
 				</ReusableModal>
 			)}
-		</View>
+		</LinearGradientWrapper>
 	);
 };
 
