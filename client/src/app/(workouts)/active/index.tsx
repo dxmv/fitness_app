@@ -1,18 +1,26 @@
-import { Button, Platform, Vibration, View } from "react-native";
+import {
+	Button,
+	Platform,
+	TouchableOpacity,
+	Vibration,
+	View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import BoldText from "../../../components/text/BoldText";
-import LightText from "../../../components/text/LightText";
 import { IExerciseSet, IWorkout } from "../../../types";
 import RegularText from "../../../components/text/RegularText";
 import ActiveWorkoutExercise from "../_components/ActiveWorkoutExercise";
 import MyModal from "../../../components/MyModal";
 import { showTimer } from "../../../utils/restTimer";
 import { LinearGradientWrapper } from "../../../components/wrappers/LinearGradientWrapper";
-
+import SecondaryButton from "../../../components/buttons/SecondaryButton";
+import Loading from "../../../components/Loading";
+import { AntDesign } from "@expo/vector-icons";
 const TIMER_CHANGE_INTERVAL = 10;
 const DEFAULT_TIMER_DURATION = 2;
 
+// vibration patterns for different platforms
 const VIBRATION_PATTERN =
 	Platform.OS === "ios" ? [0, 1000, 2000, 3000] : [1000, 2000, 1000, 2000];
 
@@ -126,19 +134,27 @@ const ActiveWorkoutScreen = () => {
 	};
 
 	if (!activeWorkout) {
-		return <LightText>Loading...</LightText>;
+		return <Loading />;
 	}
 
 	return (
 		<LinearGradientWrapper>
 			{/* Workout header */}
-			<View className="flex-row justify-between items-center mb-4 border-b-2 border-dark-black">
-				<BoldText className="text-3xl text-gray-800">
-					{activeWorkout.name} - {isRunning && showTimer(timeLeft)}
+			<View className="flex-row justify-between items-center mb-4">
+				<BoldText className="text-2xl text-white">
+					{activeWorkout.name}
 				</BoldText>
-				<RegularText onPress={() => setIsTimerModalVisible(true)}>
-					Rest timer
-				</RegularText>
+				<TouchableOpacity
+					onPress={() => setIsTimerModalVisible(true)}
+					className="flex-row items-center bg-light-gray p-1 rounded-lg"
+				>
+					{isRunning && (
+						<RegularText className="mr-2 text-secondary-purple">
+							{showTimer(timeLeft)}
+						</RegularText>
+					)}
+					<AntDesign name="clockcircleo" size={16} color="#7B1FA2" />
+				</TouchableOpacity>
 			</View>
 			{activeWorkout.workoutExercises.map((element, index) => (
 				<ActiveWorkoutExercise
@@ -154,7 +170,7 @@ const ActiveWorkoutScreen = () => {
 					onDeleteSet={deleteSet}
 				/>
 			))}
-			<Button title="End" onPress={endWorkout} />
+			<SecondaryButton title="End Workout" onPress={endWorkout} />
 
 			<RestTimerModal
 				isTimerModalVisible={isTimerModalVisible}
