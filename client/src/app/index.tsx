@@ -38,22 +38,8 @@ const HomeScreen = () => {
 			</BoldText>
 			{/* Workout for today (from the active routine) */}
 			<WorkoutForToday currentUser={currentUser} />
-			<View className="flex-row justify-between items-center">
-				<BoldText>Recent workouts</BoldText>
-				<Link href="/completed_workouts">
-					<LightText>Show all</LightText>
-				</Link>
-			</View>
-			{/* Show the 3 recent workouts */}
-			{recentWorkouts.map(workout => (
-				<View
-					key={workout.id}
-					className="flex-row justify-between items-center"
-				>
-					<RegularText>{workout.workout.name}</RegularText>
-					<LightText>{workout.completedAt}</LightText>
-				</View>
-			))}
+			{/* Next activities */}
+			{/* Last week's activities */}
 		</LinearGradientWrapper>
 	);
 };

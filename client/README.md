@@ -1,5 +1,14 @@
 ## Current tasks:
 
+- [ ] Exercise screen
+
+  - [x] Layout
+  - [x] Colors
+  - [x] Font sizes
+  - [x] Back button
+  - [ ] Youtube videos
+  - [ ] A chart that shows the progression
+
 - [x] Implement Workout List screen
 
   - [x] Getting the workouts
@@ -47,13 +56,14 @@
 
 - [ ] End workout screen
 
+  - [ ] Are you sure you want to end the workout? modal
+
   - [x] Show the exercises done
   - [ ] Show the total time of the workout
   - [x] Show the total weight lifted
   - [x] Show the total sets done
 
   - [x] Save the workout button
-  - [ ] Share the workout button
   - [x] Continue button
 
 - [ ] Home screen:

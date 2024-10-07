@@ -1,11 +1,14 @@
-import { View, Image, ScrollView } from "react-native";
+import { View, Image, ScrollView, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { IExercise } from "../../types";
 import exerciseApi from "../../api/exerciseApi";
 import BoldText from "../../components/text/BoldText";
 import LightText from "../../components/text/LightText";
 import RegularText from "../../components/text/RegularText";
+import Loading from "../../components/Loading";
+import { Feather } from "@expo/vector-icons";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 const ExerciseInfo = () => {
 	const [exercise, setExercise] = useState<IExercise | null>(null);
@@ -25,31 +28,37 @@ const ExerciseInfo = () => {
 	}, []);
 
 	if (!exercise) {
-		return <LightText>Loading</LightText>;
+		return <Loading />;
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView className="flex-1 bg-dark-black p-4">
+			<TouchableOpacity onPress={() => router.back()} className="mb-4">
+				<Feather name="arrow-left" size={24} color="white" />
+			</TouchableOpacity>
+			{/* Gif showing how to do the exercise */}
 			<Image
-				className="w-11 h-11"
+				className="w-full h-48 rounded-lg mb-4"
 				source={{
 					uri: "https://i.pinimg.com/originals/bc/d2/05/bcd205cf9e64811981d715deebaa41da.gif",
 				}}
 			/>
-			<BoldText className="text-3xl">{exercise.name}</BoldText>
-			<LightText className="text-sm">
-				Muscle groups: {exercise.muscleGroups.join(", ")}
-			</LightText>
-			<RegularText className="mt-3 border-t-2 border-gray-600 pt-2">
-				Lorem ipsum odor amet, consectetuer adipiscing elit. Porta enim felis
-				per vehicula dolor mus. Tempus himenaeos consequat volutpat hac; integer
-				imperdiet ad curabitur pharetra. Efficitur augue varius pretium porta
-				ornare montes volutpat leo facilisis. Primis facilisi euismod tempor
-				morbi quis. Nec dis libero mus tincidunt cras libero ultricies
-				suspendisse. Conubia curabitur taciti vel faucibus diam dictum cursus
-				habitasse. Facilisi finibus aenean vitae ex tortor pharetra ad interdum.
-				Hac fringilla fames urna lacinia faucibus.
-			</RegularText>
+			{/* Exercise info */}
+			<BoldText className="text-3xl text-primary-pink mb-2">
+				{exercise.name}
+			</BoldText>
+			<View className="bg-secondary-purple rounded-full px-3 py-1 self-start mb-4">
+				<LightText className="text-sm text-light-gray">
+					{exercise.muscleGroups.join(", ")}
+				</LightText>
+			</View>
+			<View className="bg-dark-purple rounded-lg p-4 mb-4">
+				<RegularText className="text-light-gray">
+					Lorem ipsum odor amet, consectetuer adipiscing elit. Porta enim felis
+					per vehicula dolor mus. Tempus himenaeos consequat volutpat hac;
+					integer imperdiet ad curabitur pharetra.
+				</RegularText>
+			</View>
 			{/* Youtube vids */}
 		</ScrollView>
 	);
