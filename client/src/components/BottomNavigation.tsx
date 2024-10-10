@@ -2,6 +2,7 @@ import { TouchableOpacity, View, Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Link, usePathname, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import LightText from "./text/LightText";
 
 const BottomNavigation = () => {
 	const pathname = usePathname();
@@ -41,33 +42,55 @@ const BottomNavigation = () => {
 	}
 
 	const navItems = [
-		{ name: "", icon: "home" },
-		{ name: "/(workouts)/", icon: "fitness" },
-		{ name: "/(routines)", icon: "fitness" },
-		{ name: "/(user)/profile", icon: "person" },
+		{ name: "/", icon: "home", activeIcon: "home", label: "Home" },
+		{
+			name: "/(workouts)/",
+			icon: "barbell-outline",
+			activeIcon: "barbell",
+			label: "Workouts",
+		},
+		{
+			name: "/(routines)",
+			icon: "calendar-outline",
+			activeIcon: "calendar",
+			label: "Routines",
+		},
+		{
+			name: "/(user)/profile",
+			icon: "person-outline",
+			activeIcon: "person",
+			label: "Profile",
+		},
 	];
 
 	console.log(pathname);
 
 	return (
-		<View className="absolute bottom-8 left-4 right-4">
-			<View className="flex-row justify-around items-center bg-dark-black rounded-full py-3 shadow-lg">
-				{navItems.map(item => (
-					<Link
-						key={item.name}
-						href={`${item.name}`}
-						asChild
-						style={{ width: `${100 / navItems.length}%` }}
-					>
-						<TouchableOpacity className="items-center">
-							<Ionicons
-								name={item.icon as any}
-								size={24}
-								color={pathname === `${item.name}` ? "#FF4081" : "#7B1FA2"}
-							/>
-						</TouchableOpacity>
-					</Link>
-				))}
+		<View className="w-full h-20 absolute bottom-0 left-0 right-0">
+			<View className="flex-row justify-around items-center bg-dark-black h-full rounded-t-md shadow-lg">
+				{navItems.map(item => {
+					const isActive = pathname === `${item.name}`;
+					return (
+						<Link key={item.name} href={`${item.name}`} asChild>
+							<TouchableOpacity className="items-center justify-center flex-1">
+								<Ionicons
+									name={
+										isActive ? (item.activeIcon as any) : (item.icon as any)
+									}
+									size={24}
+									color={isActive ? "#FF4081" : "#7B1FA2"}
+								/>
+								<LightText
+									className={`text-xs mt-1 ${
+										isActive ? "text-pink-500" : "text-purple-500"
+									}`}
+								>
+									{item.label}
+								</LightText>
+							</TouchableOpacity>
+						</Link>
+					);
+				})}
 			</View>
 		</View>
 	);

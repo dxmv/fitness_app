@@ -59,6 +59,8 @@ const profile = () => {
 		setUser(null);
 	};
 
+	console.log(user);
+
 	return (
 		<LinearGradientWrapper className="flex flex-col items-center p-4">
 			<Dropdown
@@ -77,14 +79,26 @@ const profile = () => {
 			/>
 			<BoldText className="text-2xl">{user.username}</BoldText>
 			<LightText>{user.email}</LightText>
-			{/* Number of workouts & routines */}
-			<View className="flex flex-row bg-black w-2/3">
-				<View>
-					<BoldText>Nigga</BoldText>
-				</View>
-				<View>
-					<BoldText>Nigga</BoldText>
-				</View>
+			{/* Number of workouts, routines & completed workouts */}
+			<View className="flex flex-row justify-between bg-dark-black rounded-2xl p-6 w-full mt-6">
+				<StatItem
+					icon="activity"
+					value={user.workouts?.length || 0}
+					label="Workouts"
+					color="#FF4081"
+				/>
+				<StatItem
+					icon="list"
+					value={user.routines?.length || 0}
+					label="Routines"
+					color="#7B1FA2"
+				/>
+				<StatItem
+					icon="check-circle"
+					value={user.completedWorkouts?.length || 0}
+					label="Completed"
+					color="#E1BEE7"
+				/>
 			</View>
 			{/* Recent workouts */}
 			{/* Last week activities */}
@@ -99,6 +113,27 @@ const profile = () => {
 		</LinearGradientWrapper>
 	);
 };
+
+// Add this component definition outside the main component
+const StatItem = ({
+	icon,
+	value,
+	label,
+	color,
+}: {
+	icon: keyof typeof Feather.glyphMap;
+	value: number;
+	label: string;
+	color: string;
+}) => (
+	<View className="items-center">
+		<View className="bg-dark-purple p-3 rounded-full mb-2">
+			<Feather name={icon} size={20} color={color} />
+		</View>
+		<BoldText className="text-white text-lg">{value}</BoldText>
+		<LightText className="text-light-gray text-xs">{label}</LightText>
+	</View>
+);
 
 const EditUserModal = ({
 	isVisible,

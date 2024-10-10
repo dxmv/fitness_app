@@ -38,6 +38,7 @@ export interface IUser {
 	workouts: Array<IWorkout>;
 	routines: Array<IRoutine>;
 	roles: Set<IUserRole>;
+	completedWorkouts: Array<ICompletedWorkout>;
 }
 
 export interface IWorkout {
