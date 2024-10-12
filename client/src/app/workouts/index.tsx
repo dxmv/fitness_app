@@ -5,7 +5,6 @@ import { IWorkout } from "../../types";
 import LightText from "../../components/text/LightText";
 import workoutApi from "../../api/workoutApi";
 import WorkoutItem from "./_components/WorkoutItem";
-import { Feather } from "@expo/vector-icons";
 import ReusableModal from "../../components/MyModal";
 import { LinearGradientWrapper } from "../../components/wrappers/LinearGradientWrapper";
 import FloatingButton from "../../components/buttons/FloatingButton";

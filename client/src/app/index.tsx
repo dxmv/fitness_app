@@ -9,7 +9,7 @@ import LightText from "../components/text/LightText";
 import RegularText from "../components/text/RegularText";
 import { LinearGradientWrapper } from "../components/wrappers/LinearGradientWrapper";
 import userApi from "../api/user/userApi";
-import WorkoutItem from "./(workouts)/_components/WorkoutItem";
+import WorkoutItem from "./workouts/_components/WorkoutItem";
 
 const HomeScreen = () => {
 	const [recentWorkouts, setRecentWorkouts] = useState<ICompletedWorkout[]>([]);

@@ -12,7 +12,7 @@ const WorkoutItem = ({ index, item }: { index?: number; item: IWorkout }) => {
 	// Function to handle the press event
 	const handlePress = () => {
 		// Navigate to the workout details page
-		router.push(`/(workouts)/details/${item.id}`);
+		router.push(`/workouts/details/${item.id}`);
 	};
 
 	return (

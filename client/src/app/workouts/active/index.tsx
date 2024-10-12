@@ -128,7 +128,7 @@ const ActiveWorkoutScreen = () => {
 	// Function to end the workout
 	const endWorkout = () => {
 		router.push({
-			pathname: "/active/end",
+			pathname: "/workouts/active/end",
 			params: { workout: workout, sets: JSON.stringify(sets) },
 		});
 	};

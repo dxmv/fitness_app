@@ -44,19 +44,19 @@ const BottomNavigation = () => {
 	const navItems = [
 		{ name: "/", icon: "home", activeIcon: "home", label: "Home" },
 		{
-			name: "/(workouts)/",
+			name: "/workouts",
 			icon: "barbell-outline",
 			activeIcon: "barbell",
 			label: "Workouts",
 		},
 		{
-			name: "/(routines)",
+			name: "/routines",
 			icon: "calendar-outline",
 			activeIcon: "calendar",
 			label: "Routines",
 		},
 		{
-			name: "/(user)/profile",
+			name: "/user/profile",
 			icon: "person-outline",
 			activeIcon: "person",
 			label: "Profile",

@@ -160,7 +160,7 @@
 - [ ] Register screen does't redirect to the home screen
 - [ ] Register screen doesn't show the default avatar
 - [ ] Register screen doesn't hide the password input
-- [ ] Navigation active icon doesn't change
+- [x] Navigation active icon doesn't change
 - [ ] Disabled button styles
 - [ ] Routine screen doesn't update at all
 - [ ] Routine details screen isActive is a string, we want it to be a boolean

@@ -1,4 +1,4 @@
-import { Button, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { IWorkout } from "../../../types";
 import workoutApi from "../../../api/workoutApi";
@@ -52,7 +52,7 @@ const WorkoutScreen = () => {
 			return;
 		}
 		router.push({
-			pathname: "/active",
+			pathname: "/workouts/active",
 			params: { workout: JSON.stringify(workout) },
 		});
 	};
@@ -98,7 +98,7 @@ const WorkoutScreen = () => {
 			<FloatingButton
 				onPress={() =>
 					router.push({
-						pathname: `/add-exercise/${workout.id}`,
+						pathname: `/workouts/add-exercise/${workout.id}`,
 						params: {
 							exerciseIds: JSON.stringify(
 								workout.workoutExercises.map(ex => ex.exercise.id)

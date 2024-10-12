@@ -1,6 +1,5 @@
 import {
 	Animated,
-	Button,
 	GestureResponderEvent,
 	PanResponder,
 	TextInput,
@@ -13,7 +12,6 @@ import RegularText from "../../../components/text/RegularText";
 import { useRef, useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
-import PrimaryButton from "../../../components/buttons/PrimaryButton";
 
 // Component to render each set item
 const SetItem = ({

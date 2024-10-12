@@ -37,11 +37,11 @@ const SingleRoutineScreen = () => {
 	const handleRoutineDeletion = async (routineId: number) => {
 		try {
 			await routinesApi.deleteRoutine(routineId);
-			router.replace("/(routines)");
+			router.replace("/routines");
 		} catch (error) {
 			console.error("Error deleting routine:", error);
 		}
-		router.replace("/(routines)");
+		router.replace("/routines");
 	};
 
 	const handleActivity = async () => {
@@ -50,7 +50,7 @@ const SingleRoutineScreen = () => {
 		} else {
 			await handleActivateRoutine();
 		}
-		router.replace("/(routines)");
+		router.replace("/routines");
 	};
 
 	const handleActivateRoutine = async () => {

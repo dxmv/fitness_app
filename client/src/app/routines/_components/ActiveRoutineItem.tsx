@@ -20,7 +20,7 @@ const ActiveRoutineItem = ({ item }: { item: IRoutine }) => {
 			<TouchableOpacity
 				onPress={() => {
 					router.push({
-						pathname: `/(routines)/details/${item.id}`,
+						pathname: `/routines/details/${item.id}`,
 						params: { isActive: 1 },
 					});
 				}}
