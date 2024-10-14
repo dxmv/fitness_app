@@ -1,6 +1,6 @@
 import requests
 import json
-from googleapiclient.discovery import build
+from pytube import Search
 import os
 from dotenv import load_dotenv
 
@@ -12,9 +12,6 @@ EXERCISEDB_API_KEY = os.getenv('EXERCISEDB_API_KEY')
 EXERCISEDB_API_HOST = 'exercisedb.p.rapidapi.com'
 EXERCISEDB_API_URL = 'https://exercisedb.p.rapidapi.com/exercises'
 
-# YouTube API configuration
-YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
-youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
 
 # Filtering criteria
 COMMON_EQUIPMENT = ['body weight', 'dumbbell', 'barbell', 'cable', 'kettlebell', 'resistance band']
@@ -24,6 +21,10 @@ COMMON_EXERCISES = [
     'lunge', 'plank', 'bicep curl', 'tricep extension', 'leg press', 'row',
     'crunch', 'burpee', 'mountain climber', 'jump rope', 'dip'
 ]
+
+# Where we want to save the json file
+SAVE_DIRECTORY = r"D:\ReactNativeProjekti\FitnessApp\server\src\main\resources"
+SAVE_PATH = os.path.join(SAVE_DIRECTORY, 'exercises.json')
 
 
 # get all the exercises from the api (1324)
@@ -49,41 +50,54 @@ def filter_exercises(exercises):
     return filtered[:100]  # Limit to top 100 exercises
 
 
-def search_youtube_videos(exercise_name, max_results=3):
-    search_response = youtube.search().list(
-        q=f"{exercise_name} exercise tutorial",
-        type='video',
-        part='id,snippet',
-        maxResults=max_results
-    ).execute()
+# modify all of the exercises to match the database models
+def match_model(exercises):
+    # group the instructions in to the description
+    def group_instructions(new_exercise, previous):
+        new_exercise["description"] = "Instructions:\n"
+        for i, instruction in enumerate(previous["instructions"]):
+            new_exercise["description"] += f"{i+1}. {instruction}\n"
 
-    videos = []
-    for item in search_response['items']:
-        video = {
-            'title': item['snippet']['title'],
-            'videoUrl': f"https://www.youtube.com/watch?v={item['id']['videoId']}"
+    modified_exercises = []
+    for e in exercises:
+        new_exercise = {
+            "id": e["id"],
+            "gifUrl":e["gifUrl"]
         }
-        videos.append(video)
+        # capitalise the name
+        new_exercise["name"] = e["name"].capitalize()
+        # add all muscle groups
+        new_exercise["muscleGroups"] = [muscle.capitalize() for muscle in e["secondaryMuscles"]]
+        new_exercise["muscleGroups"].append(e["target"].capitalize())
 
-    return videos
+        group_instructions(new_exercise, e)
+        modified_exercises.append(new_exercise)
+
+    return modified_exercises
 
 
-def enrich_exercises(exercises):
-    enriched_exercises = []
+def search_youtube_videos(exercise_name, max_results=4):
+    search = Search(exercise_name)
+
+    # Extract the first few results (up to max_results)
+    videos = search.results[:max_results]
+
+    # Create a list of video details (title and URL)
+    return [
+        {
+            'title': video.title,  # Get the video title
+            'videoUrl': video.watch_url,  # Get the video URL
+            'id':video.video_id
+        }
+        for video in videos
+    ]
+
+# add youtube video ids to the exercises
+def add_videos(exercises):
     for exercise in exercises:
+        # search youtube and add objects to the item
         videos = search_youtube_videos(exercise['name'])
-        enriched_exercise = {
-            'name': exercise['name'],
-            'description': exercise.get('instructions', []),
-            'bodyPart': exercise['bodyPart'],
-            'equipment': exercise['equipment'],
-            'gifUrl': exercise['gifUrl'],
-            'target': exercise['target'],
-            'secondaryMuscles': exercise.get('secondaryMuscles', []),
-            'videoUrls': videos
-        }
-        enriched_exercises.append(enriched_exercise)
-    return enriched_exercises
+        exercise["videos"] = videos
 
 
 def main():
@@ -107,13 +121,24 @@ def main():
 
     # filter the exercises
     filtered = filter_exercises(exercises)
-    print(filtered)
 
     # modify the data to match the database
+    print("Filtering videos...")
+    matched = match_model(filtered)
 
     # add the youtube video fields
+    print("Adding videos to the exercises...")
+    add_videos(matched)
+
+    # Ensure the save directory exists
+    os.makedirs(SAVE_DIRECTORY, exist_ok=True)
 
     # write to the file
+    print(f"Saving enriched exercises to JSON file: {SAVE_PATH}")
+    with open(SAVE_PATH, 'w') as f:
+        json.dump(matched, f, indent=2)
+
+    print(f"Done! Enriched exercises saved to '{SAVE_PATH}'")
 
 
 if __name__ == "__main__":
