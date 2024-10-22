@@ -57,6 +57,17 @@ public class ExercisesController {
     }
 
     /**
+     * Adds all exercises from the file
+     * This endpoint is restricted to admins.
+     * @return The created exercise.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/addAll")
+    public ResponseEntity<List<Exercise>> addAll() {
+        return new ResponseEntity<>(exerciseService.addAll(), HttpStatus.CREATED);
+    }
+
+    /**
      * Update an existing exercise.
      * This endpoint is restricted to admins.
      * @param id The ID of the exercise to update.
@@ -67,6 +78,18 @@ public class ExercisesController {
     @PutMapping("/{id}")
     public ResponseEntity<Exercise> updateExercise(@PathVariable Long id, @RequestBody Exercise exercise) {
         return new ResponseEntity<>(exerciseService.updateExercise(id, exercise), HttpStatus.OK);
+    }
+
+    /**
+     * Deletes all exercises
+     * This endpoint is restricted to admins.
+     * @return HTTP status indicating the result of the operation.
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/all")
+    public ResponseEntity<DeleteResponse> deleteAll() {
+        exerciseService.deleteAll();
+        return new ResponseEntity<>(new DeleteResponse("Successfully deleted all exercises"),HttpStatus.OK);
     }
 
     /**
